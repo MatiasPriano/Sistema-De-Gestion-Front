@@ -31,7 +31,6 @@ export default function Layout({ children }: { children: any }) {
             <div className="flex space-x-4">
               <Link href="/" className="bg-black hover:bg-blue-900 text-white rounded-md px-3 py-2 font-medium">Inicio</Link>
               <Link href="/products" className="bg-blue-950 hover:bg-blue-900 text-white rounded-md px-3 py-2 font-medium">Productos</Link>
-              <Link href="/tickets" className="bg-blue-950 hover:bg-blue-900 text-white rounded-md px-3 py-2 font-medium">Tickets</Link>
             </div>
           </div>
         </div>  

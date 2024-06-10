@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import { useRouter } from 'next/router';
 import TicketGridRow from "@/components/ticketGridRow";
 
 function HeaderItem({ title }: { title: string }) {
@@ -17,13 +18,15 @@ export default function Tickets() {
         alert('Se crea un ticket');
     }
 
-
+    const router = useRouter();
+    const { version } = router.query;
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
             <div className="container max-w-7xl mx-auto mt-8">
                 <div className="mb-4">
                     <h1 className="text-3xl font-bold decoration-gray-400">Tickets</h1>
+                    <h2 className="text-xl decoration-gray-700">Producto: {version}</h2>
                 </div>
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -53,8 +56,10 @@ export default function Tickets() {
 
                 <br/>
                 <div className="">
-                    <button type="button" onClick={create}
-                        className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
+                    <a href={"/products/" + version + "/tickets/new/"}>
+                        <button type="button"
+                            className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
+                    </a>
                 </div>
             </div>
         </>
