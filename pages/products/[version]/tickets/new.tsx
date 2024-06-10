@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import Ticket from '@/components/ticket';
+import Ticket, { TicketMode } from '@/components/ticket';
 
 export default function NewTicket() {
     const router = useRouter();
@@ -13,7 +13,7 @@ export default function NewTicket() {
             </div>
             <Ticket version={version as string}
                     stateDisabled={true} state="Nuevo"
-                    submitText='Crear'/>
+                    mode={TicketMode.New}/>
         </div>
     )
 }
