@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
-import Ticket, { TicketMode } from '@/components/ticket';
+import TicketForm, { TicketMode } from '@/components/ticketForm';
+import VersionHeader from '@/components/versionHeader';
 
 export default function ViewTicket() {
     const router = useRouter();
-    const { version, id } = router.query;
+    const { product, version, id } = router.query;
 
     const ticketExample = {
         title: "TKT-123",
@@ -16,11 +17,14 @@ export default function ViewTicket() {
 
     return (
         <div className="container max-w-7xl mx-auto mt-8 sm:mt-4">
-            <div className="mb-4">
-                <h1 className="text-3xl font-bold decoration-gray-400">Editar ticket {id}</h1>
-                <h2 className="text-xl decoration-gray-700">Producto: {version}</h2>
-            </div>
-            <Ticket version={version as string}
+            <VersionHeader  productId={product as string}
+                            versionId={version as string}
+                            ticketId={id as string}
+                            title="Editar un ticket"
+            />
+            <TicketForm productId={product as string}
+                    versionId={version as string}
+                    ticketId={id as string}
                     titleDisabled={true} title={ticketExample.title}
                     responsable={ticketExample.responsable}
                     description={ticketExample.description}
@@ -28,7 +32,8 @@ export default function ViewTicket() {
                     severity={ticketExample.severity}
                     clientDisabled={true} client={ticketExample.client}
                     includeButtons={true}
-                    mode={TicketMode.Edit} />
+                    mode={TicketMode.Edit}
+            />
         </div>
     )
 }

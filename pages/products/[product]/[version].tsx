@@ -19,7 +19,7 @@ export default function Tickets() {
     }
 
     const router = useRouter();
-    const { version } = router.query;
+    const { product, version } = router.query;
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
@@ -56,7 +56,7 @@ export default function Tickets() {
 
                 <br/>
                 <div className="">
-                    <a href={"/products/" + version + "/tickets/new/"}>
+                    <a href={"/products/" + product + "/" + version + "/new"}>
                         <button type="button"
                             className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
                     </a>
