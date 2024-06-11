@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import SideBarItem from "./SidebarItem"
 import { ISidebarItem } from "./types"
+import { Toaster } from "react-hot-toast";
 
 export default function Layout({ children }: { children: any }) {
 
@@ -38,7 +39,10 @@ export default function Layout({ children }: { children: any }) {
 
       <div className="min-h-screen flex flex-col bg-white">
           <div className="">
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+              <Toaster position="bottom-center" />
+              {children}
+              </main>
           </div>
       </div>
     </nav>  

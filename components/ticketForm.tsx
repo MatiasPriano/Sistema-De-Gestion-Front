@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Toast from './toast';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 interface ComboBoxProps {
     title: string;
@@ -89,28 +90,19 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     ]
     const severityOptions: string[] = ["S1", "S2", "S3", "S4"]
 
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastVariant, setToastVariant] = useState('success');
+    const router = useRouter()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
+        event.preventDefault()
 
         if (formTitle.trim() && formClient.trim() && formDescription.trim()) {
                 if (mode === TicketMode.New) {
-                    setToastMessage("Ticket creado exitosamente.")
-                    setToastVariant("success")
-                    setShowToast(true)
-                    setTimeout(() => setShowToast(false), 3000);
-
+                    toast.success('Ticket creado exitosamente')
                     setFormTitle("")
                     setFormDescription("")
                 } else {
-                    setToastMessage("Cambios guardados exitosamente.")
-                    setToastVariant("success")
-                    setShowToast(true)
-                    setTimeout(() => setShowToast(false), 3000);
-                    window.location.href = `/products/${productId}/${versionId}/${ticketId}`;
+                    toast.success('Cambios guardados exitosamente')
+                    router.push(`/products/${productId}/${versionId}/${ticketId}`)
                 }
             
         } else {
@@ -123,10 +115,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             if (!formClient.trim()) {
                 setClientError(true)
             }
-            setToastMessage("Existen campos incompletos.")
-            setToastVariant("error")
-            setShowToast(true)
-            setTimeout(() => setShowToast(false), 3000);
+            toast.error("Existen campos incompletos")
         }
     };
 
@@ -138,6 +127,13 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     }
     const handleFocusClient = () => {
         setClientError(false)
+    }
+    const handleCancelButton = () => {
+        router.push(`/products/${productId}/${versionId}/`)
+    }
+
+    const handleEditButton = () => {
+        router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
     }
 
     return (
@@ -240,25 +236,23 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             
             {mode === TicketMode.View && 
             <div className="mt-6 flex items-center justify-end gap-x-6">
-                <a href={"/products/" + productId + "/" + versionId + "/" + ticketId + "/edit"}>
-                    <button
-                    type="button"
-                    className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                    >
-                        Editar
-                    </button>
-                </a>
+                <button
+                type="button"
+                onClick={handleEditButton}
+                className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
+                >
+                    Editar
+                </button>
             </div>}
             {mode != TicketMode.View && (
                 <div className="mt-6 flex items-center justify-end gap-x-6">
-                    <a href={"/products/" + productId + "/" + versionId}>
-                        <button
-                        type="button"
-                        className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600"
-                        >
-                            Cancelar
-                        </button>
-                    </a>
+                    <button
+                    type="button"
+                    onClick={handleCancelButton}
+                    className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600"
+                    >
+                        Cancelar
+                    </button>
                     <button
                     type="submit"
                     className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
@@ -267,9 +261,6 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                     </button>
                 </div>)
             }
-            {showToast && (
-                <Toast message={toastMessage} variant={toastVariant} onClose={() => setShowToast(false)} />
-            )}
         </form>
     )
 }

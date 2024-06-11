@@ -20,6 +20,11 @@ export default function Tickets() {
 
     const router = useRouter();
     const { product, version } = router.query;
+
+    const handleNewTicketButton = () => {
+        router.push(`/products/${product}/${version}/new`)
+    }
+
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
@@ -56,10 +61,9 @@ export default function Tickets() {
 
                 <br/>
                 <div className="">
-                    <a href={"/products/" + product + "/" + version + "/new"}>
                         <button type="button"
-                            className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
-                    </a>
+                                onClick={handleNewTicketButton}
+                                className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
                 </div>
             </div>
         </>
