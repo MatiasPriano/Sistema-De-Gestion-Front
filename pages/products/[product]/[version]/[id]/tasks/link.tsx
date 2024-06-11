@@ -6,13 +6,13 @@ function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-white border-b border-gray-200 bg-blue-950">{title}</th>
 }
 
-export default function ViewTasks() {
+export default function LinkTask() {
     const router = useRouter();
     const { product, version, id } = router.query;
 
     const tasks = [
         {
-            title: "Modificar el monto de una cuota",
+            title: "Agregar un campo para modificar el monto de una cuota",
             description: "Con el mes de la cuota no iniciado, se debe poder modificar el monto de la cuota por cualquier valor positivo.",
             responsable: "Juan Perez",
             project: "Sistema UPP - 2024",
@@ -26,15 +26,6 @@ export default function ViewTasks() {
             state: "Cerrada"
         }
     ]
-
-    const handleNewTaskButton = () => {
-        router.push(`/products/${product}/${version}/${id}/tasks/new/`)
-    }
-
-    const handleLinkTaskButton = () => {
-        router.push(`/products/${product}/${version}/${id}/tasks/link/`)
-    }
-
     return (
         <div className="container max-w-7xl mx-auto mt-8 sm:mt-4">
             <VersionHeader  productId={product as string}
@@ -42,20 +33,19 @@ export default function ViewTasks() {
                             ticketId={id as string}
                             title="Tareas asociadas al ticket"
             />
-            <div className="mt-6 flex items-center justify-end gap-x-6">
+            <div className="relative flex pt-2">
+                <input
+                    type="search"
+                    className="flex-auto rounded-s border border-solid border-neutral-200 bg-transparent px-3 py-[0.25rem] placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none"
+                    placeholder="Buscar"
+                />
                 <button
-                type="button"
-                onClick={handleNewTaskButton}
-                className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
-                >
-                    Crear tarea
-                </button>
-                <button
-                type="submit"
-                onClick={handleLinkTaskButton}
-                className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                >
-                    Asociar tarea existente
+                    className="px-6 text-xs font-medium uppercase"
+                    data-twe-ripple-init
+                    data-twe-ripple-color="white"
+                    type="button"
+                    id="button-addon3">
+                    Buscar
                 </button>
             </div>
             <div className="container max-w-7xl mx-auto mt-8">

@@ -9,22 +9,25 @@ interface TaskProps {
     title?: string;
     responsable?: string;
     description?: string;
+    project?: string;
 }
 
-export default function TaskForm({ productId, versionId, ticketId = "", title = '',
-    responsable = '', description = ''}: TaskProps) {
+export default function TaskForm({ productId, versionId, ticketId = "", title = "",
+    responsable = "", description = "", project = ""}: TaskProps) {
     const [formTitle, setFormTitle] = useState(title);
     const [formResponsable, setFormResponsable] = useState(responsable);
     const [formDescription, setFormDescription] = useState(description);
+    const [formProject, setFormProject] = useState(project);
     const [titleError, setTitleError] = useState<boolean>(false);
     const [descriptionError, setDescriptionError] = useState<boolean>(false);
+    const [projectError, setProjectError] = useState<boolean>(false);
 
     const router = useRouter()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
 
-        if (formTitle.trim() && formDescription.trim()) {
+        if (formTitle.trim() && formDescription.trim() && formProject.trim()) {
                 toast.success('Tarea creada exitosamente')
                 setFormTitle("")
                 setFormDescription("")
@@ -35,6 +38,9 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
             }
             if (!formDescription.trim()) {
                 setDescriptionError(true)
+            }
+            if (!formProject.trim()) {
+                setProjectError(true)
             }
             toast.error("Existen campos incompletos")
         }
@@ -48,6 +54,9 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
     }
     const handleCancelButton = () => {
         router.push(`/products/${productId}/${versionId}/${ticketId}/tasks/`)
+    }
+    const handleFocusProject = () => {
+        setProjectError(false)
     }
 
     return (
@@ -106,6 +115,25 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                             placeholder="El usuario describe que no puede descargar ultima factura emitida."
                             />
                             <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${descriptionError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
+                        </div>
+                    </div>
+                    <div>
+                        <label htmlFor="client" className="block text-sm font-medium leading-6 text-gray-900">
+                            Proyecto
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            value={formProject}
+                            onChange={(e) => setFormProject(e.target.value)}
+                            type="text"
+                            name="client"
+                            id="client"
+                            onFocus={handleFocusProject}
+                            className={`block w-full md:w-72 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${projectError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
+                            placeholder="Sistema UPP - 2024"
+                            style={{ paddingLeft: '10px', paddingRight: '10px' }}
+                            />
+                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${projectError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
                         </div>
                     </div>
                 </div>
