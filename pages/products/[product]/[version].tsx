@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import { useRouter } from 'next/router';
 import TicketGridRow from "@/components/ticketGridRow";
+import VersionHeader from "@/components/versionHeader";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -29,10 +30,11 @@ export default function Tickets() {
         <>
             {/* ACA EMPIEZA LA GRILLA */}
             <div className="container max-w-7xl mx-auto mt-8">
-                <div className="mb-4">
-                    <h1 className="text-3xl font-bold decoration-gray-400">Tickets</h1>
-                    <h2 className="text-xl decoration-gray-700">Producto: {version}</h2>
-                </div>
+                <VersionHeader  productId={product as string}
+                                versionId={version as string}
+                                ticketId=""
+                                title="Ticket"
+                />
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
@@ -63,7 +65,7 @@ export default function Tickets() {
                 <div className="">
                         <button type="button"
                                 onClick={handleNewTicketButton}
-                                className="bg-amber-500 p-2 rounded-md font-semibold text-black hover:bg-amber-200"> Crear ticket </button>
+                                className="bg-amber-500 p-2 rounded-md font-semibold text-gray-900 hover:bg-amber-200"> Crear ticket </button>
                 </div>
             </div>
         </>

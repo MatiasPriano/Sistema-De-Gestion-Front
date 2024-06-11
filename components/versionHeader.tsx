@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 interface VersionHeaderProps {
     productId: string;
@@ -8,17 +9,31 @@ interface VersionHeaderProps {
 }
 
 export default function VersionHeader ({ productId, versionId, ticketId, title }: VersionHeaderProps) {
+    const router = useRouter()
+    const handleTicketIdLabel = () => {
+        router.push(`/products/${productId}/${versionId}/${ticketId}`)
+    }
+    const handleVersionLabel = () => {
+        router.push(`/products/${productId}/${versionId}/`)
+    }
+
     return (
         <div>
             <div className="flex items-center">
                 <h1 className="text-4xl font-bold decoration-gray-400">{productId}</h1>
-                <a href={`/products/${productId}/${versionId}/`}>
-                    <span className="bg-amber-500 text-sm text-gray-900 rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-amber-400">{versionId}</span>
-                </a>
+                <span   className="bg-amber-500 text-sm text-gray-900 rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-amber-400 cursor-pointer"
+                        onClick={handleVersionLabel}
+                >
+                    {versionId}
+                </span>
             </div>
             <div className="flex justify-between mt-2 mb-2">
                 {title && <h2 className="text-xl decoration-gray-700">{title}</h2>}
-                {ticketId && <h2 className="text-xl decoration-gray-400">#{ticketId}</h2>}
+                {ticketId && <h2    className="text-xl decoration-gray-400 hover:underline cursor-pointer"
+                                    onClick={handleTicketIdLabel}
+                >
+                    #{ticketId}
+                </h2>}
             </div>
         </div>
         

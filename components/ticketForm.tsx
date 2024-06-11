@@ -132,6 +132,10 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         router.push(`/products/${productId}/${versionId}/`)
     }
 
+    const handleTasksButton = () => {
+        router.push(`/products/${productId}/${versionId}/${ticketId}/tasks`)
+    }
+
     const handleEditButton = () => {
         router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
     }
@@ -235,7 +239,14 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             </div>
             
             {mode === TicketMode.View && 
-            <div className="mt-6 flex items-center justify-end gap-x-6">
+            <div className="mt-6 flex items-center justify-between gap-x-6">
+                <button
+                type="button"
+                onClick={handleTasksButton}
+                className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
+                >
+                    Tareas
+                </button>
                 <button
                 type="button"
                 onClick={handleEditButton}
