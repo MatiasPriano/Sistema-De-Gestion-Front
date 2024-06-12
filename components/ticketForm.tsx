@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import Input from './input';
+import AutocompleteInput from './autocomplete';
+import TextArea from './textArea';
 
 interface ComboBoxProps {
     title: string;
@@ -85,6 +88,9 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     const [descriptionError, setDescriptionError] = useState<boolean>(false);
     const [clientError, setClientError] = useState<boolean>(false);
 
+    const [clientSuggestions, setClientSuggestions] = useState<string[]>([]);
+    const [responsableSuggestions, setResponsableSuggestions] = useState<string[]>([]);
+
     const stateOptions: string[] = ["Nuevo", "En progreso", "Esperando cliente", "Esperando desarrollo",
         "Resuelto esperando confirmacion", "Cerrado", "Bloqueado"
     ]
@@ -140,66 +146,45 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
     }
 
+    const mockHandleResponsableSuggestions = (_input: string) => {
+        setResponsableSuggestions(["Juan Perez", "Roberto Lopez", "Mariano Martinez"])
+    }
+
+    const mockHandleClientSuggestions = (_input: string) => {
+        setClientSuggestions(["Volkswagen", "Fiat", "Ford"])
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <div className="space-y-12 bg-gray-200 pl-10 pr-10 pt-1 pb-10 rounded-md">
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-                    <div>
-                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
-                            Titulo
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            type="text"
-                            value={formTitle}
-                            onChange={(e) => setFormTitle(e.target.value)}
-                            name="title"
-                            id="title"
-                            onFocus={handleFocusTitle}
-                            className={`block w-full pl-2 pr-2 rounded-md border-0 py-1.5 ${titleDisabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ${titleError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
+                    <Input  title="Título"
                             placeholder="TKT-001"
+                            value={formTitle}
+                            setValue={setFormTitle}
+                            error={titleError}
+                            handleFocus={handleFocusTitle}
+                            isObligatory={true}
                             disabled={titleDisabled}
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${titleError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="responsable" className="block text-sm font-medium leading-6 text-gray-900">
-                            Responsable {"(opcional)"}
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            type="text"
-                            value={formResponsable}
-                            onChange={(e) => setFormResponsable(e.target.value)}
-                            name="responsable"
-                            id="responsable"
-                            className={`block w-full rounded-md border-0 py-1.5 ${responsableDisabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                            placeholder="Juan Perez"
-                            style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                            disabled={responsableDisabled}
-                            />
-                        </div>
-                    </div>
+                    />
+                    <AutocompleteInput  title="Responsable"
+                                        placeholder="Juan Perez"
+                                        value={formResponsable}
+                                        setValue={setFormResponsable}
+                                        isObligatory={false}
+                                        suggestions={responsableSuggestions}
+                                        handleSuggestions={mockHandleResponsableSuggestions}
+                                        disabled={responsableDisabled}
+                    />
                     <div className="col-span-full">
-                        <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                            Descripción
-                        </label>
-                        <div className="mt-2">
-                            <textarea
-                            value={formDescription}
-                            onChange={(e) => setFormDescription(e.target.value)}
-                            id="description"
-                            name="description"
-                            rows={3}
-                            className={`block w-full pl-2 pr-2 rounded-md border-0 py-1.5 ${descriptionDisabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ${descriptionError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300 ease-in-out sm:text-sm sm:leading-6`}
-                            defaultValue={''}
-                            onFocus={handleFocusDescription}
-                            placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                            disabled={descriptionDisabled}
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${descriptionError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
+                        <TextArea   title="Descripción"
+                                    value={formDescription}
+                                    setValue={setFormDescription}
+                                    placeholder="El usuario describe que no puede descargar ultima factura emitida."
+                                    isObligatory={true}
+                                    error={descriptionError}
+                                    handleFocus={handleFocusDescription}
+                                    disabled={descriptionDisabled}/>
                     </div>
                     <div>
                         <ComboBox   title="Estado"
@@ -215,26 +200,17 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                                         onChange={setFormSeverity}/>
                         </div>
                     </div>
-                    <div>
-                        <label htmlFor="client" className="block text-sm font-medium leading-6 text-gray-900">
-                            Cliente
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            value={formClient}
-                            onChange={(e) => setFormClient(e.target.value)}
-                            type="text"
-                            name="client"
-                            id="client"
-                            onFocus={handleFocusClient}
-                            className={`block w-full md:w-72 rounded-md border-0 py-1.5 ${clientDisabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ${clientError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                            placeholder="PSA - Soporte"
-                            style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                            disabled={clientDisabled}
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${clientError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
-                    </div>
+                    <AutocompleteInput  title='Cliente'
+                                        placeholder='PSA - Soporte'
+                                        value={formClient}
+                                        setValue={setFormClient}
+                                        isObligatory={true}
+                                        error={clientError}
+                                        handleFocus={handleFocusClient}
+                                        suggestions={clientSuggestions}
+                                        handleSuggestions={mockHandleClientSuggestions}
+                                        disabled={clientDisabled}
+                    />
                 </div>
             </div>
             

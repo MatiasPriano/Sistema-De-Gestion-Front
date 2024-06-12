@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import Input from './input';
+import AutocompleteInput from './autocomplete';
+import TextArea from './textArea';
 
 interface TaskProps {
     productId: string;
@@ -18,9 +21,12 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
     const [formResponsable, setFormResponsable] = useState(responsable);
     const [formDescription, setFormDescription] = useState(description);
     const [formProject, setFormProject] = useState(project);
+    
     const [titleError, setTitleError] = useState<boolean>(false);
     const [descriptionError, setDescriptionError] = useState<boolean>(false);
     const [projectError, setProjectError] = useState<boolean>(false);
+
+    const [projectSuggestions, setProjectSuggestions] = useState<string[]>([]);
 
     const router = useRouter()
 
@@ -59,83 +65,44 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
         setProjectError(false)
     }
 
+    const mockHandleSuggestions = (_input: string) => {
+        setProjectSuggestions(["Proyecto 1", "Proyecto 2", "Proyecto 3"])
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <div className="space-y-12 bg-gray-200 pl-10 pr-10 pt-1 pb-10 rounded-md">
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-                    <div>
-                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
-                            Titulo
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            type="text"
+                    <Input  title="Título"
+                            placeholder={'Tarea-001'}
                             value={formTitle}
-                            onChange={(e) => setFormTitle(e.target.value)}
-                            name="title"
-                            id="title"
-                            onFocus={handleFocusTitle}
-                            className={`block w-full pl-2 pr-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${titleError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                            placeholder="Tarea-001"
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${titleError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="responsable" className="block text-sm font-medium leading-6 text-gray-900">
-                            Responsable {"(opcional)"}
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            type="text"
+                            setValue={setFormTitle}
+                            error={titleError}
+                            handleFocus={handleFocusTitle}
+                            isObligatory={true}/>
+                    <Input  title="Responsable"
+                            placeholder='Juan Perez'
                             value={formResponsable}
-                            onChange={(e) => setFormResponsable(e.target.value)}
-                            name="responsable"
-                            id="responsable"
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder="Juan Perez"
-                            style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                            />
-                        </div>
-                    </div>
+                            setValue={setFormResponsable}
+                            isObligatory={false} />
                     <div className="col-span-full">
-                        <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                            Descripción
-                        </label>
-                        <div className="mt-2">
-                            <textarea
-                            value={formDescription}
-                            onChange={(e) => setFormDescription(e.target.value)}
-                            id="description"
-                            name="description"
-                            rows={3}
-                            className={`block w-full pl-2 pr-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${descriptionError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300 ease-in-out sm:text-sm sm:leading-6`}
-                            defaultValue={''}
-                            onFocus={handleFocusDescription}
-                            placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${descriptionError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
+                        <TextArea   title="Descripción"
+                                    value={formDescription}
+                                    setValue={setFormDescription}
+                                    placeholder="El usuario describe que no puede descargar ultima factura emitida."
+                                    isObligatory={true}
+                                    error={descriptionError}
+                                    handleFocus={handleFocusDescription}/>
                     </div>
-                    <div>
-                        <label htmlFor="client" className="block text-sm font-medium leading-6 text-gray-900">
-                            Proyecto
-                        </label>
-                        <div className="mt-2">
-                            <input
-                            value={formProject}
-                            onChange={(e) => setFormProject(e.target.value)}
-                            type="text"
-                            name="client"
-                            id="client"
-                            onFocus={handleFocusProject}
-                            className={`block w-full md:w-72 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${projectError ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                            placeholder="Sistema UPP - 2024"
-                            style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                            />
-                            <small className={`text-red-500 absolute mt-1 transition-opacity duration-300 ${projectError ? 'opacity-100' : 'opacity-0'}`}>Este campo es obligatorio.</small>
-                        </div>
-                    </div>
+                    <AutocompleteInput  title='Proyecto'
+                                        placeholder='Sistema UPP - 2024'
+                                        value={formProject}
+                                        setValue={setFormProject}
+                                        handleFocus={handleFocusProject}
+                                        error={projectError}
+                                        isObligatory={true}
+                                        suggestions={projectSuggestions}
+                                        handleSuggestions={mockHandleSuggestions}/>
                 </div>
             </div>
             <div className="mt-6 flex items-center justify-end gap-x-6">
