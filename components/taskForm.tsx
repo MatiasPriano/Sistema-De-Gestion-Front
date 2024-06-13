@@ -71,7 +71,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="space-y-12 bg-gray-200 pl-10 pr-10 pt-1 pb-10 rounded-md">
+            <main className="space-y-12 bg-gray-200 pl-10 pr-10 pt-1 pb-10 rounded-md">
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
                     <Input  title="Título"
                             placeholder={'Tarea-001'}
@@ -104,7 +104,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                                         suggestions={projectSuggestions}
                                         handleSuggestions={mockHandleSuggestions}/>
                 </div>
-            </div>
+            </main>
             <div className="mt-6 flex items-center justify-end gap-x-6">
                 <button
                 type="button"

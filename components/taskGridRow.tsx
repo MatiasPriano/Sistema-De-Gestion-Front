@@ -10,7 +10,7 @@ interface TaskGridRowProps {
 
 export default function TaskGridRow({ task }: { task: TaskGridRowProps }) {
     return (
-        <tr key={`${task.title}`} className="h-16">
+        <tr key={`${task.title}`} className="h-10">
             <td className="px-2 py-3">
                 <div className="flex items-center">
                     <div className="text-s text-gray-900 max-w-xs">

@@ -18,7 +18,7 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
     }
 
     return (
-        <div>
+        <header>
             <div className="flex items-center">
                 <h1 className="text-4xl font-bold decoration-gray-400">{productId}</h1>
                 <span   className="bg-amber-500 text-sm text-gray-900 rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-amber-400 cursor-pointer"
@@ -35,7 +35,7 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
                     #{ticketId}
                 </h2>}
             </div>
-        </div>
+        </header>
         
     );
 };
