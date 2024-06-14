@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import Input from './input';
@@ -6,6 +6,8 @@ import AutocompleteInput from './autocomplete';
 import TextArea from './textArea';
 import ComboBox from './comboBox';
 import ButtonRow, { ButtonChoice } from './buttonRow';
+import getClients, { Client } from '@/services/clientService';
+import getResources, { Resource } from '@/services/resourceService';
 
 interface TicketProps {
     productId: string;
@@ -47,13 +49,9 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     const [clientError, setClientError] = useState<boolean>(false);
     const [severityError, setSeverityError] = useState<boolean>(false);
 
-    const [clientSuggestions, setClientSuggestions] = useState<string[]>([]);
-    const [responsableSuggestions, setResponsableSuggestions] = useState<string[]>([]);
-
     const stateOptions: string[] = ["Nuevo", "En progreso", "Esperando cliente", "Esperando desarrollo",
         "Resuelto a confirmar", "Cerrado", "Bloqueado"
     ]
-
 
     const severityChoices: ButtonChoice[] = [
         { title: "S1", colour: "red" }, 
@@ -61,6 +59,33 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         { title: "S3", colour: "yellow" }, 
         { title: "S4", colour: "green" }, 
     ]
+    const [resources, setResources] = useState([])
+    useEffect(() => {
+        getResources().then((data) => {
+            setResources(data.map(
+                (resource: Resource) => {
+                    return {
+                        id: resource.legajo,
+                        name: `${resource.Nombre} ${resource.Apellido}`
+                    }
+                }
+            ))
+        })
+    }, [])
+
+    const [clients, setClients] = useState([])
+    useEffect(() => {
+        getClients().then((data) => {
+            setClients(data.map(
+                (client: Client) => {
+                    return {
+                        id: client.id,
+                        name: `${client['razon social']} - ${client.CUIT}`
+                    }
+                }
+            ))
+        })
+    }, [])
 
     const router = useRouter()
 
@@ -126,14 +151,6 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
     }
 
-    const mockHandleResponsableSuggestions = (_input: string) => {
-        setResponsableSuggestions(["Juan Perez", "Roberto Lopez", "Mariano Martinez"])
-    }
-
-    const mockHandleClientSuggestions = (_input: string) => {
-        setClientSuggestions(["Volkswagen", "Fiat", "Ford"])
-    }
-
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 px-4 py-8 rounded-xl">
@@ -151,8 +168,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                                     value={formResponsable}
                                     setValue={setFormResponsable}
                                     isObligatory={false}
-                                    suggestions={responsableSuggestions}
-                                    handleSuggestions={mockHandleResponsableSuggestions}
+                                    items={resources}
                                     disabled={responsableDisabled}
                 />
                 <div className="col-span-full">
@@ -187,8 +203,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                                     isObligatory={true}
                                     error={clientError}
                                     handleFocus={handleFocusClient}
-                                    suggestions={clientSuggestions}
-                                    handleSuggestions={mockHandleClientSuggestions}
+                                    items={clients}
                                     disabled={clientDisabled}
                 />
             </main>
