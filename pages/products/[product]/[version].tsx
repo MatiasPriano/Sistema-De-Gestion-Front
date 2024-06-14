@@ -2,22 +2,17 @@ import {useEffect, useState} from "react";
 import { useRouter } from 'next/router';
 import TicketGridRow from "@/components/ticketGridRow";
 import VersionHeader from "@/components/versionHeader";
+import ticketsList from "@/components/ticketsMock";
 
 function HeaderItem({ title }: { title: string }) {
-    return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
+    return <th className="px-6 py-2 text-sm text-white bg-blue-950">{title}</th>
 }
 
 export default function Tickets() {
     const [list, setList] = useState([])
 
-    useEffect(() => {
-       
+    useEffect(() => {     
     }, [])
-
-
-    function create() {
-        alert('Se crea un ticket');
-    }
 
     const router = useRouter();
     const { product, version } = router.query;
@@ -33,11 +28,11 @@ export default function Tickets() {
                 <VersionHeader  productId={product as string}
                                 versionId={version as string}
                                 ticketId=""
-                                title="Ticket"
+                                title="Tickets"
                 />
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                        <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+                        <div className='rounded-xl border border-blue-950 overflow-hidden'>
                             <table className="min-w-full">
                                 <thead>
                                 <tr>
@@ -52,7 +47,7 @@ export default function Tickets() {
                                 </thead>
 
                                 <tbody>
-                                {list.map((ticket) => (
+                                {ticketsList.map((ticket) => (
                                     <TicketGridRow key={ticket['title']} ticket={ticket} />
                                 ))}
                                 </tbody>

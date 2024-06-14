@@ -28,7 +28,7 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
                 </span>
             </div>
             <div className="flex justify-between mt-2 mb-2">
-                {title && <h2 className="text-xl decoration-gray-700  text-gray-900">{title}</h2>}
+                {title && <h2 className="text-2xl font-medium italic decoration-gray-700 text-gray-900">{title}</h2>}
                 {ticketId && <h2    className="text-xl text-gray-900 decoration-gray-400 hover:underline cursor-pointer"
                                     onClick={handleTicketIdLabel}
                 >
