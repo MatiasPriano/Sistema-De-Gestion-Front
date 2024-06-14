@@ -5,6 +5,7 @@ import Input from './input';
 import AutocompleteInput from './autocomplete';
 import TextArea from './textArea';
 import ComboBox from './comboBox';
+import ButtonRow, { ButtonChoice } from './buttonRow';
 
 interface TicketProps {
     productId: string;
@@ -14,7 +15,7 @@ interface TicketProps {
     responsable?: string;
     description?: string;
     state?: string;
-    severity?: string;
+    severity?: string | null;
     client?: string;
     titleDisabled?: boolean;
     responsableDisabled?: boolean;
@@ -31,7 +32,7 @@ export enum TicketMode {
 }
 
 export default function TicketForm({ productId, versionId, ticketId = "", title = '', responsable = '', description = '', state = 'Nuevo',
-    severity = 'S1', client = '', titleDisabled = false, responsableDisabled = false,
+    severity = null, client = '', titleDisabled = false, responsableDisabled = false,
     descriptionDisabled = false, stateDisabled = false, severityDisabled = false, clientDisabled = false,
     mode}: TicketProps) {
     const [formTitle, setFormTitle] = useState(title);
@@ -39,26 +40,34 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     const [formResponsable, setFormResponsable] = useState(responsable);
     const [formDescription, setFormDescription] = useState(description);
     const [formState, setFormState] = useState(state);
-    const [formSeverity, setFormSeverity] = useState(severity);
+    const [severityChoice, setSeverityChoice] = useState<string | null>(severity)
 
     const [titleError, setTitleError] = useState<boolean>(false);
     const [descriptionError, setDescriptionError] = useState<boolean>(false);
     const [clientError, setClientError] = useState<boolean>(false);
+    const [severityError, setSeverityError] = useState<boolean>(false);
 
     const [clientSuggestions, setClientSuggestions] = useState<string[]>([]);
     const [responsableSuggestions, setResponsableSuggestions] = useState<string[]>([]);
 
     const stateOptions: string[] = ["Nuevo", "En progreso", "Esperando cliente", "Esperando desarrollo",
-        "Resuelto esperando confirmacion", "Cerrado", "Bloqueado"
+        "Resuelto a confirmar", "Cerrado", "Bloqueado"
     ]
-    const severityOptions: string[] = ["S1", "S2", "S3", "S4"]
+
+
+    const severityChoices: ButtonChoice[] = [
+        { title: "S1", colour: "red" }, 
+        { title: "S2", colour: "orange" }, 
+        { title: "S3", colour: "yellow" }, 
+        { title: "S4", colour: "green" }, 
+    ]
 
     const router = useRouter()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
 
-        if (formTitle.trim() && formClient.trim() && formDescription.trim()) {
+        if (formTitle.trim() && formClient.trim() && formDescription.trim() && severityChoice != null) {
                 if (mode === TicketMode.New) {
                     toast.success('Ticket creado exitosamente')
                     setFormTitle("")
@@ -78,6 +87,9 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             if (!formClient.trim()) {
                 setClientError(true)
             }
+            if (severityChoice === null) {
+                setSeverityError(true)
+            }
             toast.error("Existen campos incompletos")
         }
     };
@@ -92,6 +104,10 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
 
     const handleFocusClient = () => {
         setClientError(false)
+    }
+
+    const handleFocusSeverity = () => {
+        setSeverityError(false)
     }
 
     const handleCancelButton = () => {
@@ -120,7 +136,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <main className="grid gap-x-6 gap-y-8 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 p-6 rounded-xl">
+            <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 px-4 py-8 rounded-xl">
                 <Input  title="Título"
                         placeholder="TKT-001"
                         value={formTitle}
@@ -155,11 +171,14 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                                 selected={formState}
                                 disabled={stateDisabled}
                                 onChange={setFormState}/>
-                    <ComboBox   title="Severidad"
-                                selected={formSeverity}
-                                options={severityOptions}
-                                disabled={severityDisabled}
-                                onChange={setFormSeverity}/>
+                    <ButtonRow      title="Severidad"
+                                    choices={severityChoices}
+                                    selectedChoice={severityChoice}
+                                    setSelected={setSeverityChoice}
+                                    isObligatory={true}
+                                    error={severityError}
+                                    handleFocus={handleFocusSeverity}
+                                    disabled={severityDisabled}/>
                 </div>
                 <AutocompleteInput  title='Cliente'
                                     placeholder='PSA - Soporte'
