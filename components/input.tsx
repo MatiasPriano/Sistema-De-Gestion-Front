@@ -1,5 +1,5 @@
 function getInputClassName(isDisabled: boolean, isObligatory: boolean, isEmpty: boolean) {
-    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-2 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
     if (isDisabled) {
         className += ' text-gray-600'
     } else {
@@ -38,11 +38,11 @@ interface InputProps {
 
 export default function Input({ title, placeholder, value, setValue, error = false, handleFocus, isObligatory = false, disabled = false}: InputProps) {
     return (
-        <div>
-            <label htmlFor="input" className="block text-sm font-medium leading-6 text-gray-900">
+        <div className="space-y-2">
+            <label htmlFor="input" className="block text-sm font-medium text-gray-900">
                 {title} {(!isObligatory && " (opcional)")}
             </label>
-            <div className="mt-2">
+            <div>
                 <input
                 type="text"
                 value={value}

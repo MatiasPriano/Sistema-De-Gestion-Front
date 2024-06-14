@@ -29,7 +29,7 @@ export default function Tickets() {
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
-            <div className="container max-w-7xl mx-auto mt-8">
+            <div>
                 <VersionHeader  productId={product as string}
                                 versionId={version as string}
                                 ticketId=""

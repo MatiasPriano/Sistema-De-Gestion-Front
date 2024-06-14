@@ -20,7 +20,7 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
     return (
         <header>
             <div className="flex items-center">
-                <h1 className="text-4xl font-bold decoration-gray-400">{productId}</h1>
+                <h1 className="text-4xl font-bold decoration-gray-400 text-gray-900">{productId}</h1>
                 <span   className="bg-amber-500 text-sm text-gray-900 rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-amber-400 cursor-pointer"
                         onClick={handleVersionLabel}
                 >
@@ -28,8 +28,8 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
                 </span>
             </div>
             <div className="flex justify-between mt-2 mb-2">
-                {title && <h2 className="text-xl decoration-gray-700">{title}</h2>}
-                {ticketId && <h2    className="text-xl decoration-gray-400 hover:underline cursor-pointer"
+                {title && <h2 className="text-xl decoration-gray-700  text-gray-900">{title}</h2>}
+                {ticketId && <h2    className="text-xl text-gray-900 decoration-gray-400 hover:underline cursor-pointer"
                                     onClick={handleTicketIdLabel}
                 >
                     #{ticketId}

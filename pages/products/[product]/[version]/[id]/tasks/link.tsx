@@ -26,7 +26,7 @@ export default function LinkTask() {
         }
     ]
     return (
-        <div className="container max-w-7xl mx-auto mt-8 sm:mt-4">
+        <div>
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}

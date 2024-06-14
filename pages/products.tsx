@@ -15,9 +15,9 @@ export default function Products() {
     return (
         <>
                 {/* ACA EMPIEZA LA GRILLA */}
-                <div className="container max-w-7xl mx-auto mt-8">
+                <div className="container max-w-7xl mx-auto">
                     <div className="mb-4">
-                        <h1 className="text-3xl font-bold decoration-gray-400">Productos</h1>
+                        <h1 className="text-3xl font-bold text-gray-900 decoration-gray-400">Productos</h1>
                     </div>
                     <div className="flex flex-col">
                         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">

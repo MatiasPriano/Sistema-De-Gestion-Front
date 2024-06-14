@@ -4,50 +4,7 @@ import { useRouter } from 'next/router';
 import Input from './input';
 import AutocompleteInput from './autocomplete';
 import TextArea from './textArea';
-
-interface ComboBoxProps {
-    title: string;
-    options: string[];
-    selected: string;
-    disabled?: boolean;
-    onChange?: (selectedOption: string) => void;
-}
-
-function ComboBox({ title, options, selected, disabled = false, onChange }: ComboBoxProps) {
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOption = event.target.value;
-        if (onChange) {
-            onChange(selectedOption);
-        }
-    };
-    return (
-        <div className="sm:col-span-3">
-            <label htmlFor={title} className="block text-sm font-medium leading-6 text-gray-900">
-                {title}
-            </label>
-            <div className="mt-2">
-                <select
-                disabled={disabled}
-                id={title}
-                name={title}
-                onChange={handleChange}
-                className={`block w-full pl-2 pr-2 rounded-md border-0 py-1.5 ${disabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6`}
-                >
-                    {options.map((option) => {
-                    if (selected === option) {
-                        return (
-                            <option key={option} value={option} selected>{option}</option>
-                        )
-                    }
-                    return (
-                        <option key={option} value={option}>{option}</option>
-                    )
-                    })}
-                </select>
-            </div>
-        </div>
-    )
-}
+import ComboBox from './comboBox';
 
 interface TicketProps {
     productId: string;
@@ -155,67 +112,63 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <main className="space-y-12 bg-gray-200 pl-10 pr-10 pt-1 pb-10 rounded-md">
-                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-                    <Input  title="Título"
-                            placeholder="TKT-001"
-                            value={formTitle}
-                            setValue={setFormTitle}
-                            error={titleError}
-                            handleFocus={handleFocusTitle}
-                            isObligatory={true}
-                            disabled={titleDisabled}
-                    />
-                    <AutocompleteInput  title="Responsable"
-                                        placeholder="Juan Perez"
-                                        value={formResponsable}
-                                        setValue={setFormResponsable}
-                                        isObligatory={false}
-                                        suggestions={responsableSuggestions}
-                                        handleSuggestions={mockHandleResponsableSuggestions}
-                                        disabled={responsableDisabled}
-                    />
-                    <div className="col-span-full">
-                        <TextArea   title="Descripción"
-                                    value={formDescription}
-                                    setValue={setFormDescription}
-                                    placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                                    isObligatory={true}
-                                    error={descriptionError}
-                                    handleFocus={handleFocusDescription}
-                                    disabled={descriptionDisabled}/>
-                    </div>
-                    <div>
-                        <ComboBox   title="Estado"
-                                    options={stateOptions}
-                                    selected={formState}
-                                    disabled={stateDisabled}
-                                    onChange={setFormState}/>
-                        <div className="mt-4">
-                            <ComboBox   title="Severidad"
-                                        selected={formSeverity}
-                                        options={severityOptions}
-                                        disabled={severityDisabled}
-                                        onChange={setFormSeverity}/>
-                        </div>
-                    </div>
-                    <AutocompleteInput  title='Cliente'
-                                        placeholder='PSA - Soporte'
-                                        value={formClient}
-                                        setValue={setFormClient}
-                                        isObligatory={true}
-                                        error={clientError}
-                                        handleFocus={handleFocusClient}
-                                        suggestions={clientSuggestions}
-                                        handleSuggestions={mockHandleClientSuggestions}
-                                        disabled={clientDisabled}
-                    />
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <main className="grid gap-x-6 gap-y-8 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 p-6 rounded-xl">
+                <Input  title="Título"
+                        placeholder="TKT-001"
+                        value={formTitle}
+                        setValue={setFormTitle}
+                        error={titleError}
+                        handleFocus={handleFocusTitle}
+                        isObligatory={true}
+                        disabled={titleDisabled}
+                />
+                <AutocompleteInput  title="Responsable"
+                                    placeholder="Juan Perez"
+                                    value={formResponsable}
+                                    setValue={setFormResponsable}
+                                    isObligatory={false}
+                                    suggestions={responsableSuggestions}
+                                    handleSuggestions={mockHandleResponsableSuggestions}
+                                    disabled={responsableDisabled}
+                />
+                <div className="col-span-full">
+                    <TextArea   title="Descripción"
+                                value={formDescription}
+                                setValue={setFormDescription}
+                                placeholder="El usuario describe que no puede descargar ultima factura emitida."
+                                isObligatory={true}
+                                error={descriptionError}
+                                handleFocus={handleFocusDescription}
+                                disabled={descriptionDisabled}/>
                 </div>
+                <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                    <ComboBox   title="Estado"
+                                options={stateOptions}
+                                selected={formState}
+                                disabled={stateDisabled}
+                                onChange={setFormState}/>
+                    <ComboBox   title="Severidad"
+                                selected={formSeverity}
+                                options={severityOptions}
+                                disabled={severityDisabled}
+                                onChange={setFormSeverity}/>
+                </div>
+                <AutocompleteInput  title='Cliente'
+                                    placeholder='PSA - Soporte'
+                                    value={formClient}
+                                    setValue={setFormClient}
+                                    isObligatory={true}
+                                    error={clientError}
+                                    handleFocus={handleFocusClient}
+                                    suggestions={clientSuggestions}
+                                    handleSuggestions={mockHandleClientSuggestions}
+                                    disabled={clientDisabled}
+                />
             </main>
             
             {mode === TicketMode.View && 
-            <div className="mt-6 flex items-center justify-between gap-x-6">
+            <div className="flex items-center justify-end gap-x-6 px-4">
                 <button
                 type="button"
                 onClick={handleTasksButton}
