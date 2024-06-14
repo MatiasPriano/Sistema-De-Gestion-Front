@@ -85,13 +85,20 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     const handleFocusTitle = () => {
         setTitleError(false)
     }
+
     const handleFocusDescription = () => {
         setDescriptionError(false)
     }
+
     const handleFocusClient = () => {
         setClientError(false)
     }
+
     const handleCancelButton = () => {
+        router.push(`/products/${productId}/${versionId}/`)
+    }
+
+    const handleBackButton = () => {
         router.push(`/products/${productId}/${versionId}/`)
     }
 
@@ -168,21 +175,32 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             </main>
             
             {mode === TicketMode.View && 
-            <div className="flex items-center justify-end gap-x-6 px-4">
-                <button
-                type="button"
-                onClick={handleTasksButton}
-                className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
-                >
-                    Tareas
-                </button>
-                <button
-                type="button"
-                onClick={handleEditButton}
-                className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                >
-                    Editar
-                </button>
+            <div className='flex'>
+                <div className="flex items-center justify-start gap-x-6 px-4">
+                    <button
+                    type="button"
+                    onClick={handleBackButton}
+                    className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600"
+                    >
+                        Volver
+                    </button>
+                </div>
+                <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+                    <button
+                    type="button"
+                    onClick={handleTasksButton}
+                    className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
+                    >
+                        Tareas
+                    </button>
+                    <button
+                    type="button"
+                    onClick={handleEditButton}
+                    className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
+                    >
+                        Editar
+                    </button>
+                </div>
             </div>}
             {mode != TicketMode.View && (
                 <div className="mt-6 flex items-center justify-end gap-x-6">
