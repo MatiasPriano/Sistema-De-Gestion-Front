@@ -10,7 +10,7 @@ interface TextAreaProps {
 }
 
 function getTextAreaClassName(isDisabled: boolean, isObligatory: boolean, isEmpty: boolean) {
-    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300 ease-in-out sm:text-sm sm:leading-6'
+    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300 ease-in-out'
     if (isDisabled) {
         className += ' text-gray-600'
     } else {
@@ -27,7 +27,7 @@ function getTextAreaClassName(isDisabled: boolean, isObligatory: boolean, isEmpt
 }
 
 function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
-    let className = "text-red-500 absolute mt-1 transition-opacity duration-300";
+    let className = "text-red-500 absolute transition-opacity duration-300";
     if (isEmpty && isObligatory) {
         className += ' opacity-100'
     } else {
@@ -38,11 +38,11 @@ function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
 
 export default function TextArea({ title, value, setValue, placeholder = "", isObligatory = false, error = false, handleFocus, disabled = false }: TextAreaProps) {
     return (
-        <div>
-            <label htmlFor="textArea" className="block text-sm font-medium leading-6 text-gray-900">
+        <div className="space-y-2">
+            <label htmlFor="textArea" className="text-sm font-medium text-gray-900">
                 {title} {!isObligatory && "(opcional)"}
             </label>
-            <div className="mt-2">
+            <div>
                 <textarea
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

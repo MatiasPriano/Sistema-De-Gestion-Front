@@ -14,7 +14,7 @@ export default function ComboBox({ title, options, selected, disabled = false, o
         }
     };
     return (
-        <div className="space-y-2">
+        <div className="w-full space-y-2">
             <label htmlFor={title} className="block text-sm font-medium text-gray-900">
                 {title}
             </label>
@@ -24,7 +24,7 @@ export default function ComboBox({ title, options, selected, disabled = false, o
                 id={title}
                 name={title}
                 onChange={handleChange}
-                className={`block pl-2 pr-2 rounded-md border-0 py-2 ${disabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6`}>
+                className={`w-full pl-2 pr-2 rounded-md border-0 py-2 ${disabled ? 'text-gray-600' : 'text-gray-900'} shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600`}>
                     {options.map((option) => {
                     if (selected === option) {
                         return (
