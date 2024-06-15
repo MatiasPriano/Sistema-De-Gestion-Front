@@ -13,6 +13,10 @@ export default function TicketGridRow({ ticket }: {ticket: any}) {
         router.push(`/products/${product}/${version}/${ticket.id}/edit`)
     }
 
+    const handleDeleteTicket = () => {
+        
+    }
+
 
     return (
         <tr key={`${ticket['title']}`} className="hover:bg-blue-100">
@@ -42,14 +46,14 @@ export default function TicketGridRow({ ticket }: {ticket: any}) {
 
             <td className="px-2 py-3">
                 <div className="flex justify-center">
-                    <div className="flex items-center px-2">
+                    <div className="flex items-center px-1">
                         <button type="button" onClick={handleViewTicket} className="relative text-black hover:text-blue-600">
                             <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm.5 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm0 5c.47 0 .917-.092 1.326-.26l1.967 1.967a1 1 0 0 0 1.414-1.414l-1.817-1.818A3.5 3.5 0 1 0 11.5 17Z" clip-rule="evenodd"/>
                             </svg>
                         </button>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center px-2">
                         <button type="button" onClick={handleEditTicket} className="relative text-black hover:text-blue-600">
                             <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" d="M8 7V2.221a2 2 0 0 0-.5.365L3.586 6.5a2 2 0 0 0-.365.5H8Zm2 0V2h7a2 2 0 0 1 2 2v.126a5.087 5.087 0 0 0-4.74 1.368v.001l-6.642 6.642a3 3 0 0 0-.82 1.532l-.74 3.692a3 3 0 0 0 3.53 3.53l3.694-.738a3 3 0 0 0 1.532-.82L19 15.149V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z" clip-rule="evenodd"/>
@@ -57,6 +61,16 @@ export default function TicketGridRow({ ticket }: {ticket: any}) {
                             </svg>
                         </button>
                     </div>
+                    <div className="flex items-center px-1">
+                        <button type="button" onClick={handleDeleteTicket} className="relative text-black hover:text-blue-600">
+                            <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+
+
+
                 </div>
             </td>
         </tr>
