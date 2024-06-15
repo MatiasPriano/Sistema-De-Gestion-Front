@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import TaskCompactTable from '@/components/taskCompactTable';
-import { Task } from '@/components/taskCompactRow';
+import LinkTaskTable from '@/components/compactTable/linkTasks/linkTaskTable';
+import Task from '@/types/task';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -47,7 +47,7 @@ export default function LinkTask() {
                     Buscar
                 </button>
             </div>
-            <TaskCompactTable tasks={tasks}/>
+            <LinkTaskTable tasks={tasks}/>
         </div>
     )
 }

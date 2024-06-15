@@ -125,7 +125,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                             placeholder="El usuario describe que no puede descargar ultima factura emitida."
                             isObligatory={true}
                             error={descriptionError}
-                            handleFocus={handleFocusDescription}/>
+                            handleFocus={handleFocusDescription} />
                     </div>
                     <AutocompleteInput
                         title='Proyecto'
@@ -134,7 +134,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                         setValue={setFormProject}
                         error={projectError}
                         isObligatory={true}
-                        items={mockProjectItems}/>
+                        items={mockProjectItems} />
                     <ButtonRow
                         title="Prioridad"
                         choices={priorityChoices}
@@ -142,7 +142,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                         setSelected={setPriorityChoice}
                         isObligatory={true}
                         error={priorityError}
-                        handleFocus={handleFocusPriority}/>
+                        handleFocus={handleFocusPriority} />
             </main>
             <div className="mt-6 flex items-center justify-end gap-x-6">
                 <button

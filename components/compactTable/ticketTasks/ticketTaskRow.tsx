@@ -1,35 +1,8 @@
-import { Metadata } from "next";
-import { useState } from "react";
+import Task from "@/types/task";
 
-export interface Task {
-    id: number;
-    title: string;
-    responsable?: string;
-    project: string;
-    status: string;
-    associatedTickets?: string[];
-}
-
-export const metadata: Metadata = {
-    title: 'Tareas - Soporte',
-}
-
-export default function TaskCompactRow({ task }: { task: Task }) {
-    const [isChecked, setIsChecked] = useState(false);
-    const toggleCheckbox = () => {
-        setIsChecked(!isChecked);
-    };
-
+export default function TicketTaskRow({ task }: { task: Task }) {
     return (
-        <tr key={task.id} className={getCheckBoxClass(isChecked)} >
-            <td className="w-10 overflow-hidden">
-                <div className="text-gray-900 rounded-md mx-2 flex items-center">
-                    <input  type="checkbox"
-                            className="form-checkbox h-4 w-4 text-blue-950"
-                            onChange={toggleCheckbox}
-                            checked={isChecked} />
-                </div>
-            </td>
+        <tr key={task.id} >
             <td className="w-20 overflow-hidden">
                 <div className="line-clamp-1 text-sm mx-2 text-gray-900">#{task.id}</div>
             </td>
@@ -54,15 +27,6 @@ export default function TaskCompactRow({ task }: { task: Task }) {
         </tr>
         
     );
-}
-
-function getCheckBoxClass(isChecked: boolean) {
-    let className = 'transition-all duration-200 text-gray-900'
-
-    if (isChecked) {
-        className += ' bg-blue-100'
-    }
-    return className
 }
 
 function getStatusClass(status: string) {
