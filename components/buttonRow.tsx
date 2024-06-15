@@ -7,10 +7,10 @@ export interface ButtonChoice {
 type colours = "red" | "orange" | "yellow" | "green"
 
 const coloursMap = {
-    red: "bg-red-50",
-    orange: "bg-orange-50",
-    yellow: "bg-yellow-50",
-    green: "bg-green-50"
+    red: "bg-red-100",
+    orange: "bg-orange-100",
+    yellow: "bg-yellow-100",
+    green: "bg-green-100"
   };
   
 
@@ -55,7 +55,7 @@ export default function ButtonRow({ title, choices, selectedChoice, setSelected,
 }
 
 function getChoiceButtonClassName (colour: colours, isSelected: boolean, isDisabled: boolean) {
-    let className = `w-full h-10 text-gray-900`
+    let className = `w-full h-10 text-gray-600`
     if (isDisabled) {
         className += " bg-transparent"
     } else {

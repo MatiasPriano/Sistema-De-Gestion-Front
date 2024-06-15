@@ -154,84 +154,84 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 px-4 py-8 rounded-xl">
-                <Input  title="Título"
-                        placeholder="TKT-001"
-                        value={formTitle}
-                        setValue={setFormTitle}
-                        error={titleError}
-                        handleFocus={handleFocusTitle}
-                        isObligatory={true}
-                        disabled={titleDisabled}
-                />
-                <AutocompleteInput  title="Responsable"
-                                    placeholder="Juan Perez"
-                                    value={formResponsable}
-                                    setValue={setFormResponsable}
-                                    isObligatory={false}
-                                    items={resources}
-                                    disabled={responsableDisabled}
-                />
+                <Input  
+                    title="Título"
+                    placeholder="TKT-001"
+                    value={formTitle}
+                    setValue={setFormTitle}
+                    error={titleError}
+                    handleFocus={handleFocusTitle}
+                    isObligatory={true}
+                    disabled={titleDisabled}/>
+                <AutocompleteInput
+                    title="Responsable"
+                    placeholder="Juan Perez"
+                    value={formResponsable}
+                    setValue={setFormResponsable}
+                    isObligatory={false}
+                    items={resources}
+                    disabled={responsableDisabled}/>
                 <div className="col-span-full">
-                    <TextArea   title="Descripción"
-                                value={formDescription}
-                                setValue={setFormDescription}
-                                placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                                isObligatory={true}
-                                error={descriptionError}
-                                handleFocus={handleFocusDescription}
-                                disabled={descriptionDisabled}/>
+                    <TextArea
+                        title="Descripción"
+                        value={formDescription}
+                        setValue={setFormDescription}
+                        placeholder="El usuario describe que no puede descargar ultima factura emitida."
+                        isObligatory={true}
+                        error={descriptionError}
+                        handleFocus={handleFocusDescription}
+                        disabled={descriptionDisabled}/>
                 </div>
                 <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                    <ComboBox   title="Estado"
-                                options={stateOptions}
-                                selected={formState}
-                                disabled={stateDisabled}
-                                onChange={setFormState}/>
-                    <ButtonRow      title="Severidad"
-                                    choices={severityChoices}
-                                    selectedChoice={severityChoice}
-                                    setSelected={setSeverityChoice}
-                                    isObligatory={true}
-                                    error={severityError}
-                                    handleFocus={handleFocusSeverity}
-                                    disabled={severityDisabled}/>
+                    <ComboBox
+                        title="Estado"
+                        options={stateOptions}
+                        selected={formState}
+                        disabled={stateDisabled}
+                        onChange={setFormState}/>
+                    <ButtonRow
+                        title="Severidad"
+                        choices={severityChoices}
+                        selectedChoice={severityChoice}
+                        setSelected={setSeverityChoice}
+                        isObligatory={true}
+                        error={severityError}
+                        handleFocus={handleFocusSeverity}
+                        disabled={severityDisabled}/>
                 </div>
-                <AutocompleteInput  title='Cliente'
-                                    placeholder='PSA - Soporte'
-                                    value={formClient}
-                                    setValue={setFormClient}
-                                    isObligatory={true}
-                                    error={clientError}
-                                    handleFocus={handleFocusClient}
-                                    items={clients}
-                                    disabled={clientDisabled}
-                />
+                <AutocompleteInput
+                    title='Cliente'
+                    placeholder='PSA - Soporte'
+                    value={formClient}
+                    setValue={setFormClient}
+                    isObligatory={true}
+                    error={clientError}
+                    handleFocus={handleFocusClient}
+                    items={clients}
+                    disabled={clientDisabled}/>
             </main>
             
             {mode === TicketMode.View && 
             <div className='flex'>
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <button
-                    type="button"
-                    onClick={handleBackButton}
-                    className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600"
-                    >
+                        type="button"
+                        onClick={handleBackButton}
+                        className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600">
                         Volver
                     </button>
                 </div>
                 <div className="flex items-center justify-end gap-x-6 px-4 w-full">
                     <button
-                    type="button"
-                    onClick={handleTasksButton}
-                    className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
-                    >
+                        type="button"
+                        onClick={handleTasksButton}
+                        className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200">
                         Tareas
                     </button>
                     <button
-                    type="button"
-                    onClick={handleEditButton}
-                    className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                    >
+                        type="button"
+                        onClick={handleEditButton}
+                        className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800">
                         Editar
                     </button>
                 </div>
@@ -239,16 +239,14 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
             {mode != TicketMode.View && (
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                     <button
-                    type="button"
-                    onClick={handleCancelButton}
-                    className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600"
-                    >
+                        type="button"
+                        onClick={handleCancelButton}
+                        className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:text-gray-600">
                         Cancelar
                     </button>
                     <button
-                    type="submit"
-                    className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                    >
+                        type="submit"
+                        className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800">
                         {mode === TicketMode.New ? "Crear" : "Guardar"}
                     </button>
                 </div>)
