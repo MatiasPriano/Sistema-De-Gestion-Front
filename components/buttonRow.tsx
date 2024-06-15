@@ -36,7 +36,7 @@ export default function ButtonRow({ title, choices, selectedChoice, setSelected,
             <div className="w-full">
                 <div className="flex overflow-hidden rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
                     {choices.map((choice, index) => (
-                        <div className="w-full">
+                        <div className="w-full" key={index}>
                             <button type="button"
                                     key={index}
                                     disabled={disabled}
