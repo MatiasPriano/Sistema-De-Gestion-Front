@@ -70,7 +70,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                     }
                 }
             ))
-        })
+        }).catch((e) => console.log(e))
     }, [])
 
     const [clients, setClients] = useState([])
@@ -84,7 +84,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                     }
                 }
             ))
-        })
+        }).catch((e) => console.log(e))
     }, [])
 
     const router = useRouter()
