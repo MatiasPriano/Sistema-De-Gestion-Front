@@ -4,5 +4,6 @@ export default interface Task {
     responsable?: string;
     project: string;
     status: string;
+    priority: string;
     associatedTickets?: string[];
 }

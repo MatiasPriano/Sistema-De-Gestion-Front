@@ -1,12 +1,7 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import TaskGridRow from "@/components/taskGridRow";
 import TicketTaskTable from '@/components/compactTable/ticketTasks/ticketTaskTable';
 import Task from '@/types/task';
-
-function HeaderItem({ title }: { title: string }) {
-    return <th className="px-6 py-3 text-sm text-white border-b border-gray-200 bg-blue-950">{title}</th>
-}
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -19,13 +14,15 @@ export default function ViewTasks() {
             responsable: "Juan Perez",
             project: "Sistema UPP - 2024",
             status: "Abierta",
+            priority: "Baja"
         },
         {
             id: 1321,
             title: "Curabitur sed erat ac magna dignissim aliquet. Proin quis mauris felis. Maecenas non arcu porttitor, venenatis leo eu, semper libero. Etiam sed augue vitae lacus placerat consequat nec at magna. Quisque ex turpis, fringilla quis mi in, finibus rutrum elit. Pellentesque non leo quis felis eleifend eleifend. Sed vestibulum nisl et sodales tincidunt. Aenean vitae arcu in urna congue feugiat. Maecenas nec enim sit amet ante lacinia porttitor sit amet non dui. Etiam semper dolor vitae nibh blandit laoreet. Aliquam gravida erat vel lectus porta, et dapibus leo blandit. Aliquam convallis nisi eu magna accumsan dignissim nec auctor nibh.",
             responsable: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
             project: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
-            status: "Cerrada"
+            status: "Cerrada",
+            priority: "Alta"
         }
     ]
 
@@ -44,7 +41,7 @@ export default function ViewTasks() {
                             ticketId={id as string}
                             title="Tareas asociadas al ticket"
             />
-            <div className="my-4 flex items-center justify-end gap-x-6">
+            <div className="my-5 flex items-center justify-end gap-x-6">
                 <button
                 type="button"
                 onClick={handleNewTaskButton}

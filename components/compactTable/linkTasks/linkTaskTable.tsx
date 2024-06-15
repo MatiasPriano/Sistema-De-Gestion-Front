@@ -3,7 +3,7 @@ import CompactTable from "../compactTable"
 import LinkTaskRow from "./linkTaskRow"
 
 export default function LinkTaskTable({ tasks }: { tasks: Task[] }) {
-    const headers = ["Selec.", "ID", "Título", "Proyecto", "Responsable", "Estado"]
+    const headers = ["Selec.", "ID", "Título", "Proyecto", "Responsable", "Prioridad", "Estado"]
     return (
         <CompactTable
             headerTitles={headers}
