@@ -1,11 +1,17 @@
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 import VersionHeader from '@/components/versionHeader';
 import LinkTaskTable from '@/components/compactTable/linkTasks/linkTaskTable';
+import EmptyTableText from '@/components/compactTable/emptyTableText';
 import Task from '@/types/task';
+import { useState } from 'react';
+import TextButton from '@/components/button/textButton';
 
 export default function LinkTask() {
     const router = useRouter();
     const { product, version, id } = router.query;
+
+    const [selectedTasks, setSelectedTasks] = useState<number[]>([])
 
     const tasks: Task[] = [
         {
@@ -25,6 +31,16 @@ export default function LinkTask() {
             priority: "Alta"
         }
     ]
+
+    const handleLinkTaskClick = () => {
+        if (selectedTasks.length === 1) {
+            toast.success("1 tarea asociada correctamente")
+        } else {
+            toast.success(`${selectedTasks.length} tareas asociadas correctamente`)
+        }
+        router.push(`/products/${product}/${version}/${id}/tasks/`)
+    }
+
     return (
         <div>
             <VersionHeader  productId={product as string}
@@ -33,21 +49,31 @@ export default function LinkTask() {
                             title="Tareas asociadas al ticket"
             />
             <div className="relative flex pt-2 pb-6">
-                <input
-                    type="search"
-                    className="flex-auto rounded-s border border-solid border-neutral-200 bg-transparent px-3 py-[0.25rem] placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none"
-                    placeholder="Buscar"
-                />
                 <button
-                    className="px-6 text-xs font-medium uppercase"
+                    className="px-6 text-xs font-medium uppercase text-gray-900"
                     data-twe-ripple-init
                     data-twe-ripple-color="white"
                     type="button"
                     id="button-addon3">
                     Buscar
                 </button>
+                <input
+                    type="search"
+                    className="flex-auto rounded-s border border-solid border-neutral-200 bg-transparent px-3 py-[0.25rem] placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none"
+                    placeholder="Buscar"
+                />
+                <TextButton
+                    name="Asociar tarea(s)"
+                    style="secondary"
+                    onClick={handleLinkTaskClick}
+                    disabled={selectedTasks.length === 0} />
             </div>
-            <LinkTaskTable tasks={tasks}/>
+            {tasks.length > 0 && 
+                <LinkTaskTable
+                    tasks={tasks}
+                    selectedTasks={selectedTasks}
+                    setSelectedTasks={setSelectedTasks} />}
+            {tasks.length === 0 && <EmptyTableText text="No se encontraron resultados" icon="search"/>}
         </div>
     )
 }

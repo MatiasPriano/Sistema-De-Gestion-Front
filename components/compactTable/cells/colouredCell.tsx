@@ -1,7 +1,7 @@
 export type ColouredCellColours = "red" | "orange" | "yellow" | "green"
 
 const coloursMap = {
-    red: "bg-red-600",
+    red: "bg-red-500",
     orange: "bg-orange-500",
     yellow: "bg-yellow-500",
     green: "bg-lime-500"

@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TicketTaskTable from '@/components/compactTable/ticketTasks/ticketTaskTable';
 import Task from '@/types/task';
+import EmptyTableText from '@/components/compactTable/emptyTableText';
+import TextButton from '@/components/button/textButton';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -41,23 +43,18 @@ export default function ViewTasks() {
                             ticketId={id as string}
                             title="Tareas asociadas al ticket"
             />
-            <div className="my-5 flex items-center justify-end gap-x-6">
-                <button
-                type="button"
-                onClick={handleNewTaskButton}
-                className="rounded-md bg-amber-500 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-amber-200"
-                >
-                    Crear tarea
-                </button>
-                <button
-                type="submit"
-                onClick={handleLinkTaskButton}
-                className="rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out hover:bg-blue-800"
-                >
-                    Asociar tarea existente
-                </button>
-            </div>
-            <TicketTaskTable tasks={tasks} />
+            {tasks.length > 0 && <div className="my-5 flex items-center justify-end gap-x-6">
+                <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
+                <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
+            </div>}
+            {tasks.length > 0 && <TicketTaskTable tasks={tasks} />}
+            {tasks.length === 0 && <EmptyTableText text="No hay tareas asignadas a este ticket" icon="task"/>}
+            {tasks.length === 0 &&
+                <div className="my-5 flex items-center justify-center gap-x-6">
+                    <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
+                    <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
+                </div>
+            }
         </div>
     )
 }
