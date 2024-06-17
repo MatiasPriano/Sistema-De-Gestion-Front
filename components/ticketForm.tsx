@@ -9,6 +9,8 @@ import ButtonRow, { ButtonChoice } from './buttonRow';
 import getClients, { Client } from '@/services/clientService';
 import getResources, { Resource } from '@/services/resourceService';
 import TextButton from './button/textButton';
+import IconButton from './button/iconButton';
+import ConfirmationDialog from './confirmationDialog';
 
 interface TicketProps {
     productId: string;
@@ -88,6 +90,17 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         }).catch((e) => console.log(e))
     }, [])
 
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+    const handleDialogDelete = () => {
+        toast.success("Ticket eliminado")
+        setIsDeleteDialogOpen(false)
+        router.push(`/products/${productId}/${versionId}/`)
+    }
+
+    const handleDialogCancel = () => {
+        setIsDeleteDialogOpen(false)
+    }
+
     const router = useRouter()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -154,6 +167,10 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
 
     const handleEditButton = () => {
         router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
+    }
+
+    const handleDeleteTicketButton = () => {
+        setIsDeleteDialogOpen(true)
     }
 
     return (
@@ -225,6 +242,11 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                         onClick={handleBackButton} />
                 </div>
                 <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+                    <IconButton
+                        icon="trash"
+                        title="Eliminar ticket"
+                        style="red"
+                        onClick={handleDeleteTicketButton}/>
                     <TextButton
                         name="Tareas"
                         style="secondary"
@@ -247,6 +269,12 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                         style="primary" />
                 </div>)
             }
+            <ConfirmationDialog
+                isOpen={isDeleteDialogOpen}
+                title="Eliminar ticket"
+                message="¿Está seguro/a de que desea eliminar este ticket?"
+                onConfirm={handleDialogDelete}
+                onCancel={handleDialogCancel} />
         </form>
     )
 }
