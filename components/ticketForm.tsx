@@ -5,7 +5,7 @@ import Input from './input';
 import AutocompleteInput from './autocomplete';
 import TextArea from './textArea';
 import ComboBox from './comboBox';
-import ButtonRow, { ButtonChoice } from './buttonRow';
+import ButtonRow, { ButtonOption } from './buttonRow';
 import getClients, { Client } from '@/services/clientService';
 import getResources, { Resource } from '@/services/resourceService';
 import TextButton from './button/textButton';
@@ -56,7 +56,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
         "Resuelto a confirmar", "Cerrado", "Bloqueado"
     ]
 
-    const severityChoices: ButtonChoice[] = [
+    const severityChoices: ButtonOption[] = [
         { title: "S1", colour: "red" }, 
         { title: "S2", colour: "orange" }, 
         { title: "S3", colour: "yellow" }, 
@@ -183,14 +183,14 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                     setValue={setFormTitle}
                     error={titleError}
                     handleFocus={handleFocusTitle}
-                    isObligatory={true}
+                    isRequired={true}
                     disabled={titleDisabled}/>
                 <AutocompleteInput
                     title="Responsable"
                     placeholder="Juan Perez"
                     value={formResponsable}
                     setValue={setFormResponsable}
-                    isObligatory={false}
+                    isRequired={false}
                     items={resources}
                     disabled={responsableDisabled}/>
                 <div className="col-span-full">
@@ -199,7 +199,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                         value={formDescription}
                         setValue={setFormDescription}
                         placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                        isObligatory={true}
+                        isRequired={true}
                         error={descriptionError}
                         handleFocus={handleFocusDescription}
                         disabled={descriptionDisabled}/>
@@ -213,10 +213,10 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                         onChange={setFormState}/>
                     <ButtonRow
                         title="Severidad"
-                        choices={severityChoices}
-                        selectedChoice={severityChoice}
+                        options={severityChoices}
+                        selected={severityChoice}
                         setSelected={setSeverityChoice}
-                        isObligatory={true}
+                        isRequired={true}
                         error={severityError}
                         handleFocus={handleFocusSeverity}
                         disabled={severityDisabled}/>
@@ -226,7 +226,7 @@ export default function TicketForm({ productId, versionId, ticketId = "", title 
                     placeholder='PSA - Soporte'
                     value={formClient}
                     setValue={setFormClient}
-                    isObligatory={true}
+                    isRequired={true}
                     error={clientError}
                     handleFocus={handleFocusClient}
                     items={clients}

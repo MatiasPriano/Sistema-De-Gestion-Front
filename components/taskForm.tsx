@@ -5,7 +5,7 @@ import Input from './input';
 import AutocompleteInput from './autocomplete';
 import TextArea from './textArea';
 import getResources, { Resource } from '@/services/resourceService';
-import ButtonRow, { ButtonChoice } from './buttonRow';
+import ButtonRow, { ButtonOption } from './buttonRow';
 
 interface TaskProps {
     productId: string;
@@ -93,7 +93,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
         }).catch((e) => console.log(e))
     }, [])
 
-    const priorityChoices: ButtonChoice[] = [
+    const priorityChoices: ButtonOption[] = [
         { title: "Baja", colour: "green" }, 
         { title: "Media", colour: "orange" }, 
         { title: "Alta", colour: "red" }, 
@@ -109,13 +109,13 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                         setValue={setFormTitle}
                         error={titleError}
                         handleFocus={handleFocusTitle}
-                        isObligatory={true}/>
+                        isRequired={true}/>
                     <AutocompleteInput  
                         title="Responsable"
                         placeholder='Juan Perez'
                         value={formResponsable}
                         setValue={setFormResponsable}
-                        isObligatory={false}
+                        isRequired={false}
                         items={resources}/>
                     <div className="col-span-full">
                         <TextArea
@@ -123,7 +123,7 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                             value={formDescription}
                             setValue={setFormDescription}
                             placeholder="El usuario describe que no puede descargar ultima factura emitida."
-                            isObligatory={true}
+                            isRequired={true}
                             error={descriptionError}
                             handleFocus={handleFocusDescription} />
                     </div>
@@ -133,14 +133,14 @@ export default function TaskForm({ productId, versionId, ticketId = "", title = 
                         value={formProject}
                         setValue={setFormProject}
                         error={projectError}
-                        isObligatory={true}
+                        isRequired={true}
                         items={mockProjectItems} />
                     <ButtonRow
                         title="Prioridad"
-                        choices={priorityChoices}
-                        selectedChoice={priorityChoice}
+                        options={priorityChoices}
+                        selected={priorityChoice}
                         setSelected={setPriorityChoice}
-                        isObligatory={true}
+                        isRequired={true}
                         error={priorityError}
                         handleFocus={handleFocusPriority} />
             </main>

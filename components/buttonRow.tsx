@@ -1,5 +1,5 @@
 
-export interface ButtonChoice {
+export interface ButtonOption {
     title: string;
     colour: Colour;
 }
@@ -14,47 +14,46 @@ const coloursMap = {
   };
   
 
-export default function ButtonRow({ title, choices, selectedChoice, setSelected, isObligatory = false, error, handleFocus, disabled = false }: 
+export default function ButtonRow({ title, options, selected, setSelected, isRequired = false, error, handleFocus, disabled = false }: 
     {   title: string,
-        choices: ButtonChoice[],
-        selectedChoice: string | null,
-        setSelected: (newSelectedChoice: string | null) => void,
-        isObligatory?: boolean,
+        options: ButtonOption[],
+        selected: string | null,
+        setSelected: (selected: string | null) => void,
+        isRequired?: boolean,
         error: boolean,
         handleFocus: () => void,
         disabled?: boolean
     }) {   
-    const handleChoiceChange = (choice: string) => {
-        setSelected(choice)
+    const handleOptionChange = (option: string) => {
+        setSelected(option)
     }
-    console.log(selectedChoice)
     return (
         <div className="flex flex-col items-center space-y-2">
             <label htmlFor="input" className="text-sm font-medium text-gray-900">
-                {title} {(!isObligatory && " (opcional)")}
+                {title} {(!isRequired && " (opcional)")}
             </label>
             <div className="w-full">
                 <div className="flex overflow-hidden rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
-                    {choices.map((choice, index) => (
+                    {options.map((option, index) => (
                         <div className="w-full" key={index}>
                             <button type="button"
                                     key={index}
                                     disabled={disabled}
-                                    className={getChoiceButtonClassName(choice.colour, choice.title === selectedChoice, disabled)}
+                                    className={getOptionButtonClassName(option.colour, option.title === selected, disabled)}
                                     onFocus={handleFocus}
-                                    onClick={() => handleChoiceChange(choice.title)}>
-                                {choice.title}
+                                    onClick={() => handleOptionChange(option.title)}>
+                                {option.title}
                             </button>
                         </div>
                     ))}
                 </div>
-                <small className={getSubtextClassName(isObligatory, error)}>Este campo es obligatorio.</small>
+                <small className={getSubtextClassName(isRequired, error)}>Este campo es obligatorio.</small>
             </div>
         </div>
     )
 }
 
-function getChoiceButtonClassName (colour: Colour, isSelected: boolean, isDisabled: boolean) {
+function getOptionButtonClassName (colour: Colour, isSelected: boolean, isDisabled: boolean) {
     let className = `w-full h-10 text-gray-600`
     if (isDisabled) {
         className += " bg-transparent"

@@ -1,9 +1,9 @@
 interface TextAreaProps {
     title: string;
     value: string;
-    setValue: (value: string) => void
+    setValue: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
     placeholder?: string;
-    isObligatory?: boolean;
+    isRequired?: boolean;
     error?: boolean;
     handleFocus?: () => void;
     disabled?: boolean;
@@ -36,7 +36,7 @@ function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
     return className
 }
 
-export default function TextArea({ title, value, setValue, placeholder = "", isObligatory = false, error = false, handleFocus, disabled = false }: TextAreaProps) {
+export default function TextArea({ title, value, setValue, placeholder = "", isRequired: isObligatory = false, error = false, handleFocus, disabled = false }: TextAreaProps) {
     return (
         <div className="space-y-2">
             <label htmlFor="textArea" className="text-sm font-medium text-gray-900">
@@ -45,7 +45,7 @@ export default function TextArea({ title, value, setValue, placeholder = "", isO
             <div>
                 <textarea
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={setValue}
                 id="textArea"
                 name="textArea"
                 rows={3}

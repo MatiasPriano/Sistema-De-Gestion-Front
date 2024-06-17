@@ -16,8 +16,9 @@ interface AutocompleteInputProps {
     value: string;
     setValue: (value: string) => void;
     error?: boolean;
+    errorText?: string;
     handleFocus?: () => void;
-    isObligatory: boolean;
+    isRequired: boolean;
     items: string[];
     disabled?: boolean;
 }
@@ -28,7 +29,8 @@ export default function AutocompleteInput({
     value,
     setValue,
     error = false,
-    isObligatory = false, 
+    errorText = "",
+    isRequired = false, 
     items,
     disabled = false
 }: AutocompleteInputProps) {
@@ -38,14 +40,18 @@ export default function AutocompleteInput({
     const handleOnSelect = (value: string) => {
         setValue(value)
     }
+    const newItems:{ id: number, name: string }[] = []
+    for (let i = 0; i < items.length; i++) {
+        newItems.push({id: i, name: items[i]})
+    }
     return (
         <div className="space-y-2">
             <label htmlFor="input" className="block text-sm font-medium text-gray-900">
-                {title} {!isObligatory && "(opcional)"}
+                {title} {!isRequired && "(opcional)"}
             </label>
             <div>
                 {disabled && <div className="my-4 font-medium text-md">{value}</div>}
-                {!disabled && <ReactSearchAutocomplete  items={items}
+                {!disabled && <ReactSearchAutocomplete  items={newItems}
                                                         placeholder={placeholder}
                                                         onSearch={handleOnSearch}
                                                         onSelect={handleOnSelect}
@@ -65,7 +71,7 @@ export default function AutocompleteInput({
                                                             clearIconMargin: '3px 14px 0 0',
                                                             searchIconMargin: '0 0 0 16px'
                                                         }}/>}
-                <small className={getSubtextClassName(isObligatory, error)}>Este campo es obligatorio.</small>
+                <small className={getSubtextClassName(isRequired, error)}>{errorText}</small>
             </div>
         </div>
     );

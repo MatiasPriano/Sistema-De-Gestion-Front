@@ -29,14 +29,14 @@ interface InputProps {
     title: string;
     placeholder: string;
     value: string;
-    setValue: (value: string) => void;
+    setValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
     error?: boolean;
     handleFocus?: () => void;
-    isObligatory: boolean;
+    isRequired: boolean;
     disabled?: boolean;
 }
 
-export default function Input({ title, placeholder, value, setValue, error = false, handleFocus, isObligatory = false, disabled = false}: InputProps) {
+export default function Input({ title, placeholder, value, setValue, error = false, handleFocus, isRequired: isObligatory = false, disabled = false}: InputProps) {
     return (
         <div className="space-y-2">
             <label htmlFor="input" className="block text-sm font-medium text-gray-900">
@@ -46,7 +46,7 @@ export default function Input({ title, placeholder, value, setValue, error = fal
                 <input
                 type="text"
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={setValue}
                 name="input"
                 id="input"
                 onFocus={handleFocus}
