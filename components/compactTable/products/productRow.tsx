@@ -1,17 +1,26 @@
 import SimpleCell from "../cells/simpleCell";
 import Product from "@/types/product";
 import ActionsCell, { Action } from "../cells/actionsCell";
+import { useRouter } from "next/router";
 
 export default function ProductRow({ product }: { product: Product }) {
+    const router = useRouter()
+    const handleViewProductClick = () => {
+        router.push(`/products/${product.name}/${product.version}`)
+    }
+    const handleCreateTicketClick = () => {
+        router.push(`/products/${product.name}/${product.version}/new`)
+    }
+    
     const actions: Action[] = [
         {
             icon: "view",
-            link: `/products/${product.name}/${product.version}`,
+            onClick: handleViewProductClick,
             title: "Ver producto"
         },
         {
             icon: "create",
-            link: `/products/${product.name}/${product.version}/new`,
+            onClick: handleCreateTicketClick,
             title: "Crear un ticket"
         }
     ]

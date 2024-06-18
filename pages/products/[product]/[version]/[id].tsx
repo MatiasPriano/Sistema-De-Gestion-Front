@@ -20,7 +20,8 @@ export default function ViewTicket() {
         description: "Rediseñar el sitio web de la empresa para mejorar la experiencia del usuario y modernizar el diseño.",
         status: "En progreso",
         severity: "S3",
-        client: "Empresa ABC"
+        client: "Empresa ABC",
+        createdDateTime: ''
     };
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
