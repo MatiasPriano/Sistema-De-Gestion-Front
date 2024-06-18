@@ -5,7 +5,7 @@ export default function Layout({ children, pageTitle }: { children: any, pageTit
 
   return (
     <nav>
-      <div className="fixed top-0 left-0 w-full bg-blue-950">
+      <div className="fixed top-0 left-0 w-full bg-blue-950 z-[9999]">
         <div className="relative flex h-14 items-center justify-between">
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">    
               <Link href="/home" className="flex flex-shrink-0 items-center">

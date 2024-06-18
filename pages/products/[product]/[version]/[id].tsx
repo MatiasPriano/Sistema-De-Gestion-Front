@@ -7,6 +7,7 @@ import TextButton from '@/components/button/textButton';
 import ConfirmationDialog from '@/components/confirmationDialog';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function ViewTicket() {
     const router = useRouter();
@@ -46,6 +47,11 @@ export default function ViewTicket() {
 
     return (
         <div className="space-y-4">
+            <Breadcrumb steps={[
+                { name: "Productos", link: `/products/`},
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/`},
+                { name: `#${id}`, link: null }
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId=""
