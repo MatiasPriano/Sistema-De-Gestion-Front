@@ -4,6 +4,7 @@ import TaskForm, { TaskInputs } from '@/components/form/taskForm';
 import Task from '@/types/task';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function NewTask() {
     const router = useRouter();
@@ -53,6 +54,13 @@ export default function NewTask() {
 
     return (
         <div>
+            <Breadcrumb steps={[
+                { name: "Productos", link: `/products/` },
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
+                { name: "Tareas asociadas", link: `/products/${product}/${version}/${id}/tasks/` },
+                { name: "Nueva tarea", link: null }
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}

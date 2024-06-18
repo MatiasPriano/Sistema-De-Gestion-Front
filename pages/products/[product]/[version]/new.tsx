@@ -4,6 +4,7 @@ import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
 import Ticket from '@/types/ticket';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function NewTicket() {
     const router = useRouter();
@@ -50,6 +51,11 @@ export default function NewTicket() {
 
     return (
         <div>
+            <Breadcrumb steps={[
+                { name: "Productos", link: "/products/" },
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: "Nuevo ticket", link: null } 
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId=""

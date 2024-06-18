@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import ProductGridRow from "@/components/productGridRow";
 import productsList from "@/components/productsMock";
+import Breadcrumb from "@/components/breadcrumb";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-2 text-sm text-white bg-blue-950">{title}</th>
@@ -15,6 +16,9 @@ export default function Products() {
     return (
         <>
                 {/* ACA EMPIEZA LA GRILLA */}
+                <Breadcrumb steps={[
+                    { name: "Productos", link: null }
+                ]} />
                 <div className="container max-w-7xl mx-auto mt-8">
                     <div className="mb-4">
                         <h1 className="text-3xl font-bold text-gray-900 decoration-gray-400">Productos</h1>

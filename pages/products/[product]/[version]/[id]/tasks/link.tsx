@@ -6,6 +6,7 @@ import EmptyTableText from '@/components/compactTable/emptyTableText';
 import Task from '@/types/task';
 import { useState } from 'react';
 import TextButton from '@/components/button/textButton';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -20,7 +21,8 @@ export default function LinkTask() {
             project: "Sistema UPP - 2024",
             responsable: "Juan Perez",
             status: "Abierta",
-            priority: "Baja"
+            priority: "Baja",
+            description: ''
         },
         {
             id: 1,
@@ -28,7 +30,8 @@ export default function LinkTask() {
             project: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
             responsable: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
             status: "Cerrada",
-            priority: "Alta"
+            priority: "Alta",
+            description: ''
         }
     ]
 
@@ -43,6 +46,13 @@ export default function LinkTask() {
 
     return (
         <div>
+            <Breadcrumb steps={[
+                { name: "Productos", link: `/products/` },
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
+                { name: "Tareas asociadas", link: `/products/${product}/${version}/${id}/tasks/` },
+                { name: "Asociar tarea", link: null }
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}

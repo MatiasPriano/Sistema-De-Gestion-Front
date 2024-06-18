@@ -4,6 +4,7 @@ import TicketTaskTable from '@/components/compactTable/ticketTasks/ticketTaskTab
 import Task from '@/types/task';
 import EmptyTableText from '@/components/compactTable/emptyTableText';
 import TextButton from '@/components/button/textButton';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -16,7 +17,8 @@ export default function ViewTasks() {
             responsable: "Juan Perez",
             project: "Sistema UPP - 2024",
             status: "Abierta",
-            priority: "Baja"
+            priority: "Baja",
+            description: ''
         },
         {
             id: 1321,
@@ -24,7 +26,8 @@ export default function ViewTasks() {
             responsable: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
             project: "Vestibulum placerat justo at augue congue, nec egestas arcu cursus. Donec placerat auctor risus et viverra. Proin porttitor velit eget fermentum ultrices. Aliquam quis tellus id urna malesuada hendrerit. Vivamus congue arcu in euismod cursus. Sed luctus ac lectus sed posuere. Etiam nec eros vitae lorem ultrices viverra. Morbi id est quis felis congue tempor lobortis ut lorem. Sed sollicitudin felis turpis, et condimentum ex viverra id. Phasellus quis egestas ipsum. Sed semper velit eu neque lacinia euismod.",
             status: "Cerrada",
-            priority: "Alta"
+            priority: "Alta",
+            description: ''
         }
     ]
 
@@ -38,6 +41,12 @@ export default function ViewTasks() {
 
     return (
         <div>
+            <Breadcrumb steps={[
+                { name: "Productos", link: `/products/` },
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
+                { name: "Tareas asociadas", link: null }
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}

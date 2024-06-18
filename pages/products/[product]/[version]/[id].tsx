@@ -46,47 +46,49 @@ export default function ViewTicket() {
     }
 
     return (
-        <div className="space-y-4">
+        <div>
             <Breadcrumb steps={[
                 { name: "Productos", link: `/products/`},
                 { name: `${product} - ${version}`, link: `/products/${product}/${version}/`},
                 { name: `#${id}`, link: null }
             ]} />
-            <VersionHeader  productId={product as string}
-                            versionId={version as string}
-                            ticketId=""
-                            title=""
-            >
-            </VersionHeader>
-            <TicketDetails ticket={ticketExample} />
-            <div className='flex'>
-                <div className="flex items-center justify-start gap-x-6 px-4">
-                    <TextButton
-                        name="Volver"
-                        style="subtle"
-                        onClick={handleBackButton} />
-                </div>
-                <div className="flex items-center justify-end gap-x-6 px-4 w-full">
-                    <IconButton
-                        icon="trash"
-                        title="Eliminar ticket"
-                        style="red"
-                        onClick={handleDeleteTicketButton}/>
-                    <TextButton
-                        name="Tareas"
-                        style="secondary"
-                        onClick={handleTasksButton} />
-                    <TextButton
-                        name="Editar"
-                        style="primary"
-                        onClick={handleEditButton} />
+            <div className="space-y-4">
+                <VersionHeader  productId={product as string}
+                                versionId={version as string}
+                                ticketId=""
+                                title=""
+                >
+                </VersionHeader>
+                <TicketDetails ticket={ticketExample} />
+                <div className='flex'>
+                    <div className="flex items-center justify-start gap-x-6 px-4">
+                        <TextButton
+                            name="Volver"
+                            style="subtle"
+                            onClick={handleBackButton} />
                     </div>
-                    <ConfirmationDialog
-                    isOpen={isDeleteDialogOpen}
-                    title="Eliminar ticket"
-                    message="¿Está seguro/a de que desea eliminar este ticket?"
-                    onConfirm={handleDialogDelete}
-                    onCancel={handleDialogCancel} />
+                    <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+                        <IconButton
+                            icon="trash"
+                            title="Eliminar ticket"
+                            style="red"
+                            onClick={handleDeleteTicketButton}/>
+                        <TextButton
+                            name="Tareas"
+                            style="secondary"
+                            onClick={handleTasksButton} />
+                        <TextButton
+                            name="Editar"
+                            style="primary"
+                            onClick={handleEditButton} />
+                        </div>
+                        <ConfirmationDialog
+                        isOpen={isDeleteDialogOpen}
+                        title="Eliminar ticket"
+                        message="¿Está seguro/a de que desea eliminar este ticket?"
+                        onConfirm={handleDialogDelete}
+                        onCancel={handleDialogCancel} />
+                </div>
             </div>
         </div>
     )

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import TicketGridRow from "@/components/ticketGridRow";
 import VersionHeader from "@/components/versionHeader";
 import ticketsList from "@/components/ticketsMock";
+import Breadcrumb from "@/components/breadcrumb";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-2 text-sm text-white bg-blue-950">{title}</th>
@@ -25,6 +26,10 @@ export default function Tickets() {
         <>
             {/* ACA EMPIEZA LA GRILLA */}
             <div>
+                <Breadcrumb steps={[
+                    { name: "Productos", link: "/products/" },
+                    { name: `${product} - ${version}`, link: null } 
+                ]} />
                 <VersionHeader  productId={product as string}
                                 versionId={version as string}
                                 ticketId=""

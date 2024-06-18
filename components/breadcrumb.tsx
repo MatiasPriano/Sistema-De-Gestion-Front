@@ -23,7 +23,7 @@ function BreadcrumbLink({ step } : { step: BreadcrumbStep }) {
     return (
         <div>
             {(step.link !== null) && (
-                <Link href={step.link} className="truncate">
+                <Link href={step.link} className="truncate hover:underline" title={step.name}>
                     {step.name}
                 </Link>)
             }
@@ -50,7 +50,7 @@ export default function Breadcrumb({ steps }: { steps: BreadcrumbStep[] }) {
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 pb-4">
             <BreadcrumbHome />
             <BreadcrumbArrow />
             <div className="hidden sm:flex items-center space-x-2">

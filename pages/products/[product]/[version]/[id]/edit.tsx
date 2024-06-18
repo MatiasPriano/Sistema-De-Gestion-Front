@@ -4,6 +4,7 @@ import VersionHeader from '@/components/versionHeader';
 import Ticket from '@/types/ticket';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Breadcrumb from '@/components/breadcrumb';
 
 export default function ViewTicket() {
     const router = useRouter();
@@ -49,6 +50,12 @@ export default function ViewTicket() {
 
     return (
         <div>
+            <Breadcrumb steps={[
+                { name: "Productos", link: `/products/` },
+                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
+                { name: "Editar ticket", link: null }
+            ]} />
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}
