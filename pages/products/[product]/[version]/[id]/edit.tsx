@@ -1,18 +1,50 @@
 import { useRouter } from 'next/router';
-import TicketForm, { TicketMode } from '@/components/ticketForm';
+import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
 import VersionHeader from '@/components/versionHeader';
+import Ticket from '@/types/ticket';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 export default function ViewTicket() {
     const router = useRouter();
     const { product, version, id } = router.query;
 
-    const ticketExample = {
+    const ticketExample: Ticket = {
+        id: 0,
         title: "TKT-123",
         responsable: "Juanito",
         description: "Al agregar un ticket con severidad 4, se guarda como severidad 3",
-        state: "En proceso",
+        status: "En progreso",
         severity: "S4",
         client: "3 Amigos Tecnologies"
+    }
+    const [ticket, setTicket] = useState(ticketExample)
+
+    const disabledInputs: TicketInputs = {
+        title: true,
+        description: false,
+        responsable: false,
+        status: false,
+        severity: false,
+        client: true,
+    }
+    const requiredInputs: TicketInputs = {
+        title: true,
+        description: true,
+        responsable: false,
+        status: true,
+        severity: true,
+        client: true,
+    }
+
+    const onCancel = () => {
+        router.push(`/products/${product}/${version}/${id}`)
+    }
+
+    const onSubmit = () => {
+        // TODO: API call a backend para editar ticket
+        toast.success("Cambios guardados")
+        router.push(`/products/${product}/${version}/${id}`)
     }
 
     return (
@@ -22,18 +54,16 @@ export default function ViewTicket() {
                             ticketId={id as string}
                             title="Editar un ticket"
             />
-            <TicketForm productId={product as string}
-                    versionId={version as string}
-                    ticketId={id as string}
-                    titleDisabled={true} title={ticketExample.title}
-                    responsable={ticketExample.responsable}
-                    description={ticketExample.description}
-                    state={ticketExample.state}
-                    severity={ticketExample.severity}
-                    clientDisabled={true} client={ticketExample.client}
-                    includeButtons={true}
-                    mode={TicketMode.Edit}
-            />
+            <TicketForm
+                ticket={ticket}
+                setTicket={setTicket}
+                disabledInputs={disabledInputs}
+                requiredInputs={requiredInputs}
+                submitButtonName={'Guardar cambios'}
+                onSubmit={onSubmit}
+                onCancel={onCancel}
+                resources={[]}
+                clients={["3 Amigos Tecnologies"]} />
         </div>
     )
 }
