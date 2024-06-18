@@ -56,8 +56,7 @@ export default function ViewTicket() {
                 <VersionHeader  productId={product as string}
                                 versionId={version as string}
                                 ticketId=""
-                                title=""
-                >
+                                title="" >
                 </VersionHeader>
                 <TicketDetails ticket={ticketExample} />
                 <div className='flex'>
