@@ -173,7 +173,7 @@ export default function TaskForm(
                 <div className='flex col-span-full pt-2'>
                     <div className="flex items-center justify-end gap-x-6 px-4 w-full">
                         <TextButton
-                            name="Cancel"
+                            name="Cancelar"
                             style="subtle"
                             onClick={onCancel} />
                         <TextButton
