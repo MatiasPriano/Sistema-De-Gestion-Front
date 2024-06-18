@@ -39,9 +39,9 @@ interface InputProps {
 export default function Input({ title, placeholder, value, setValue, error = false, handleFocus, isRequired: isObligatory = false, disabled = false}: InputProps) {
     return (
         <div className="space-y-2">
-            <label htmlFor="input" className="block text-sm font-medium text-gray-900">
+            {title && <label htmlFor="input" className="block text-sm font-medium text-gray-900">
                 {title} {(!isObligatory && " (opcional)")}
-            </label>
+            </label>}
             <div>
                 <input
                 type="text"
