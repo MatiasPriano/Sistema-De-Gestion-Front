@@ -71,7 +71,7 @@ export default function TicketForm(
                 client: false,
             }
         )
-        
+
         const setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
             setTicket({ ...ticket, title: event.target.value })
         }
