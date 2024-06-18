@@ -1,7 +1,7 @@
 export default function CompactTable({ headerTitles, rows }: { headerTitles: string[], rows: any[] }) {
     return (
         <div className='rounded-xl border border-blue-950 overflow-x-auto'>
-            <table className="table-fixed">
+            <table className="min-w-full table-fixed">
                 <thead>
                     <tr>
                         {headerTitles.map((headerTitle, index) =>
