@@ -140,7 +140,7 @@ export default function TicketForm(
 
         return (
             <form onSubmit={handleSubmit} className="space-y-4">
-                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 bg-gray-200 px-4 py-8 rounded-xl">
+                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-white border-blue-950 px-4 py-8 rounded-xl">
                     <Input  
                         title="Título"
                         placeholder="TKT-001"
