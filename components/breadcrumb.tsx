@@ -62,8 +62,11 @@ export default function Breadcrumb({ steps }: { steps: BreadcrumbStep[] }) {
                 ))}
             </div>
             <div className="flex sm:hidden items-center space-x-2 relative">
-                <div onClick={toggleFullBreadcrumb} className="cursor-pointer bg-gray-200 rounded-xl px-1">...</div>
-                <BreadcrumbArrow />
+                {steps.length > 1 && 
+                <div className="flex items-center space-x-2">
+                    <div onClick={toggleFullBreadcrumb} className="cursor-pointer bg-gray-200 rounded-xl px-1">...</div>
+                    <BreadcrumbArrow />
+                </div>}
                 <BreadcrumbLink step={steps[steps.length - 1]} />
                 {showFullBreadcrumb && (
                     <div className="absolute top-6 left-0 bg-white border rounded-md shadow-lg z-10">
