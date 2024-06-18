@@ -4,9 +4,11 @@ import VersionHeader from '@/components/versionHeader';
 import LinkTaskTable from '@/components/compactTable/linkTasks/linkTaskTable';
 import EmptyTableText from '@/components/compactTable/emptyTableText';
 import Task from '@/types/task';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import TextButton from '@/components/button/textButton';
 import Breadcrumb from '@/components/breadcrumb';
+import IconButton from '@/components/button/iconButton';
+import Input from '@/components/input';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -44,6 +46,13 @@ export default function LinkTask() {
         router.push(`/products/${product}/${version}/${id}/tasks/`)
     }
 
+    const onSearch = () => {}
+
+    const [searchText, setSearchText] = useState("")
+    const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchText(event.target.value)
+    }
+
     return (
         <div>
             <Breadcrumb steps={[
@@ -56,24 +65,26 @@ export default function LinkTask() {
             <VersionHeader  productId={product as string}
                             versionId={version as string}
                             ticketId={id as string}
-                            title="Tareas asociadas al ticket"
+                            title="Asociar tareas al ticket"
             />
-            <div className="relative flex pt-2 pb-6">
-                <button
-                    className="px-6 text-xs font-medium uppercase text-gray-900"
-                    data-twe-ripple-init
-                    data-twe-ripple-color="white"
-                    type="button"
-                    id="button-addon3">
-                    Buscar
-                </button>
-                <input
-                    type="search"
-                    className="flex-auto rounded-s border border-solid border-neutral-200 bg-transparent px-3 py-[0.25rem] placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none"
-                    placeholder="Buscar"
-                />
+            <div className="flex pb-4 space-x-4 items-center">
+                <IconButton
+                    icon="search"
+                    title="Buscar"
+                    style="primary"
+                    onClick={onSearch}
+                     />
+                <div className="w-full">
+                    <Input
+                        title=""
+                        placeholder="Buscar"
+                        value={searchText}
+                        setValue={handleSearch}
+                        isRequired={false} />
+                </div>
+                
                 <TextButton
-                    name="Asociar tarea(s)"
+                    name="Asociar"
                     style="secondary"
                     onClick={handleLinkTaskClick}
                     disabled={selectedTasks.length === 0} />

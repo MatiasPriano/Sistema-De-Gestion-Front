@@ -20,7 +20,8 @@ export default function ViewTicket() {
         description: "Rediseñar el sitio web de la empresa para mejorar la experiencia del usuario y modernizar el diseño.",
         status: "En progreso",
         severity: "S3",
-        client: "Empresa ABC"
+        client: "Empresa ABC",
+        createdDateTime: ''
     };
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -56,8 +57,7 @@ export default function ViewTicket() {
                 <VersionHeader  productId={product as string}
                                 versionId={version as string}
                                 ticketId=""
-                                title=""
-                >
+                                title="" >
                 </VersionHeader>
                 <TicketDetails ticket={ticketExample} />
                 <div className='flex'>

@@ -9,7 +9,7 @@ export default function DetailCard({ mainContent, title, wide = false, bottomCol
     const width = wide ? "w-48" : "w-32";
 
     return (
-        <div className={`overflow-hidden relative flex flex-col items-center justify-center rounded-xl ${width} h-32 border border-gray-200 transition duration-300 ease-in-out hover:border-t hover:border-r hover:border-l hover:border-blue-950`}>
+        <div className={`overflow-hidden relative flex flex-col items-center rounded-lg shadow h-32 ${width} border border-gray-200 transition duration-300 ease-in-out hover:border-blue-950`}>
             <div className=" block flex flex-col items-center justify-center flex-grow pb-4">
                 {mainContent}
             </div>

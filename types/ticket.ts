@@ -6,6 +6,7 @@ export default interface Ticket {
     status: Status
     severity: Severity
     client: string
+    createdDateTime: string
 }
 
 export type Status =
