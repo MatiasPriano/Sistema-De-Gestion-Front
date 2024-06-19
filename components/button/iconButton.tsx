@@ -10,15 +10,15 @@ interface IconButtonProps {
 }
 
 export default function IconButton ({ icon, title, type = "button", style = "primary", onClick, disabled = false }: IconButtonProps) {
-    let className: string = "rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out"
+    let className: string = "rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out"
     if (style === "primary") {
-        className += " bg-blue-950 disabled:bg-gray-300 text-white disabled:text-gray-900 hover:bg-blue-800"
+        className += " bg-primary disabled:bg-backgroundAccent text-darkTitle disabled:text-title hover:bg-primaryHover"
     } else if (style === "secondary") {
-        className += " bg-amber-500 disabled:bg-gray-300 text-gray-900 hover:bg-amber-200"
+        className += " bg-secondary disabled:bg-backgroundAccent text-title hover:bg-secondaryHover"
     } else if (style === "subtle") {
-        className += " bg-white text-gray-900 disabled:text-gray-500 hover:text-gray-600"
+        className += " bg-background text-title disabled:text-backgroundAccent hover:text-subtitle"
     } else {
-        className += " bg-red-500 disabled:bg-gray-300 text-white disabled:text-gray-900 hover:bg-red-800"
+        className += " bg-red disabled:bg-backgroundAccent text-darkTitle disabled:text-title hover:bg-redHover"
     }
     
     return (

@@ -1,7 +1,7 @@
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
-    let className = "text-red-500 absolute transition-opacity duration-300";
+    let className = "text-red absolute transition-opacity duration-300";
     if (isEmpty && isObligatory) {
         className += ' opacity-100'
     } else {
@@ -46,11 +46,11 @@ export default function AutocompleteInput({
     }
     return (
         <div className="space-y-2">
-            <label htmlFor="input" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="input" className="block text-sm font-medium text-title">
                 {title} {!isRequired && "(opcional)"}
             </label>
             <div>
-                {disabled && <div className="my-4 font-medium text-md">{value}</div>}
+                {disabled && <div className="my-4 font-medium text-bold text-title">{value}</div>}
                 {!disabled && <ReactSearchAutocomplete  items={newItems}
                                                         placeholder={placeholder}
                                                         onSearch={handleOnSearch}
@@ -61,7 +61,7 @@ export default function AutocompleteInput({
                                                             borderRadius: "24px",
                                                             backgroundColor: "white",
                                                             boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 4px 0px",
-                                                            hoverBackgroundColor: "#eee",
+                                                            hoverBackgroundColor: "#ffffff",
                                                             color: "#212121",
                                                             fontSize: "16px",
                                                             fontFamily: "Arial",

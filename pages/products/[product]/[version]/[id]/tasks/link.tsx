@@ -8,7 +8,7 @@ import { ChangeEvent, useState } from 'react';
 import TextButton from '@/components/button/textButton';
 import Breadcrumb from '@/components/breadcrumb';
 import IconButton from '@/components/button/iconButton';
-import Input from '@/components/input';
+import Input from '@/components/input/input';
 
 export default function LinkTask() {
     const router = useRouter();

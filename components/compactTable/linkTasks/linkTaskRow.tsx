@@ -18,9 +18,9 @@ export default function LinkTaskRow({ task, selected, setSelected }: LinkTaskRow
     return (
         <tr key={task.id} className={getCheckBoxClass(selected)} >
             <td className="w-10 overflow-hidden">
-                <div className="text-gray-900 rounded-md mx-2 flex items-center">
+                <div className="text-title rounded-md mx-2 flex items-center">
                     <input  type="checkbox"
-                            className="form-checkbox h-4 w-4 text-blue-950"
+                            className="form-checkbox h-4 w-4 text-primary"
                             onChange={toggleCheckbox}
                             checked={selected} />
                 </div>
@@ -48,10 +48,10 @@ export default function LinkTaskRow({ task, selected, setSelected }: LinkTaskRow
 }
 
 function getCheckBoxClass(isChecked: boolean) {
-    let className = 'transition-all duration-200 text-gray-900'
+    let className = 'transition-all duration-200 text-title'
 
     if (isChecked) {
-        className += ' bg-blue-100'
+        className += ' bg-selected'
     }
     return className
 }

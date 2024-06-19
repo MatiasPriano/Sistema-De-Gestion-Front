@@ -1,22 +1,22 @@
 function getInputClassName(isDisabled: boolean, isObligatory: boolean, isEmpty: boolean) {
-    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-2 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-2 ring-1 ring-inset placeholder:text-placeholder focus:ring-2 focus:ring-inset hover:shadow-lg focus:shadow-lg sm:text-sm'
     if (isDisabled) {
-        className += ' text-gray-600'
+        className += ' text-subtitle'
     } else {
-        className += ' text-gray-900'
+        className += ' text-title'
     }
 
     if (isEmpty && isObligatory) {
-        className += ' ring-red-500'
+        className += ' ring-red'
     } else {
-        className += ' ring-gray-300'
+        className += ' ring-border'
     }
     
     return className
 }
 
 function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
-    let className = "text-red-500 absolute transition-opacity duration-300";
+    let className = "text-red absolute transition-opacity duration-300";
     if (isEmpty && isObligatory) {
         className += ' opacity-100'
     } else {
@@ -39,7 +39,7 @@ interface InputProps {
 export default function Input({ title, placeholder, value, setValue, error = false, handleFocus, isRequired: isObligatory = false, disabled = false}: InputProps) {
     return (
         <div className="space-y-2">
-            {title && <label htmlFor="input" className="block text-sm font-medium text-gray-900">
+            {title && <label htmlFor="input" className="block text-sm font-medium text-title">
                 {title} {(!isObligatory && " (opcional)")}
             </label>}
             <div>

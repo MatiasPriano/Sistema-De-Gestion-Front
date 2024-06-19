@@ -27,9 +27,9 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       contentLabel="Confirmation Dialog"
     >
-      <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
-        <h2 className="text-xl text-gray-900 font-semibold mb-4">{title}</h2>
-        <p className="text-gray-700 mb-6">{message}</p>
+      <div className="bg-background p-6 rounded-lg shadow-md max-w-md w-full">
+        <h2 className="text-xl text-title font-semibold mb-4">{title}</h2>
+        <p className="text-subtitle mb-6">{message}</p>
         <div className="flex justify-end space-x-4">
           <TextButton
             name="Confirmar"

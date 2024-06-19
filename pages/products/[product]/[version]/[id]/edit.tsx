@@ -17,7 +17,8 @@ export default function ViewTicket() {
         description: "Al agregar un ticket con severidad 4, se guarda como severidad 3",
         status: "En progreso",
         severity: "S4",
-        client: "3 Amigos Tecnologies"
+        client: "3 Amigos Tecnologies",
+        createdDateTime: ""
     }
     const [ticket, setTicket] = useState(ticketExample)
 

@@ -1,10 +1,10 @@
 import Ticket, { Severity, Status } from "@/types/ticket"
-import Input from "../input"
+import Input from "../input/input"
 import { useState } from "react"
-import AutocompleteInput from "../autocomplete"
-import TextArea from "../textArea"
-import ComboBox from "../comboBox"
-import ButtonRow, { ButtonOption } from "../buttonRow"
+import AutocompleteInput from "../input/autocomplete"
+import TextArea from "../input/textArea"
+import ComboBox from "../input/comboBox"
+import ButtonRow, { ButtonOption } from "../button/buttonRow"
 import TextButton from "../button/textButton"
 import { toast } from 'react-hot-toast';
 
@@ -140,7 +140,7 @@ export default function TicketForm(
 
         return (
             <form onSubmit={handleSubmit} className="space-y-4">
-                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-white border-blue-950 px-4 py-8 rounded-xl">
+                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-background border-backgroundAccent shadow px-4 py-8 rounded-xl">
                     <Input  
                         title="Título"
                         placeholder="TKT-001"

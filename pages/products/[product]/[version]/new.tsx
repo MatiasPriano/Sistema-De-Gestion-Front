@@ -18,7 +18,8 @@ export default function NewTicket() {
             responsable: "",
             status: "Nuevo",
             severity: "S1",
-            client: ""
+            client: "",
+            createdDateTime: ""
         }
     )
 
@@ -26,7 +27,7 @@ export default function NewTicket() {
         title: false,
         description: false,
         responsable: false,
-        status: false,
+        status: true,
         severity: false,
         client: false,
     }

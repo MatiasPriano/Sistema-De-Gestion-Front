@@ -4,10 +4,10 @@ import DetailCard from "./card/detailCard";
 type Colour = "red" | "orange" | "yellow" | "green";
 
 const bgColoursMap: Record<Colour, string> = {
-    red: "bg-red-500",
-    orange: "bg-orange-500",
-    yellow: "bg-yellow-500",
-    green: "bg-green-500",
+    red: "bg-red",
+    orange: "bg-orange",
+    yellow: "bg-yellow",
+    green: "bg-green",
 };
 
 const severityColours: Record<"S1" | "S2" | "S3" | "S4", Colour> = {
@@ -19,10 +19,14 @@ const severityColours: Record<"S1" | "S2" | "S3" | "S4", Colour> = {
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     return (
-        <div className="px-4 py-8 space-y-4 sm:space-y-8 rounded-xl border border-blue-950 bg-white overflow-hidden">
+        <div className="px-4 py-8 space-y-4 sm:space-y-8 rounded-xl border border-primary bg-background overflow-hidden">
             <div className="flex items-center">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 font-sans">{ticket.title}</h1>
-                <h2 className="text-black mx-4 text-2xl text-gray-600">{"#" + ticket.id}</h2>
+                <h1
+                    className="text-2xl sm:text-3xl font-bold text-title font-sans"
+                    title={ticket.title}>
+                        {ticket.title}
+                </h1>
+                <h2 className="text-black mx-4 text-2xl text-subtitle">{"#" + ticket.id}</h2>
             </div>
             <hr />
             <div className="flex flex-wrap justify-center gap-2">

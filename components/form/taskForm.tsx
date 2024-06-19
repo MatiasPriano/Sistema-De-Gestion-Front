@@ -1,9 +1,9 @@
 import Task from "@/types/task";
-import Input from "../input";
-import AutocompleteInput from "../autocomplete";
-import TextArea from "../textArea";
+import Input from "../input/input";
+import AutocompleteInput from "../input/autocomplete";
+import TextArea from "../input/textArea";
 import { ChangeEvent, useState } from "react";
-import ButtonRow, { ButtonOption } from "../buttonRow";
+import ButtonRow, { ButtonOption } from "../button/buttonRow";
 import TextButton from "../button/textButton";
 import { toast } from "react-hot-toast";
 
@@ -119,7 +119,7 @@ export default function TaskForm(
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-white border-blue-950 px-4 py-8 rounded-xl">
+            <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-darkTitle border-primary px-4 py-8 rounded-xl">
                 <Input  
                     title="Título"
                     placeholder="Agregar breadcrumb"

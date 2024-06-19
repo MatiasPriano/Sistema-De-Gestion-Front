@@ -7,10 +7,10 @@ export interface ButtonOption {
 type Colour = "red" | "orange" | "yellow" | "green"
 
 const coloursMap = {
-    red: "bg-red-100",
-    orange: "bg-orange-100",
-    yellow: "bg-yellow-100",
-    green: "bg-green-100"
+    red: "bg-redSubtle",
+    orange: "bg-orangeSubtle",
+    yellow: "bg-yellowSubtle",
+    green: "bg-greenSubtle"
   };
   
 
@@ -29,11 +29,11 @@ export default function ButtonRow({ title, options, selected, setSelected, isReq
     }
     return (
         <div className="flex flex-col items-center space-y-2">
-            <label htmlFor="input" className="text-sm font-medium text-gray-900">
+            <label htmlFor="input" className="text-sm font-medium text-title">
                 {title} {(!isRequired && " (opcional)")}
             </label>
             <div className="w-full">
-                <div className="flex overflow-hidden rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
+                <div className="flex overflow-hidden rounded-md border-0 shadow-sm ring-1 ring-inset ring-border hover:shadow-lg">
                     {options.map((option, index) => (
                         <div className="w-full" key={index}>
                             <button type="button"
@@ -54,9 +54,9 @@ export default function ButtonRow({ title, options, selected, setSelected, isReq
 }
 
 function getOptionButtonClassName (colour: Colour, isSelected: boolean, isDisabled: boolean) {
-    let className = `w-full h-10 text-gray-600`
+    let className = `w-full h-10 text-subtitle`
     if (isDisabled) {
-        className += " bg-transparent"
+        className += " bg-white"
     } else {
         className += ` ${coloursMap[colour]}`
     }
@@ -69,7 +69,7 @@ function getOptionButtonClassName (colour: Colour, isSelected: boolean, isDisabl
 };
 
 function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
-    let className = "text-red-500 absolute mt-1 transition-opacity duration-300";
+    let className = "text-red absolute mt-1 transition-opacity duration-300";
     if (isEmpty && isObligatory) {
         className += ' opacity-100'
     } else {
