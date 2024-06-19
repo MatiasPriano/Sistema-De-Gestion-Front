@@ -23,6 +23,10 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
     const handleEditButtonClick = () => {
         router.push(`/products/${productId}/${versionId}/${ticket.id}/edit`)
     }
+    const handleViewTasksButtonClick = () => {
+        router.push(`/products/${productId}/${versionId}/${ticket.id}/tasks`)
+    }
+
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
     
     const handleDialogDelete = () => {
@@ -47,6 +51,11 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
             icon: "edit",
             onClick: handleEditButtonClick,
             title: "Editar ticket"
+        },
+        {
+            icon: "list",
+            onClick: handleViewTasksButtonClick,
+            title: "Ver tareas asociadas"
         },
         {
             icon: "trash",
