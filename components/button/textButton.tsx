@@ -15,7 +15,7 @@ export default function TextButton ({ name, type = "button", style = "primary", 
     } else if (style === "subtle") {
         className += " bg-background text-title disabled:text-subtitle hover:text-subtitle"
     } else {
-        className += " bg-red disabled:bg-subtitle text-background disabled:text-title hover:bg-redHover"
+        className += " bg-red disabled:bg-backgroundAccent text-background disabled:text-title hover:bg-redHover"
     }
     
     return (
