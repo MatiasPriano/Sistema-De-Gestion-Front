@@ -5,25 +5,31 @@ import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import Ticket from "@/types/ticket";
 import TicketTable from "@/components/compactTable/tickets/ticketTable";
+import { useEffect, useState } from 'react';
 
 export default function Tickets() {
     const router = useRouter();
-    const { product, version } = router.query;
+    const { product: productId, version: versionId } = router.query;
 
     const handleNewTicketButton = () => {
-        router.push(`/products/${product}/${version}/new`)
+        router.push(`/products/${productId}/${versionId}/new`)
     }
-    const tickets: Ticket[] = ticketsList
+
+    const [tickets, setTickets] = useState<Ticket[]>([])
+    useEffect(() => {
+        // TODO: API call para obtener todos los tickets de la version
+        setTickets(ticketsList)
+    }, [])
 
     return (
         <>
             <Breadcrumb steps={[
                 { name: "Productos", link: "/products/" },
-                { name: `${product} - ${version}`, link: null } 
+                { name: `${productId} - ${versionId}`, link: null } 
             ]} />
             <VersionHeader
-                productId={product as string}
-                versionId={version as string}
+                productId={productId as string}
+                versionId={versionId as string}
                 ticketId=""
                 title="Tickets" />
             {tickets.length > 0 && <div className="my-5 flex items-center justify-end gap-x-6">
@@ -31,8 +37,8 @@ export default function Tickets() {
             </div>}
             <TicketTable
                 tickets={tickets}
-                productId={product as string}
-                versionId={version as string} />
+                productId={productId as string}
+                versionId={versionId as string} />
         </>
     )
 }

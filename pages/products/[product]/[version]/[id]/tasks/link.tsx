@@ -46,11 +46,13 @@ export default function LinkTask() {
         router.push(`/products/${product}/${version}/${id}/tasks/`)
     }
 
-    const onSearch = () => {}
-
     const [searchText, setSearchText] = useState("")
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchText(event.target.value)
+    }
+
+    const onSearchClick = () => {
+        // TODO: API call para obtener las tareas con un nombre que contenga searchText
     }
 
     return (
@@ -72,7 +74,7 @@ export default function LinkTask() {
                     icon="search"
                     title="Buscar"
                     style="primary"
-                    onClick={onSearch}
+                    onClick={onSearchClick}
                      />
                 <div className="w-full">
                     <Input

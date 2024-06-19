@@ -116,11 +116,11 @@ export default function TicketForm(
 
             const finalInvalidInputs: TicketInputs = {
                 title: requiredInputs.title && ticket.title.trim() === "",
-                responsable: requiredInputs.responsable && !resources.includes(ticket.responsable),
+                responsable: !disabledInputs.responsable && requiredInputs.responsable && !resources.includes(ticket.responsable),
                 description: requiredInputs.description && ticket.description.trim() === "",
                 status: requiredInputs.status && !statusOptions.includes(ticket.status),
                 severity: requiredInputs.severity && !["S1", "S2", "S3", "S4"].includes(ticket.severity),
-                client: requiredInputs.client && !clients.includes(ticket.client),
+                client: !disabledInputs.client && requiredInputs.client && !clients.includes(ticket.client),
             }
             console.log(ticket)
             console.log(invalidInputs)

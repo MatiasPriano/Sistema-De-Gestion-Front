@@ -1,27 +1,20 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
-import Ticket from '@/types/ticket';
-import { useState } from 'react';
+import Ticket, { emptyTicket } from '@/types/ticket';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
+import Resource from '@/types/resource';
+import getResources from '@/services/resourceService';
+import { Client } from '@/types/client';
+import getClients from '@/services/clientService';
 
 export default function NewTicket() {
     const router = useRouter();
     const { product, version } = router.query;
 
-    const [ ticket, setTicket ] = useState<Ticket>(
-        {
-            id: 0,
-            title: "",
-            description: "",
-            responsable: "",
-            status: "Nuevo",
-            severity: "S1",
-            client: "",
-            createdDateTime: ""
-        }
-    )
+    const [ ticket, setTicket ] = useState<Ticket>(emptyTicket)
 
     const disabledInputs: TicketInputs = {
         title: false,
@@ -49,6 +42,16 @@ export default function NewTicket() {
         toast.success("Ticket creado")
         router.push(`/products/${product}/${version}/`)
     }
+    
+    const [resources, setResources] = useState<Resource[]>([])
+    useEffect(() => {
+        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+    }, [])
+
+    const [clients, setClients] = useState<Client[]>([])
+    useEffect(() => {
+        getClients().then((clients) => setClients(clients)).catch((e) => console.log(e))
+    })
 
     return (
         <div>
@@ -68,8 +71,8 @@ export default function NewTicket() {
                 disabledInputs={disabledInputs}
                 requiredInputs={requiredInputs}
                 onCancel={onCancel}
-                resources={["Pepito", "Pepita"]}
-                clients={["Volkswagen", "Fiat", "Ford"]}
+                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                clients={clients.map((client) => client['razon social'])}
                 submitButtonName="Crear"
                 onSubmit={onSubmit} />
         </div>

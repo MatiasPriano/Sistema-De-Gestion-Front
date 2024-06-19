@@ -19,3 +19,14 @@ export type Status =
     "Bloqueado"
 
 export type Severity = "S1" | "S2" | "S3" | "S4"
+
+export const emptyTicket: Ticket = {
+    id: 0,
+    title: "",
+    description: "",
+    responsable: "",
+    status: "Nuevo",
+    severity: "S1",
+    client: "",
+    createdDateTime: ""
+}

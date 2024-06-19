@@ -7,11 +7,11 @@ export interface ButtonOption {
 type Colour = "red" | "orange" | "yellow" | "green"
 
 const coloursMap = {
-    red: "bg-redSubtle",
-    orange: "bg-orangeSubtle",
-    yellow: "bg-yellowSubtle",
-    green: "bg-greenSubtle"
-  };
+    red: { selected: "bg-redAlternative", notSelected: "bg-redSubtle"},
+    orange: { selected: "bg-orangeAlternative", notSelected: "bg-orangeSubtle" },
+    yellow: { selected: "bg-yellowAlternative", notSelected: "bg-yellowSubtle" },
+    green: { selected: "bg-greenAlternative", notSelected: "bg-greenSubtle"}
+};
   
 
 export default function ButtonRow({ title, options, selected, setSelected, isRequired = false, error, handleFocus, disabled = false }: 
@@ -57,8 +57,10 @@ function getOptionButtonClassName (colour: Colour, isSelected: boolean, isDisabl
     let className = `w-full h-10 text-subtitle`
     if (isDisabled) {
         className += " bg-white"
+    } else if (isSelected) {
+        className += ` ${coloursMap[colour].selected}`
     } else {
-        className += ` ${coloursMap[colour]}`
+        className += ` ${coloursMap[colour].notSelected}`
     }
     if (isSelected) {
         className += ` font-bold`

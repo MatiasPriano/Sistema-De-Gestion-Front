@@ -2,8 +2,16 @@ import {useEffect, useState} from "react";
 import productsList from "@/components/productsMock";
 import Breadcrumb from "@/components/breadcrumb";
 import ProductTable from "@/components/compactTable/products/productTable";
+import Product from "@/types/product";
 
 export default function Products() {
+    const [products, setProducts] = useState<Product[]>([])
+
+    useEffect(() => {
+        // TODO: API call a backend para obtener productos
+        setProducts(productsList)
+    }, [])
+
     return (
     <>
         <Breadcrumb steps={[

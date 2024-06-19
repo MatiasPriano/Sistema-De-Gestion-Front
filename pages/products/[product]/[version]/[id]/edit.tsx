@@ -1,26 +1,17 @@
 import { useRouter } from 'next/router';
 import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
 import VersionHeader from '@/components/versionHeader';
-import Ticket from '@/types/ticket';
-import { useState } from 'react';
+import Ticket, { emptyTicket } from '@/types/ticket';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
+import ticketsList from '@/components/ticketsMock';
+import getResources from '@/services/resourceService';
+import Resource from '@/types/resource';
 
 export default function ViewTicket() {
     const router = useRouter();
-    const { product, version, id } = router.query;
-
-    const ticketExample: Ticket = {
-        id: 0,
-        title: "TKT-123",
-        responsable: "Juanito",
-        description: "Al agregar un ticket con severidad 4, se guarda como severidad 3",
-        status: "En progreso",
-        severity: "S4",
-        client: "3 Amigos Tecnologies",
-        createdDateTime: ""
-    }
-    const [ticket, setTicket] = useState(ticketExample)
+    const { product: productId, version: versionId, id: ticketId } = router.query;
 
     const disabledInputs: TicketInputs = {
         title: true,
@@ -40,26 +31,37 @@ export default function ViewTicket() {
     }
 
     const onCancel = () => {
-        router.push(`/products/${product}/${version}/${id}`)
+        router.push(`/products/${productId}/${versionId}/${ticketId}`)
     }
 
     const onSubmit = () => {
         // TODO: API call a backend para editar ticket
         toast.success("Cambios guardados")
-        router.push(`/products/${product}/${version}/${id}`)
+        router.push(`/products/${productId}/${versionId}/${ticketId}`)
     }
+
+    const [ticket, setTicket] = useState(emptyTicket)
+    useEffect(() => {
+        // TODO: API call para obtener detalles del ticket
+        setTicket(ticketsList[ticketId as unknown as number - 1])
+    }, [])
+
+    const [resources, setResources] = useState<Resource[]>([])
+    useEffect(() => {
+        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+    }, [])
 
     return (
         <div>
             <Breadcrumb steps={[
                 { name: "Productos", link: `/products/` },
-                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
-                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
+                { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
+                { name: `#${ticketId}`, link: `/products/${productId}/${versionId}/${ticketId}` },
                 { name: "Editar ticket", link: null }
             ]} />
-            <VersionHeader  productId={product as string}
-                            versionId={version as string}
-                            ticketId={id as string}
+            <VersionHeader  productId={productId as string}
+                            versionId={versionId as string}
+                            ticketId={ticketId as string}
                             title="Editar un ticket"
             />
             <TicketForm
@@ -70,8 +72,8 @@ export default function ViewTicket() {
                 submitButtonName={'Guardar cambios'}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                resources={[]}
-                clients={["3 Amigos Tecnologies"]} />
+                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                clients={[]} />
         </div>
     )
 }

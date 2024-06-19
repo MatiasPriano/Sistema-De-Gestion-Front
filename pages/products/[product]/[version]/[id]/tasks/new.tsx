@@ -2,9 +2,11 @@ import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TaskForm, { TaskInputs } from '@/components/form/taskForm';
 import Task from '@/types/task';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
+import Resource from '@/types/resource';
+import getResources from '@/services/resourceService';
 
 export default function NewTask() {
     const router = useRouter();
@@ -39,8 +41,6 @@ export default function NewTask() {
         status: true,
         priority: true
     }
-    const resources: string[] = []
-    const projects: string[] = []
 
     const onCancel = () => {
         router.push(`/products/${product}/${version}/${id}/tasks/`)
@@ -51,6 +51,17 @@ export default function NewTask() {
         toast.success("Tarea creada")
         router.push(`/products/${product}/${version}/${id}/tasks/`)
     }
+    
+    const [resources, setResources] = useState<Resource[]>([])
+    useEffect(() => {
+        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+    }, [])
+
+    const [projects, setProjects] = useState<string[]>([])
+    useEffect(() => {
+        //TODO: API call para obtener los proyectos del back de proyectos
+        setProjects([])
+    })
 
     return (
         <div>
@@ -74,7 +85,7 @@ export default function NewTask() {
                 submitButtonName="Crear"
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                resources={resources}
+                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
                 projects={projects} />
         </div>
     )

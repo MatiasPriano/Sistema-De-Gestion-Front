@@ -64,7 +64,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                     bottomColour="bg-pink-300" />
             </div>
             <hr />
-            <p className="mx-2 sm:mx-8">{ticket.description}</p>
+            <p className="mx-2 sm:mx-8 text-title">{ticket.description}</p>
         </div>
     );
 }
