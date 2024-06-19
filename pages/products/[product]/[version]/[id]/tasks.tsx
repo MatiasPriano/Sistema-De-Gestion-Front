@@ -45,7 +45,11 @@ export default function ViewTasks() {
                 <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
             </div>}
             {tasks.length > 0 && <TicketTaskTable tasks={tasks} />}
-            {tasks.length === 0 && <EmptyTableText text="No hay tareas asignadas a este ticket" icon="task"/>}
+            {tasks.length === 0 &&
+                <EmptyTableText
+                    text="No hay tareas asignadas a este ticket"
+                    description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
+                    icon="task"/>}
             {tasks.length === 0 &&
                 <div className="my-5 flex items-center justify-center gap-x-6">
                     <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />

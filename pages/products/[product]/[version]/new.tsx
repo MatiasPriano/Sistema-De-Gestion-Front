@@ -38,9 +38,10 @@ export default function NewTicket() {
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para crear ticket
+        // TODO: API call a backend para crear ticket y obtener el id del ticket
+        const ticketId = 1
         toast.success("Ticket creado")
-        router.push(`/products/${product}/${version}/`)
+        router.push(`/products/${product}/${version}/'${ticketId}/tasks`)
     }
     
     const [resources, setResources] = useState<Resource[]>([])

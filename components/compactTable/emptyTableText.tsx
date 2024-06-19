@@ -1,8 +1,8 @@
 type EmptyTableIcons = "task" | "ticket" | "search"
 
-export default function EmptyTableText({ text, icon }: { text: string, icon?: EmptyTableIcons }) {
+export default function EmptyTableText({ text, description, icon }: { text: string, description: string, icon?: EmptyTableIcons }) {
     return (
-        <div className="py-8 flex flex-col items-center justify-center text-center">
+        <div className="py-8 space-y-2 flex flex-col items-center justify-center text-center">
             {icon === "task" &&
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 md:w-20 md:h-20 my-10 text-title">
                     <path fillRule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clipRule="evenodd" />
@@ -17,6 +17,7 @@ export default function EmptyTableText({ text, icon }: { text: string, icon?: Em
                     <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
                 </svg>}
             <h1 className="text-2xl font-medium italic text-title">{text}</h1>
+            <p className="text-md font-medium text-subtitle">{description}</p>
         </div>
     )
 }

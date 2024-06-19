@@ -16,7 +16,7 @@ export default function LinkTaskRow({ task, selected, setSelected }: LinkTaskRow
     }
 
     return (
-        <tr key={task.id} className={getCheckBoxClass(selected)} >
+        <tr key={task.id} className={getCheckBoxClass(selected)} onClick={toggleCheckbox} >
             <td className="w-10 overflow-hidden">
                 <div className="text-title rounded-md mx-2 flex items-center">
                     <input  type="checkbox"
