@@ -13,7 +13,7 @@ module.exports = {
 				secondary: '#f59e0b',
 				secondaryHover: '#eab308',
 				background: '#ffffff',
-				backgroundContainer: '#eeeeee',
+				backgroundContainer: '#f3f4f6',
 				backgroundAccent: '#e2e8f0',
 				title: '#111827',
 				darkTitle: '#ffffff',

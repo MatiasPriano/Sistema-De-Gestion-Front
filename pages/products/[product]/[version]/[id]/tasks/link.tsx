@@ -10,6 +10,7 @@ import Breadcrumb from '@/components/breadcrumb';
 import IconButton from '@/components/button/iconButton';
 import Input from '@/components/input/input';
 import tasksList from '@/components/tasksMock';
+import Link from 'next/link';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -43,7 +44,7 @@ export default function LinkTask() {
     }
 
     return (
-        <div>
+        <>
             <Breadcrumb steps={[
                 { name: "Productos", link: `/products/` },
                 { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
@@ -51,39 +52,47 @@ export default function LinkTask() {
                 { name: "Tareas asociadas", link: `/products/${productId}/${versionId}/${ticketId}/tasks/` },
                 { name: "Asociar tarea", link: null }
             ]} />
-            <VersionHeader  productId={productId as string}
-                            versionId={versionId as string}
-                            ticketId={ticketId as string}
-                            title="Asociar tareas al ticket"
-            />
-            <div className="flex pb-4 space-x-4 items-center">
-                <form onSubmit={onSearchClick} className="flex space-x-4 items-center w-full">
-                    <div className="w-full">
-                        <Input
-                            title=""
-                            placeholder="Buscar"
-                            value={searchText}
-                            setValue={handleSearch}
-                            isRequired={false} />
-                    </div>
-                    <IconButton
-                        icon="search"
-                        title="Buscar"
-                        style="primary"
-                        type="submit" />
-                </form>
-                <TextButton
-                    name="Asociar"
-                    style="secondary"
-                    onClick={handleLinkTaskClick}
-                    disabled={selectedTasks.length === 0} />
+            <div className="space-y-4">
+                <VersionHeader  productId={productId as string}
+                                versionId={versionId as string}
+                                ticketId={ticketId as string}
+                                title="Asociar tareas al ticket"
+                />
+                <div className="flex space-x-4 items-center px-4">
+                    <form onSubmit={onSearchClick} className="flex space-x-4 items-center w-full">
+                        <div className="w-full">
+                            <Input
+                                title=""
+                                placeholder="Buscar"
+                                value={searchText}
+                                setValue={handleSearch}
+                                isRequired={false} />
+                        </div>
+                        <IconButton
+                            icon="search"
+                            title="Buscar"
+                            style="primary"
+                            type="submit" />
+                    </form>
+                    <TextButton
+                        name="Asociar"
+                        style="secondary"
+                        onClick={handleLinkTaskClick}
+                        disabled={selectedTasks.length === 0} />
+                </div>
+                {tasks.length > 0 && 
+                    <LinkTaskTable
+                        tasks={tasks}
+                        selectedTasks={selectedTasks}
+                        setSelectedTasks={setSelectedTasks} />}
+                {tasks.length === 0 && <EmptyTableText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
+                <div className="flex items-center justify-start gap-x-6 px-4">
+                    <TextButton
+                        name="Volver"
+                        style="transparent"
+                        onClick={() => router.back()} />
+                </div>
             </div>
-            {tasks.length > 0 && 
-                <LinkTaskTable
-                    tasks={tasks}
-                    selectedTasks={selectedTasks}
-                    setSelectedTasks={setSelectedTasks} />}
-            {tasks.length === 0 && <EmptyTableText text="No se encontraron resultados" description="Pruebe con otra entrada" icon="search"/>}
-        </div>
+        </>
     )
 }

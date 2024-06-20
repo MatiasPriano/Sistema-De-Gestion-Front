@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TaskForm, { TaskInputs } from '@/components/form/taskForm';
-import Task from '@/types/task';
+import Task, { emptyTask } from '@/types/task';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
@@ -12,17 +12,7 @@ export default function NewTask() {
     const router = useRouter();
     const { product, version, id } = router.query;
 
-    const initialTask: Task = {
-        id: 1,
-        title: "",
-        responsable: "",
-        description: "",
-        project: "",
-        status: "Abierta",
-        priority: "Baja",
-    }
-
-    const [task, setTask] = useState<Task>(initialTask)
+    const [task, setTask] = useState<Task>(emptyTask)
 
     const disabledInputs: TaskInputs = {
         title: false,
@@ -43,13 +33,13 @@ export default function NewTask() {
     }
 
     const onCancel = () => {
-        router.back()
+        router.push(`/products/${product}/${version}/${id}/tasks`)
     }
 
     const onSubmit = () => {
         // TODO: API call a backend para crear tarea y asociarla a ticket
         toast.success("Tarea creada")
-        router.push(`/products/${product}/${version}/${id}/tasks/`)
+        router.push(`/products/${product}/${version}/${id}/tasks`)
     }
     
     const [resources, setResources] = useState<Resource[]>([])

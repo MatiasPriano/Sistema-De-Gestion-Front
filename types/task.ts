@@ -8,3 +8,13 @@ export default interface Task {
     priority: string;
     associatedTickets?: string[];
 }
+
+export const emptyTask: Task = {
+    id: 0,
+    title: "",
+    responsable: "",
+    description: "",
+    project: "",
+    status: "Abierta",
+    priority: "Baja",
+}

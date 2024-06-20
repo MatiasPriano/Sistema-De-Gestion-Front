@@ -5,6 +5,7 @@ export default function Layout({ children, pageTitle }: { children: any, pageTit
 
   return (
     <nav>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
       <div className="fixed top-0 left-0 w-full bg-primary z-[9999]">
         <div className="relative flex h-14 items-center justify-between">
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">    
@@ -24,7 +25,7 @@ export default function Layout({ children, pageTitle }: { children: any, pageTit
         </div>
       </div>
 
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-transparent">
           <div className="p-6 pt-20">
             <main className="flex-1">
               <Toaster position="bottom-center" />
