@@ -1,9 +1,6 @@
 
 import { useEffect, useState } from "react";
 
-// Asegúrate de importar el componente Breadcrumb
-import Breadcrumb from "../components/Breadcrumb"; // Ajusta la ruta según la ubicación de tu componente
-
 function HeaderItem({ title }) {
   return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
