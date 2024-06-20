@@ -2,13 +2,9 @@ import Link from "next/link";
 import React from "react";
 import { useEffect, useState } from "react";
 import ProjectTable from "../../components/compactTable/projects/projectsTable";
-import TextButton from "@/components/button/textButton"
-
-// Asegúrate de importar el componente Breadcrumb
-
-function HeaderItem({ title }) {
-  return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
-}
+import TextButton from "@/components/button/textButton";
+import Project from "@/types/project";
+import projectsList from "@/components/projectsMock";
 
 export default function Projects() {
   const [list, setList] = useState([]);

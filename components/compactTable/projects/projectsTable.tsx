@@ -2,11 +2,7 @@
 import ProjectRow from "./projectsRow"
 import CompactTable from "../compactTable"
 import React from "react"
-
-interface Project {
-    name: string
-    version: string
-}
+import Project from "@/types/project"
 
 export default function ProjectTable({ projects }: { projects: Project[] }) {
     const headers = ["Nombre","Fecha de Finalización", "Responsable", "Ver tareas"]
