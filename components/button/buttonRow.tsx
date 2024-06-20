@@ -29,11 +29,11 @@ export default function ButtonRow({ title, options, selected, setSelected, isReq
     }
     return (
         <div className="flex flex-col items-center space-y-2">
-            <label htmlFor="input" className="text-sm font-medium text-title">
+            <label htmlFor={title} className="text-sm font-medium text-title">
                 {title} {(!isRequired && " (opcional)")}
             </label>
             <div className="w-full">
-                <div className="flex overflow-hidden rounded-md border-0 shadow-sm ring-1 ring-inset ring-border hover:shadow-lg">
+                <div className="flex overflow-hidden rounded-md border border-border shadow-md hover:shadow-lg">
                     {options.map((option, index) => (
                         <div className="w-full" key={index}>
                             <button type="button"

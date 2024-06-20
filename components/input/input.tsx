@@ -1,5 +1,5 @@
 function getInputClassName(isDisabled: boolean, isObligatory: boolean, isEmpty: boolean) {
-    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-2 ring-1 ring-inset placeholder:text-placeholder focus:ring-2 focus:ring-inset hover:shadow-lg focus:shadow-lg sm:text-sm'
+    let className = 'block w-full pl-2 pr-2 rounded-md border border-border py-2 placeholder:text-placeholder hover:shadow-lg focus:shadow-lg sm:text-sm focus:outline-none'
     if (isDisabled) {
         className += ' text-subtitle'
     } else {

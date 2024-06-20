@@ -20,9 +20,9 @@ export default function VersionHeader ({ productId, versionId, ticketId, title }
     return (
         <header>
             <div className="flex items-center">
-                <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1">{productId}</h1>
+                <h1 className="text-2xl py-2 sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1">{productId}</h1>
                 <span
-                    className="bg-secondary text-sm text-title rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-secondaryHover cursor-pointer"
+                    className="bg-secondary text-sm shadow-md text-title rounded-md px-2 py-1 ml-2 transition-colors duration-300 ease-in-out hover:bg-secondaryHover cursor-pointer"
                     onClick={handleVersionLabel} >
                     {versionId}
                 </span>

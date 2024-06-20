@@ -32,9 +32,6 @@ export default function ViewTicket() {
     const handleDeleteTicketButton = () => {
         setIsDeleteDialogOpen(true)
     }
-    const handleBackButton = () => {
-        router.push(`/products/${productId}/${versionId}/`)
-    }
 
     const [ticket, setTicket] = useState<Ticket>(emptyTicket)
 
@@ -54,22 +51,16 @@ export default function ViewTicket() {
                 <VersionHeader  productId={productId as string}
                                 versionId={versionId as string}
                                 ticketId=""
-                                title="" >
-                </VersionHeader>
-                <TicketDetails ticket={ticket} />
-                <div className='flex'>
-                    <div className="flex items-center justify-start gap-x-6 px-4">
-                        <TextButton
-                            name="Volver"
-                            style="subtle"
-                            onClick={handleBackButton} />
+                                title="Ticket" />
+                <div className="flex">
+                    <div className="flex items-center justify-start px-4">
+                        <IconButton
+                                icon="trash"
+                                title="Eliminar ticket"
+                                style="red"
+                                onClick={handleDeleteTicketButton}/>
                     </div>
                     <div className="flex items-center justify-end gap-x-6 px-4 w-full">
-                        <IconButton
-                            icon="trash"
-                            title="Eliminar ticket"
-                            style="red"
-                            onClick={handleDeleteTicketButton}/>
                         <TextButton
                             name="Tareas"
                             style="secondary"
@@ -78,14 +69,21 @@ export default function ViewTicket() {
                             name="Editar"
                             style="primary"
                             onClick={handleEditButton} />
-                        </div>
-                        <ConfirmationDialog
-                        isOpen={isDeleteDialogOpen}
-                        title="Eliminar ticket"
-                        message="¿Está seguro/a de que desea eliminar este ticket?"
-                        onConfirm={handleDialogDelete}
-                        onCancel={handleDialogCancel} />
+                    </div>
                 </div>
+                <TicketDetails ticket={ticket} />
+                <div className="flex items-center justify-start gap-x-6 px-4">
+                    <TextButton
+                        name="Volver"
+                        style="transparent"
+                        onClick={() => router.back()} />
+                </div>
+                <ConfirmationDialog
+                isOpen={isDeleteDialogOpen}
+                title="Eliminar ticket"
+                message="¿Está seguro/a de que desea eliminar este ticket?"
+                onConfirm={handleDialogDelete}
+                onCancel={handleDialogCancel} />
             </div>
         </div>
     )

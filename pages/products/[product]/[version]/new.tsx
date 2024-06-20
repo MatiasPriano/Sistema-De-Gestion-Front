@@ -33,10 +33,6 @@ export default function NewTicket() {
         client: true,
     }
 
-    const onCancel = () => {
-        router.push(`/products/${product}/${version}/`)
-    }
-
     const onSubmit = () => {
         // TODO: API call a backend para crear ticket y obtener el id del ticket
         const ticketId = 1
@@ -71,7 +67,7 @@ export default function NewTicket() {
                 setTicket={setTicket}
                 disabledInputs={disabledInputs}
                 requiredInputs={requiredInputs}
-                onCancel={onCancel}
+                onCancel={() => router.back()}
                 resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
                 clients={clients.map((client) => client['razon social'])}
                 submitButtonName="Crear"

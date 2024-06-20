@@ -10,7 +10,7 @@ interface TextAreaProps {
 }
 
 function getTextAreaClassName(isDisabled: boolean, isObligatory: boolean, isEmpty: boolean) {
-    let className = 'block w-full pl-2 pr-2 rounded-md border-0 py-1.5 ring-1 ring-inset placeholder:text-placeholder focus:ring-2 focus:ring-inset hover:shadow-lg focus:shadow-lg focus:ring-opacity-50 transition-colors duration-300 ease-in-out'
+    let className = 'block w-full pl-2 pr-2 rounded-md border border-border py-1.5 placeholder:text-placeholder hover:shadow-lg focus:shadow-lg transition-colors duration-300 ease-in-out focus:outline-none'
     if (isDisabled) {
         className += ' text-subtitle'
     } else {

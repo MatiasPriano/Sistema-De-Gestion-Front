@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import tasksList from '@/components/tasksMock';
 import { toast } from 'react-hot-toast';
 import ConfirmationDialog from '@/components/confirmationDialog';
+import Link from 'next/link';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -54,55 +55,63 @@ export default function ViewTasks() {
     }
 
     return (
-        <div>
+        <>
             <Breadcrumb steps={[
                 { name: "Productos", link: `/products/` },
                 { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
                 { name: `#${ticketId}`, link: `/products/${productId}/${versionId}/${ticketId}` },
                 { name: "Tareas asociadas", link: null }
             ]} />
-            <VersionHeader  productId={productId as string}
-                            versionId={versionId as string}
-                            ticketId={ticketId as string}
-                            title="Tareas asociadas al ticket"
-            />
-            {tasks.length > 0 &&
-                <div className="flex pb-4">
-                    <div className="flex items-center justify-start gap-x-6">
-                        <TextButton
-                            name="Desasociar"
-                            style="red"
-                            onClick={handleUnlinkTaskClick}
-                            disabled={selectedTasks.length === 0} />
-                    </div>
-                    <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+            <div className="space-y-4">
+                <VersionHeader  productId={productId as string}
+                                versionId={versionId as string}
+                                ticketId={ticketId as string}
+                                title="Tareas asociadas al ticket"
+                />
+                {tasks.length > 0 &&
+                    <div className="flex my-5 px-4">
+                        <div className="flex items-center justify-start gap-x-6">
+                            <TextButton
+                                name="Desasociar"
+                                style="red"
+                                onClick={handleUnlinkTaskClick}
+                                disabled={selectedTasks.length === 0} />
+                        </div>
+                        <div className="flex items-center justify-end space-x-4 w-full">
+                            <TextButton name="Crear tarea" style="secondary" onClick={handleNewTaskButton} />
+                            <TextButton name="Asociar tareas" style="primary" onClick={handleLinkTaskButton} />
+                        </div>
+                    </div>}
+                {tasks.length > 0 &&
+                    <TicketTaskTable
+                        tasks={tasks}
+                        selectedTasks={selectedTasks}
+                        setSelectedTasks={setSelectedTasks} />}
+                {tasks.length === 0 &&
+                    <EmptyTableText
+                        text="No hay tareas asignadas a este ticket"
+                        description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
+                        icon="task"/>}
+                {tasks.length === 0 &&
+                    <div className="my-5 flex items-center justify-center gap-x-6">
                         <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
                         <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
                     </div>
-                </div>}
-            {tasks.length > 0 &&
-                <TicketTaskTable
-                    tasks={tasks}
-                    selectedTasks={selectedTasks}
-                    setSelectedTasks={setSelectedTasks} />}
-            {tasks.length === 0 &&
-                <EmptyTableText
-                    text="No hay tareas asignadas a este ticket"
-                    description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
-                    icon="task"/>}
-            {tasks.length === 0 &&
-                <div className="my-5 flex items-center justify-center gap-x-6">
-                    <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
-                    <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
+                }
+                <div className="flex items-center justify-start gap-x-6 px-4">
+                    <TextButton
+                        name="Volver"
+                        style="transparent"
+                        onClick={() => router.back()} />
                 </div>
-            }
-            <ConfirmationDialog
-                isOpen={isUnlinkDialogOpen}
-                title="Desasociar tareas"
-                message={getUnlinkConfirmationMessage(tasks.filter((task) => selectedTasks.includes(task.id)))}
-                onConfirm={handleDialogUnlink}
-                onCancel={handleUnlinkCancel} />
-        </div>
+                <ConfirmationDialog
+                    isOpen={isUnlinkDialogOpen}
+                    title="Desasociar tareas"
+                    message={getUnlinkConfirmationMessage(tasks.filter((task) => selectedTasks.includes(task.id)))}
+                    onConfirm={handleDialogUnlink}
+                    onCancel={handleUnlinkCancel} />
+            </div>
+        </>
     )
 }
 
