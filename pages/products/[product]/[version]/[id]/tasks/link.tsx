@@ -37,7 +37,8 @@ export default function LinkTask() {
         setSearchText(event.target.value)
     }
 
-    const onSearchClick = () => {
+    const onSearchClick = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         // TODO: API call para obtener las tareas con un nombre que contenga searchText y setearlas con setTasks
     }
 
@@ -56,21 +57,21 @@ export default function LinkTask() {
                             title="Asociar tareas al ticket"
             />
             <div className="flex pb-4 space-x-4 items-center">
-                <IconButton
-                    icon="search"
-                    title="Buscar"
-                    style="primary"
-                    onClick={onSearchClick}
-                     />
-                <div className="w-full">
-                    <Input
-                        title=""
-                        placeholder="Buscar"
-                        value={searchText}
-                        setValue={handleSearch}
-                        isRequired={false} />
-                </div>
-                
+                <form onSubmit={onSearchClick} className="flex space-x-4 items-center w-full">
+                    <div className="w-full">
+                        <Input
+                            title=""
+                            placeholder="Buscar"
+                            value={searchText}
+                            setValue={handleSearch}
+                            isRequired={false} />
+                    </div>
+                    <IconButton
+                        icon="search"
+                        title="Buscar"
+                        style="primary"
+                        type="submit" />
+                </form>
                 <TextButton
                     name="Asociar"
                     style="secondary"

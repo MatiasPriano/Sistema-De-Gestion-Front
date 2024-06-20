@@ -19,7 +19,7 @@ const severityColours: Record<"S1" | "S2" | "S3" | "S4", Colour> = {
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     return (
-        <div className="px-4 py-8 space-y-4 sm:space-y-8 rounded-xl border border-primary bg-background overflow-hidden">
+        <div className="px-4 py-8 space-y-4 sm:space-y-8 rounded-xl shadow-lg border border-border bg-backgroundContainer overflow-hidden">
             <div className="flex items-center">
                 <h1
                     className="text-2xl sm:text-3xl font-bold text-title font-sans"
@@ -28,7 +28,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 </h1>
                 <h2 className="text-black mx-4 text-2xl text-subtitle">{"#" + ticket.id}</h2>
             </div>
-            <hr />
+            <hr className="text-primary"/>
             <div className="flex flex-wrap justify-center gap-2">
                 <DetailCard
                     mainContent={

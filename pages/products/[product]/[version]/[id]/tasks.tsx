@@ -75,9 +75,9 @@ export default function ViewTasks() {
                             onClick={handleUnlinkTaskClick}
                             disabled={selectedTasks.length === 0} />
                     </div>
-                    <div className="flex items-center justify-end gap-x-6 px-4 w-full">
-                        <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
-                        <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
+                    <div className="flex items-center justify-end space-x-4 w-full">
+                        <TextButton name="Crear tarea" style="secondary" onClick={handleNewTaskButton} />
+                        <TextButton name="Asociar tareas" style="primary" onClick={handleLinkTaskButton} />
                     </div>
                 </div>}
             {tasks.length > 0 &&

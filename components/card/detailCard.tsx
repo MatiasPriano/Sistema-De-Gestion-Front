@@ -10,7 +10,7 @@ export default function DetailCard({ mainContent, title, wide = false, bottomCol
 
     return (
         <div
-            className={`overflow-hidden relative flex flex-col items-center rounded-lg shadow h-32 ${width} border border-border transition duration-300 ease-in-out hover:border-subtitle`}
+            className={`overflow-hidden relative flex flex-col items-center rounded-lg shadow-md hover:shadow-lg h-32 ${width} border border-border bg-backgroundContainer transition duration-300 ease-in-out`}
             title={title} >
             <div className=" block flex flex-col items-center justify-center flex-grow pb-4">
                 {mainContent}

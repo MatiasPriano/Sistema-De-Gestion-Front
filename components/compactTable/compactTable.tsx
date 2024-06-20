@@ -1,6 +1,6 @@
 export default function CompactTable({ headerTitles, rows }: { headerTitles: string[], rows: any[] }) {
     return (
-        <div className='rounded-xl border border-primary overflow-x-auto'>
+        <div className='rounded-xl bg-backgroundContainer overflow-x-auto shadow-md border border-border'>
             <table className="min-w-full table-fixed">
                 <thead>
                     <tr>

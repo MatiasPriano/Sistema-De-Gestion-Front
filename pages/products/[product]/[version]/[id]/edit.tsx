@@ -31,7 +31,7 @@ export default function ViewTicket() {
     }
 
     const onCancel = () => {
-        router.push(`/products/${productId}/${versionId}/${ticketId}`)
+        router.back()
     }
 
     const onSubmit = () => {

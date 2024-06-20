@@ -30,9 +30,9 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
     
     const handleDialogDelete = () => {
+        // TODO: API call para eliminar ticket
         toast.success("Ticket eliminado")
         setIsDeleteDialogOpen(false)
-        router.push(`/products/${productId}/${versionId}/`)
     }
     const handleDialogCancel = () => {
         setIsDeleteDialogOpen(false)
@@ -63,7 +63,7 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
             title: "Eliminar ticket"
         }
     ]
-    
+
     return (
         <tr key={ticket.id} >
             <td className="overflow-hidden">

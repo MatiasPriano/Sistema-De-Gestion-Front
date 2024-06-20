@@ -46,15 +46,17 @@ export default function AutocompleteInput({
     }
     return (
         <div className="space-y-2">
-            <label htmlFor="input" className="block text-sm font-medium text-title">
+            <label htmlFor={title} className="block text-sm font-medium text-title">
                 {title} {!isRequired && "(opcional)"}
             </label>
             <div>
                 {disabled && <div className="my-4 font-medium text-bold text-title">{value}</div>}
-                {!disabled && <ReactSearchAutocomplete  items={newItems}
-                                                        placeholder={placeholder}
-                                                        onSearch={handleOnSearch}
-                                                        onSelect={handleOnSelect}/>}
+                {!disabled &&
+                    <ReactSearchAutocomplete
+                        items={newItems}
+                        placeholder={placeholder}
+                        onSearch={handleOnSearch}
+                        onSelect={handleOnSelect}/>}
                 <small className={getSubtextClassName(isRequired, error)}>{errorText}</small>
             </div>
         </div>

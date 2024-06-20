@@ -4,23 +4,23 @@ interface IconButtonProps {
     icon: ButtonIcon
     title: string
     type?: "button" | "submit" | "reset"
-    style?: "primary" | "secondary" | "subtle" | "red"
+    style?: "primary" | "secondary" | "red" | "transparent"
     onClick?: () => void
     disabled?: boolean
 }
 
 export default function IconButton ({ icon, title, type = "button", style = "primary", onClick, disabled = false }: IconButtonProps) {
-    let className: string = "rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-300 ease-in-out"
+    let className: string = "rounded-md px-3 py-2 text-sm transition-colors duration-300 ease-in-out"
     if (style === "primary") {
-        className += " bg-primary disabled:bg-backgroundAccent text-darkTitle disabled:text-title hover:bg-primaryHover"
+        className += " bg-primary disabled:bg-backgroundAccent text-darkTitle disabled:text-title shadow-md hover:shadow-lg hover:bg-primaryHover"
     } else if (style === "secondary") {
-        className += " bg-secondary disabled:bg-backgroundAccent text-title hover:bg-secondaryHover"
-    } else if (style === "subtle") {
-        className += " bg-background text-title disabled:text-backgroundAccent hover:text-subtitle"
+        className += " bg-secondary disabled:bg-backgroundAccent text-title shadow-md hover:shadow-lg hover:bg-secondaryHover"
+    } else if (style === "red") {
+        className += " bg-red disabled:bg-backgroundAccent text-darkTitle disabled:text-title shadow-md hover:shadow-lg hover:bg-redHover"
     } else {
-        className += " bg-red disabled:bg-backgroundAccent text-darkTitle disabled:text-title hover:bg-redHover"
+        className += " bg-transparent disabled:bg-backgroundAccent text-title hover:bg-selected"
     }
-    
+
     return (
         <div>
             <button

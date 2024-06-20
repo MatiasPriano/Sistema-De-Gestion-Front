@@ -43,7 +43,7 @@ export default function NewTask() {
     }
 
     const onCancel = () => {
-        router.push(`/products/${product}/${version}/${id}/tasks/`)
+        router.back()
     }
 
     const onSubmit = () => {

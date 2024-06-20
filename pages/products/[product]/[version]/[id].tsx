@@ -61,7 +61,7 @@ export default function ViewTicket() {
                     <div className="flex items-center justify-start gap-x-6 px-4">
                         <TextButton
                             name="Volver"
-                            style="subtle"
+                            style="transparent"
                             onClick={handleBackButton} />
                     </div>
                     <div className="flex items-center justify-end gap-x-6 px-4 w-full">

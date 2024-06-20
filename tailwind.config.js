@@ -9,15 +9,16 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: '#172554',
+				primaryHover: '#1e40af',
 				secondary: '#f59e0b',
+				secondaryHover: '#eab308',
 				background: '#ffffff',
+				backgroundContainer: '#eeeeee',
 				backgroundAccent: '#e2e8f0',
 				title: '#111827',
 				darkTitle: '#ffffff',
 				subtitle: '#334155',
 				darkSubtitle: '#e2e8f0',
-				primaryHover: '#1e40af',
-				secondaryHover: '#fde68a',
 				red: '#ef4444',
 				redHover: '#991b1b',
 				redSubtle: '#fee2e2',

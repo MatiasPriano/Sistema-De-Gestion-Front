@@ -119,7 +119,7 @@ export default function TaskForm(
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-darkTitle border-primary px-4 py-8 rounded-xl">
+            <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 shadow-lg border border-border bg-backgroundContainer px-4 py-8 rounded-xl">
                 <Input  
                     title="Título"
                     placeholder="Agregar breadcrumb"
@@ -174,7 +174,7 @@ export default function TaskForm(
                     <div className="flex items-center justify-end gap-x-6 px-4 w-full">
                         <TextButton
                             name="Cancelar"
-                            style="subtle"
+                            style="transparent"
                             onClick={onCancel} />
                         <TextButton
                             name={submitButtonName}

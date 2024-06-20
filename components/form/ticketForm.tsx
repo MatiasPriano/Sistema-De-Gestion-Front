@@ -140,7 +140,7 @@ export default function TicketForm(
 
         return (
             <form onSubmit={handleSubmit} className="space-y-4">
-                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-background border-backgroundAccent shadow px-4 py-8 rounded-xl">
+                <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-backgroundContainer border-border shadow-lg px-4 py-8 rounded-xl">
                     <Input  
                         title="Título"
                         placeholder="TKT-001"
@@ -204,7 +204,7 @@ export default function TicketForm(
                         <div className="flex items-center justify-end gap-x-6 px-4 w-full">
                             <TextButton
                                 name="Cancelar"
-                                style="subtle"
+                                style="transparent"
                                 onClick={onCancel} />
                             <TextButton
                                 name={submitButtonName}

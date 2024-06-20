@@ -13,7 +13,7 @@ export default function ActionsCell({ actions } : { actions: Action[] }) {
                 <IconButton
                     icon={action.icon}
                     title={action.title}
-                    style="subtle"
+                    style="transparent"
                     onClick={action.onClick} />
             ))}
         </div>
