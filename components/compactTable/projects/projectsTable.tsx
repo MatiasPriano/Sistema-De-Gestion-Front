@@ -5,7 +5,7 @@ import React from "react"
 import Project from "@/types/project"
 
 export default function ProjectTable({ projects }: { projects: Project[] }) {
-    const headers = ["Nombre","Fecha de Finalización", "Responsable", "Ver tareas"]
+    const headers = ["Nombre", "Fecha de Inicio", "Fecha de Finalización", "Responsable", "Estado", "Acciones"]
     return (
         <CompactTable
             headerTitles={headers}

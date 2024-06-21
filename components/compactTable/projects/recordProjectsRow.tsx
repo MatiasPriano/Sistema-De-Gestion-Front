@@ -2,20 +2,20 @@ import SimpleCell from "../cells/simpleCell";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
 import React from "react";
-import Project from "@/types/project";
+import ArchivedProject from "@/types/archivedProject";
 
-export default function ProjectRow({ project }: { project: Project }) {
+export default function RecordProjectsRow({ project }: { project: ArchivedProject }) {
     const router = useRouter()
 
-    const handleManageProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.name}`)
+    const handleViewTasksClick = () => {
+        router.push(`/projects/gestionarProyectos/${project.name}/tasks`)
     }
     
     const actions: Action[] = [
         {
-            icon: "edit",
-            onClick: handleManageProjectClick,
-            title: "Gestionar proyecto"
+            icon: "view",
+            onClick: handleViewTasksClick,
+            title: "Ver tareas"
         },
     ]
     
@@ -25,16 +25,10 @@ export default function ProjectRow({ project }: { project: Project }) {
                 <SimpleCell name={project.name} />
             </td>
             <td className="overflow-hidden">
-                <SimpleCell name={project.fechaInicio} centered={true} />
-            </td>
-            <td className="overflow-hidden">
-                <SimpleCell name={project.fechaFinalizacion} centered={true} />
-            </td>
-            <td className="overflow-hidden">
                 <SimpleCell name={project.responsable} centered={true} />
             </td>
             <td className="overflow-hidden">
-                <SimpleCell name={project.estado} centered={true} />
+                <SimpleCell name={project.fechaFinalizacion} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>
