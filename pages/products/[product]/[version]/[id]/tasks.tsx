@@ -79,7 +79,7 @@ export default function ViewTasks() {
                         </div>
                         <div className="flex items-center justify-end space-x-4 w-full">
                             <TextButton name="Crear tarea" style="secondary" onClick={handleNewTaskButton} />
-                            <TextButton name="Asociar tareas" style="primary" onClick={handleLinkTaskButton} />
+                            <TextButton name="Ir a Asociar tareas" style="primary" onClick={handleLinkTaskButton} />
                         </div>
                     </div>}
                 {tasks.length > 0 &&
