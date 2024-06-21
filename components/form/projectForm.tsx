@@ -81,11 +81,11 @@ export default function ProjectForm (
             setInvalidInputs({ ...invalidInputs, description: false })
         }
 
-        const setStatus = (state: string) => {
+        const setState = (state: string) => {
             setProject({ ...project, estado: state as State })
         }
 
-        const setClient = (endDateTime: string) => {
+        const setEndDateTime = (endDateTime: string) => {
             setProject({ ...project, fechaFinalizacion: endDateTime })
         }
 
@@ -124,27 +124,57 @@ export default function ProjectForm (
         return (
             <form onSubmit={handleSubmit} className="space-y-4">
                 <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-backgroundContainer border-border shadow-lg px-4 py-8 rounded-xl">
-                <Input  
-                        title="Nombre"
-                        placeholder=""
-                        value=""  //esto debe cambiarse por {project.name} pero me tira error
-                        setValue={setName}
-                        error={invalidInputs.name}
-                        handleFocus={handleNameFocus}
-                        isRequired={requiredInputs.name}
-                        disabled={disabledInputs.name} />
-                    <div className='flex col-span-full pt-2'>
-                        <div className="flex items-center justify-end gap-x-6 px-4 w-full">
-                            <TextButton
-                                name="Cancelar"
-                                style="transparent"
-                                onClick={onCancel} />
-                            <TextButton
-                                name={submitButtonName}
-                                type="submit"
-                                style="primary" />
-                        </div>
+                    <Input  
+                            title="Nombre"
+                            placeholder=""
+                            value=""  //esto debe cambiarse por {project.name} pero me tira error
+                            setValue={setName}
+                            error={invalidInputs.name}
+                            handleFocus={handleNameFocus}
+                            isRequired={requiredInputs.name}
+                            disabled={disabledInputs.name} />
+                    <AutocompleteInput
+                            title="Responsable"
+                            placeholder=""
+                            value={project.responsable}
+                            setValue={setResponsable}
+                            error={invalidInputs.responsable}
+                            errorText="El responsable debe ser válido"
+                            handleFocus={handleResponsableFocus}
+                            isRequired={requiredInputs.responsable}
+                            items={resources}
+                            disabled={disabledInputs.responsable} />
+                    <div className="col-span-full">
+                            <TextArea
+                                title="Descripción"
+                                value={project.descripcion}
+                                setValue={setDescription}
+                                placeholder="Ingrese una descripción"
+                                isRequired={requiredInputs.description}
+                                error={invalidInputs.description}
+                                handleFocus={handleDescriptionFocus}
+                                disabled={disabledInputs.description} />
                     </div>
+                    <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                        <ComboBox
+                            title="Estado"
+                            options={stateOptions}
+                            selected={project.estado}
+                            disabled={disabledInputs.state}
+                            onChange={setState} />
+                    </div>
+                        <div className='flex col-span-full pt-2'>
+                            <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+                                <TextButton
+                                    name="Cancelar"
+                                    style="transparent"
+                                    onClick={onCancel} />
+                                <TextButton
+                                    name={submitButtonName}
+                                    type="submit"
+                                    style="primary" />
+                            </div>
+                        </div>
                 </main>
             </form>
         )
