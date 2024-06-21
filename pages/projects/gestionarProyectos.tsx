@@ -19,7 +19,7 @@ export default function Projects() {
 
 
   const handleNewProjectButton = () => {
-      router.push(`/projects/gestionarProyectos/new`)
+      router.push(`/projects/gestionarProyectos/crearProyecto`)
   }
 
   return (

@@ -1,13 +1,25 @@
 export default interface Project {
-    name: String;
-    fechaInicio: String;
-    fechaFinalizacion: String;
-    responsable: String;
-    estado: String;
+    id: number
+    name: string;
+    fechaInicio: string;
+    fechaFinalizacion: string;
+    responsable: string;
+    estado: State;
+    descripcion: string;
 }
 
-export type Estado =
+export type State =
     "Iniciado" |
     "En desarrollo" |
     "En transición" |
     "Terminado"
+
+export const emptyProject: Project = {
+    id: 0,
+    name: "",
+    descripcion: "",
+    responsable: "",
+    estado: "Iniciado",
+    fechaInicio: "",
+    fechaFinalizacion: ""
+}
