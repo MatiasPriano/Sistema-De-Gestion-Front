@@ -39,9 +39,10 @@ export default function ViewTasks() {
                     <TextButton name="Crear tarea" style="secondary" onClick={handleNewTaskButton} />
                 </div>
                 <TaskTable
-                        tasks={tasks}
-                        selectedTasks={selectedTasks}
-                        setSelectedTasks={setSelectedTasks} />
+                    tasks={tasks}
+                    selectedTasks={selectedTasks}
+                    setSelectedTasks={setSelectedTasks} 
+                    projectId={projectId as string} />
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

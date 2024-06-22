@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
+import TaskProjectForm from '@/components/form/taskProjectForm';
 
 export default function NewTask() {
     const router = useRouter();
@@ -66,7 +67,7 @@ export default function NewTask() {
                 <header className="flex items-center">
                     <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Crear Tarea</h1>
                 </header>
-                <TaskForm
+                <TaskProjectForm
                     task={task}
                     setTask={setTask}
                     disabledInputs={disabledInputs}
@@ -75,7 +76,7 @@ export default function NewTask() {
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                    projects={projects} />
+                    />
             </div>
         </div>
     )
