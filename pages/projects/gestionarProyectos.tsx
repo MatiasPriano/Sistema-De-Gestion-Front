@@ -36,14 +36,14 @@ export default function Projects() {
               <div className="my-5 flex items-center justify-end gap-x-6 px-4">
                     <TextButton name="Crear proyecto" style="secondary" onClick={handleNewProjectButton} />
               </div>
-                <ProjectTable projects={projectsList} />
-                <div className="flex items-center justify-start gap-x-6 px-4">
-                    <Link href="/projects">
-                        <TextButton
-                            name="Volver"
-                            style="transparent" />
-                    </Link>
-                </div>
+              <ProjectTable projects={projectsList} />
+              <div className="flex items-center justify-start gap-x-6 px-4">
+                  <Link href="/projects">
+                      <TextButton
+                          name="Volver"
+                          style="transparent" />
+                  </Link>
+              </div>
             </div>
         </>
   );

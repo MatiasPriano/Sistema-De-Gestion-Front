@@ -21,7 +21,7 @@ export default function Products() {
 	}
 
     const handleProjectRecordClick = () => {
-		router.push("/projects/historialdeproyectos")
+		router.push("/projects/historialProyectos")
 	}
 
     return (

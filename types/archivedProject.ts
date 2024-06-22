@@ -1,5 +1,6 @@
 export default interface ArchivedProject {
-    name: String;
-    fechaFinalizacion: String;
-    responsable: String;
+    id: number;
+    name: string;
+    fechaFinalizacion: string;
+    responsable: string;
 }

@@ -8,7 +8,7 @@ export default function RecordProjectsRow({ project }: { project: ArchivedProjec
     const router = useRouter()
 
     const handleViewTasksClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.name}/tasks`)
+        router.push(`/projects/historialProyectos/${project.id}/tareas`)
     }
     
     const actions: Action[] = [
