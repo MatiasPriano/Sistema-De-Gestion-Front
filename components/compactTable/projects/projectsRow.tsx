@@ -10,6 +10,10 @@ export default function ProjectRow({ project }: { project: Project }) {
     const handleManageProjectClick = () => {
         router.push(`/projects/gestionarProyectos/${project.id}`)
     }
+
+    const handleViewTasksClick = () => {
+        router.push(`/projects/gestionarProyectos/${project.id}/tareas`)
+    }
     
     const actions: Action[] = [
         {
@@ -17,6 +21,11 @@ export default function ProjectRow({ project }: { project: Project }) {
             onClick: handleManageProjectClick,
             title: "Gestionar proyecto"
         },
+        {
+            icon: "list",
+            onClick: handleViewTasksClick,
+            title: "Ver tareas del proyecto"
+        }
     ]
     
     return (
