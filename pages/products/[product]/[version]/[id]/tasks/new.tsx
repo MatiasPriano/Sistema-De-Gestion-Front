@@ -50,7 +50,9 @@ export default function NewTask() {
     const [projects, setProjects] = useState<string[]>([])
     useEffect(() => {
         //TODO: API call para obtener los proyectos del back de proyectos
-        setProjects([])
+
+        //Comento esta linea porque rompe con el ruteo
+        // setProjects([]) 
     })
 
     return (
