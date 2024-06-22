@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/breadcrumb";
+import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
 import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
@@ -48,15 +49,20 @@ export default function NewProject() {
                 { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
                 { name: "Nuevo proyecto", link: null }
             ]} />
-        <ProjectForm
-                project={project}
-                setProject={setProject}
-                disabledInputs={disabledInputs}
-                requiredInputs={requiredInputs}
-                onCancel={() => router.back()}
-                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                submitButtonName="Crear"
-                onSubmit={onSubmit} />
+        <div className="space-y-4">
+                <header className="flex items-center">
+                  <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Crear Proyecto</h1>
+                </header>
+            <ProjectForm
+                    project={project}
+                    setProject={setProject}
+                    disabledInputs={disabledInputs}
+                    requiredInputs={requiredInputs}
+                    onCancel={() => router.back()}
+                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                    submitButtonName="Crear"
+                    onSubmit={onSubmit} />
+            </div>
       </div>
 
   );

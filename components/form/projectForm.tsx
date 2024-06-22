@@ -126,8 +126,8 @@ export default function ProjectForm (
                 <main className="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 border bg-backgroundContainer border-border shadow-lg px-4 py-8 rounded-xl">
                     <Input  
                             title="Nombre"
-                            placeholder=""
-                            value=""  //esto debe cambiarse por {project.name} pero me tira error
+                            placeholder="Ingrese un nombre de proyecto"
+                            value={project.name}
                             setValue={setName}
                             error={invalidInputs.name}
                             handleFocus={handleNameFocus}
@@ -135,7 +135,7 @@ export default function ProjectForm (
                             disabled={disabledInputs.name} />
                     <AutocompleteInput
                             title="Responsable"
-                            placeholder=""
+                            placeholder="Buscar responsable"
                             value={project.responsable}
                             setValue={setResponsable}
                             error={invalidInputs.responsable}

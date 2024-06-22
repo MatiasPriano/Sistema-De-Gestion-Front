@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 export default function ManageProject() {
     const router = useRouter();
-    const { project: projectName, projectId: projectId } = router.query;
+    const { project: projectId } = router.query;
 
     const disabledInputs: ProjectInputs = {
         name: true,
@@ -32,6 +32,7 @@ export default function ManageProject() {
     const [project, setProject] = useState(emptyProject)
     useEffect(() => {
         // TODO: API call para obtener detalles del ticket
+        console.log(projectId)
         setProject(projectsList[projectId as unknown as number - 1])
     }, [])
 
@@ -55,7 +56,7 @@ export default function ManageProject() {
             <Breadcrumb steps={[
                 { name: "Proyectos", link: "/projects/" },
                 { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
-                { name: `${projectName}`, link: null }
+                { name: `${projectId}`, link: null }
             ]} />
             <div className="space-y-4">
                 <header className="flex items-center">

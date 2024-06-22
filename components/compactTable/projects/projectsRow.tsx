@@ -8,7 +8,7 @@ export default function ProjectRow({ project }: { project: Project }) {
     const router = useRouter()
 
     const handleManageProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.name}`)
+        router.push(`/projects/gestionarProyectos/${project.id}`)
     }
     
     const actions: Action[] = [
