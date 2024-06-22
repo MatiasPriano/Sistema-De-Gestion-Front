@@ -5,20 +5,13 @@ import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
 
-interface TaskRowProps {
-    task: Task
-    projectId: string
-    // selected: boolean
-    // setSelected: (taskId: number, selected: boolean) => void
-}
-
-export default function TaskRow({ task, projectId }: TaskRowProps) {
+export default function TaskRow({ task, projectId }: {task: Task, projectId: string}) {
     // const toggleCheckbox = () => {
     //     setSelected(task.id, !selected)
     // }
     const router = useRouter()
     const handleViewTaskClick = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/view`)
+        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`)
     }
 
     const actions: Action[] = [

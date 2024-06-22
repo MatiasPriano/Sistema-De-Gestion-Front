@@ -10,8 +10,6 @@ export default function ViewTasks() {
     const router = useRouter();
     const { project: projectId } = router.query;
 
-    const [selectedTasks, setSelectedTasks] = useState<number[]>([])
-
     const [tasks, setTasks] = useState<Task[]>([])
 
     useEffect(() => {
@@ -40,8 +38,6 @@ export default function ViewTasks() {
                 </div>
                 <TaskTable
                     tasks={tasks}
-                    selectedTasks={selectedTasks}
-                    setSelectedTasks={setSelectedTasks} 
                     projectId={projectId as string} />
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton

@@ -68,7 +68,6 @@ export default function TaskProjectForm (
         if (!finalInvalidInputs.title &&
             !finalInvalidInputs.responsable &&
             !finalInvalidInputs.description &&
-            !finalInvalidInputs.project &&
             !finalInvalidInputs.status &&
             !finalInvalidInputs.priority) {
                 onSubmit()
