@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
-import TaskForm, { TaskInputs } from '@/components/form/taskForm';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
-import TaskProjectForm from '@/components/form/taskProjectForm';
+import TaskProjectForm, { TaskInputs } from '@/components/form/taskProjectForm';
 import tasksList from '@/components/tasksProjectMock';
 import React from 'react';
 import TaskProject, { emptyTask } from '@/types/taskProjects';
@@ -22,7 +21,10 @@ export default function ViewTask() {
         description: true,
         project: true,
         status: true,
-        priority: true
+        priority: true,
+        startDate: true,
+        endDate: true,
+        maxResolutionTime: true
     }
 
     const requiredInputs: TaskInputs = {
@@ -31,7 +33,10 @@ export default function ViewTask() {
         description: false,
         project: false,
         status: false,
-        priority: false
+        priority: false,
+        startDate: false,
+        endDate: false,
+        maxResolutionTime: false
     }
 
     useEffect(() => {

@@ -70,7 +70,7 @@ export default function TaskProjectForm ({
             priority: requiredInputs.priority && !["Baja", "Media", "Alta"].includes(task.priority),
             startDate: requiredInputs.startDate && task.startDate.trim() === "",
             endDate: requiredInputs.endDate && task.endDate.trim() === "",
-            maxResolutionTime: requiredInputs.maxResolutionTime && task.maxResolutionTime.trim() === "",
+            maxResolutionTime: requiredInputs.maxResolutionTime && task.maxTimeResolution.trim() === "",
         };
 
         if (!finalInvalidInputs.title &&
@@ -131,7 +131,7 @@ export default function TaskProjectForm ({
     }
 
     const setMaxResolutionTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTask({ ...task, maxResolutionTime: event.target.value });
+        setTask({ ...task, maxTimeResolution: event.target.value });
     }
     const handleMaxResolutionTimeFocus = () => {
         setInvalidInputs({ ...invalidInputs, maxResolutionTime: false });
@@ -228,7 +228,7 @@ export default function TaskProjectForm ({
                             type="text"
                             className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                             placeholder="Ingresar tiempo"
-                            value={task.maxResolutionTime || ''}
+                            value={task.maxTimeResolution || ''}
                             onChange={setMaxResolutionTime}
                             onFocus={handleMaxResolutionTimeFocus}
                         />
