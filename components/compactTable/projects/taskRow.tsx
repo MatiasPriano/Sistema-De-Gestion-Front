@@ -1,4 +1,3 @@
-
 import ResourceCell from "../cells/resourceCell";
 import SimpleCell from "../cells/simpleCell";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
@@ -17,10 +16,10 @@ export default function TaskRow({ task, projectId, product }: {task: Task, proje
     // }
     const router = useRouter()
     const handleViewTaskClick = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`)
+        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`);
     }
     const handleViewTicketsClick = () => {
-        router.push(`/products/${product}`)
+        router.push(`/products/${product.name}/${product.version}`);
     }
 
     const actions: Action[] = [
