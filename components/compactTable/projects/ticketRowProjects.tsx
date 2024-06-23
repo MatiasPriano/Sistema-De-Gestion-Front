@@ -15,55 +15,7 @@ const severityColours: Record<"S1" | "S2" | "S3" | "S4", ColouredCellColours> = 
     "S4": "green",
 };
 
-export default function TicketRow({ ticket, productId, versionId }: { ticket: Ticket, productId: string, versionId: string }) {
-    const router = useRouter()
-    const handleViewButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}`)
-    }
-    const handleEditButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}/edit`)
-    }
-    const handleViewTasksButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}/tasks`)
-    }
-
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-    
-    const handleDialogDelete = () => {
-        // TODO: API call para eliminar ticket
-        toast.success("Ticket eliminado")
-        setIsDeleteDialogOpen(false)
-    }
-    const handleDialogCancel = () => {
-        setIsDeleteDialogOpen(false)
-    }
-    const handleDeleteTicketButton = () => {
-        setIsDeleteDialogOpen(true)
-    }
-
-    const actions: Action[] = [
-        {
-            icon: "view",
-            onClick: handleViewButtonClick,
-            title: "Ver ticket"
-        },
-        {
-            icon: "edit",
-            onClick: handleEditButtonClick,
-            title: "Editar ticket"
-        },
-        {
-            icon: "list",
-            onClick: handleViewTasksButtonClick,
-            title: "Ver tareas asociadas"
-        },
-        {
-            icon: "trash",
-            onClick: handleDeleteTicketButton,
-            title: "Eliminar ticket"
-        }
-    ]
-
+export default function TicketsProjectRow({ ticket }: { ticket: Ticket }) {
     return (
         <tr key={ticket.id} >
             <td className="overflow-hidden">
@@ -84,15 +36,6 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
             <td className="overflow-hidden">
                 <ColouredCell name={ticket.severity} colour={severityColours[ticket.severity]} />
             </td>
-            <td className="overflow-hidden">
-                <ActionsCell actions={actions}/>
-            </td>
-            <ConfirmationDialog
-                isOpen={isDeleteDialogOpen}
-                title="Eliminar ticket"
-                message="¿Está seguro/a de que desea eliminar este ticket?"
-                onConfirm={handleDialogDelete}
-                onCancel={handleDialogCancel} />
         </tr>
         
     );

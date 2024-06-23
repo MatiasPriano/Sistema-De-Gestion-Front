@@ -12,7 +12,7 @@ export default function TaskTable({ projectId, tasks }: {projectId: string, task
             rows={tasks.map((task) => (
                 <TaskRow
                     task={task}
-                    projectId={projectId} product={undefined} />
+                    projectId={projectId} />
             ))} />
     )
 }

@@ -10,16 +10,13 @@ import Ticket from "@/types/ticket";
 
 
 
-export default function TaskRow({ task, projectId, product }: {task: Task, projectId: string, product: Product }) {
-    // const toggleCheckbox = () => {
-    //     setSelected(task.id, !selected)
-    // }
+export default function TaskRow({ task, projectId }: {task: Task, projectId: string }) {
     const router = useRouter()
     const handleViewTaskClick = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`);
     }
     const handleViewTicketsClick = () => {
-        router.push(`/products/${product}/${product}`);
+        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}/tickets`);
     }
 
     const actions: Action[] = [
@@ -35,8 +32,6 @@ export default function TaskRow({ task, projectId, product }: {task: Task, proje
         }
     ]
 
-   
-    
     return (
         <tr key={task.id} >
             <td className="w-20 overflow-hidden">
@@ -56,11 +51,8 @@ export default function TaskRow({ task, projectId, product }: {task: Task, proje
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>
-        
             </td>
-            
-        </tr>
-        
+        </tr>  
     );
 }
 
