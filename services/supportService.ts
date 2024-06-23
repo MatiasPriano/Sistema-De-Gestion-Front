@@ -11,11 +11,21 @@ export async function getVersions(): Promise<Version[]> {
     return await response.json()
 }
 
-export async function getTicketsByVersion(productId: string, versionId: string): Promise<Ticket[]> {
-    let response = await fetch(URL.url + `/v1/versions/${productId}/${versionId}`)
+export async function getTicketsByVersion(versionId: number): Promise<Ticket[]> {
+    let response = await fetch(URL.url + `/v1/versions/${versionId}/tickets`)
+    console.log(response)
+    if (!response.ok) {
+        console.log("Error fetching tickets by version")
+        return []
+    }
+    return await response.json()
+}
+
+export async function getTicket(ticketId: number): Promise<Ticket | null> {
+    let response = await fetch(URL.url + `/v1/tickets/${ticketId}`)
     if (!response.ok) {
         console.log(response)
-        return []
+        return null
     }
     return await response.json()
 }

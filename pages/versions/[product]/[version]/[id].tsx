@@ -9,6 +9,8 @@ import { toast } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import ticketsList from '@/components/ticketsMock';
+import { getTicket } from '@/services/supportService';
+import EmptyPageText from '@/components/emptyPageText';
 
 export default function ViewTicket() {
     const router = useRouter();
@@ -18,40 +20,32 @@ export default function ViewTicket() {
     const handleDialogDelete = () => {
         toast.success("Ticket eliminado")
         setIsDeleteDialogOpen(false)
-        router.push(`/products/${productId}/${versionId}/`)
+        router.push(`/versions/${productId}/${versionId}/`)
     }
     const handleDialogCancel = () => {
         setIsDeleteDialogOpen(false)
     }
     const handleTasksButton = () => {
-        router.push(`/products/${productId}/${versionId}/${ticketId}/tasks`)
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
     }
     const handleEditButton = () => {
-        router.push(`/products/${productId}/${versionId}/${ticketId}/edit`)
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/edit`)
     }
     const handleDeleteTicketButton = () => {
         setIsDeleteDialogOpen(true)
     }
 
-    const [ticket, setTicket] = useState<Ticket>(emptyTicket)
+    const [ticket, setTicket] = useState<Ticket | null>(null)
 
     useEffect(() => {
-        // TODO: API call para conseguir los datos del ticket con id {ticketId}
-        // fetch(URL.url + '/v1/...')
-        // .then((response) =>{
-        //     return response.json()
-        // })
-        // .then((ticketData) => {
-        //     setTicket(ticketData[ticketId as unknown as number - 1])
-        // })
-        setTicket(ticketsList[ticketId as unknown as number - 1])
+        getTicket(ticketId as unknown as number).then((ticket) => setTicket(ticket))
     }, [])
 
     return (
         <div>
             <Breadcrumb steps={[
-                { name: "Productos", link: `/products/`},
-                { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/`},
+                { name: "Versiones", link: `/versions/`},
+                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/`},
                 { name: `#${ticketId}`, link: null }
             ]} />
             <div className="space-y-4">
@@ -59,7 +53,7 @@ export default function ViewTicket() {
                                 versionId={versionId as string}
                                 ticketId=""
                                 title="Ticket" />
-                <div className="flex">
+                {ticket != null && <div className="flex">
                     <div className="flex items-center justify-start px-4">
                         <IconButton
                                 icon="trash"
@@ -77,8 +71,9 @@ export default function ViewTicket() {
                             style="primary"
                             onClick={handleEditButton} />
                     </div>
-                </div>
-                <TicketDetails ticket={ticket} />
+                </div>}
+                {ticket != null && <TicketDetails ticket={ticket} />}
+                {ticket === null && <EmptyPageText text="No se encontró el ticket" description="" icon='ticket' />}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

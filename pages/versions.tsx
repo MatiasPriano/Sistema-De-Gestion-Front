@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import Breadcrumb from "@/components/breadcrumb";
-import VersionTable from "@/components/compactTable/products/versionTable";
+import VersionTable from "@/components/compactTable/versions/versionTable";
 import TextButton from "@/components/button/textButton";
 import Link from "next/link";
 import { getVersions } from "@/services/supportService";
@@ -18,7 +18,7 @@ export default function Versions() {
     return (
     <>
         <Breadcrumb steps={[
-            { name: "Productos", link: null }
+            { name: "Versiones", link: null }
         ]} />
         <div className="space-y-4">
             <header className="flex items-center">

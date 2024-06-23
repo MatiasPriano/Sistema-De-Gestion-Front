@@ -1,4 +1,4 @@
-import Ticket from "@/types/ticket";
+import Ticket, { statusToPrintable } from "@/types/ticket";
 import DetailCard from "./card/detailCard";
 
 type Colour = "red" | "orange" | "yellow" | "green";
@@ -40,14 +40,14 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                     bottomColour={bgColoursMap[severityColours[ticket.severity]]} />
                 <DetailCard
                     mainContent={
-                        <h1 className="text-center text-xl font-extrabold text-indigo-400 flex items-center justify-center px-4">{ticket.status}</h1>
+                        <h1 className="text-center text-xl font-extrabold text-indigo-400 flex items-center justify-center px-4">{statusToPrintable(ticket.status)}</h1>
                     }
                     title="Estado"
                     bottomColour="bg-indigo-400" />
                 <DetailCard
                     mainContent={
                         <div className="text-center text-xl font-extrabold text-teal-400 flex items-center justify-center p-2">
-                            <div className="line-clamp-2 word-wrap">{ticket.client}</div>
+                            <div className="line-clamp-2 word-wrap">{ticket.client["razon social"]}</div>
                         </div>
                     }
                     title="Cliente"
@@ -56,7 +56,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 <DetailCard
                     mainContent={
                         <div className="text-center text-xl font-extrabold text-pink-300 flex items-center justify-center px-4">
-                            <div className="line-clamp-2 word-wrap">{ticket.responsable}</div>
+                            <div className="line-clamp-2 word-wrap">{ticket.employee.Nombre + ticket.employee.Apellido}</div>
                         </div>
                     }
                     title="Responsable"

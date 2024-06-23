@@ -8,6 +8,7 @@ type ConfirmationDialogProps = {
   isOpen: boolean;
   title: string;
   message: string;
+  items?: string[];
   onConfirm: () => void;
   onCancel: () => void;
 };
@@ -16,6 +17,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   isOpen,
   title,
   message,
+  items = [],
   onConfirm,
   onCancel,
 }) => {
@@ -30,6 +32,10 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       <div className="bg-background p-6 rounded-lg shadow-md max-w-md w-full">
         <h2 className="text-xl text-title font-semibold mb-4">{title}</h2>
         <p className="text-subtitle mb-6">{message}</p>
+        {items.length > 0 && 
+          <ul>
+            {items.map((item) => <li>{item}</li>)}
+          </ul>}
         <div className="flex justify-end space-x-4">
           <TextButton
             name="Confirmar"
@@ -37,7 +43,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
             onClick={onConfirm} />
           <TextButton
             name="Cancelar"
-            style="subtle"
+            style="transparent"
             onClick={onCancel} />
         </div>
       </div>

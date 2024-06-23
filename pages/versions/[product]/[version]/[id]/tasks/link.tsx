@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 import VersionHeader from '@/components/versionHeader';
 import LinkTaskTable from '@/components/compactTable/linkTasks/linkTaskTable';
-import EmptyTableText from '@/components/compactTable/emptyTableText';
+import EmptyPageText from '@/components/emptyPageText';
 import Task from '@/types/task';
 import { ChangeEvent, useEffect, useState } from 'react';
 import TextButton from '@/components/button/textButton';
@@ -92,7 +92,7 @@ export default function LinkTask() {
                         tasks={tasks}
                         selectedTasks={selectedTasks}
                         setSelectedTasks={setSelectedTasks} />}
-                {tasks.length === 0 && <EmptyTableText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
+                {tasks.length === 0 && <EmptyPageText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

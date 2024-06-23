@@ -2,14 +2,13 @@ import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TicketTaskTable from '@/components/compactTable/ticketTasks/ticketTaskTable';
 import Task from '@/types/task';
-import EmptyTableText from '@/components/compactTable/emptyTableText';
+import EmptyPageText from '@/components/emptyPageText';
 import TextButton from '@/components/button/textButton';
 import Breadcrumb from '@/components/breadcrumb';
 import { useEffect, useState } from 'react';
-import tasksList from '@/components/tasksMock';
 import { toast } from 'react-hot-toast';
 import ConfirmationDialog from '@/components/confirmationDialog';
-import Link from 'next/link';
+import tasksList from '@/components/tasksMock';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -18,26 +17,26 @@ export default function ViewTasks() {
     const [selectedTasks, setSelectedTasks] = useState<number[]>([])
 
     const handleNewTaskButton = () => {
-        router.push(`/products/${productId}/${versionId}/${ticketId}/tasks/new/`)
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/new/`)
     }
 
     const handleLinkTaskButton = () => {
-        router.push(`/products/${productId}/${versionId}/${ticketId}/tasks/link/`)
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/link/`)
     }
 
-    const [tasks, setTasks] = useState<Task[]>([])
+    const [tasks, setTasks] = useState<Task[]>(tasksList)
 
-    useEffect(() => {
-        // TODO: API call para obtener tareas del back
-        // fetch(URL.url + '/v1/...')
-        // .then((response) =>{
-        //     return response.json()
-        // })
-        // .then((tasksData) => {
-        //     setTasks(tasksData)
-        // })
-        setTasks(tasksList)
-    }, [])
+    // useEffect(() => {
+    //     // TODO: API call para obtener tareas del back
+    //     // fetch(URL.url + '/v1/...')
+    //     // .then((response) =>{
+    //     //     return response.json()
+    //     // })
+    //     // .then((tasksData) => {
+    //     //     setTasks(tasksData)
+    //     // })
+    //     setTasks(tasksList)
+    // }, [])
 
     const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false)
 
@@ -64,9 +63,9 @@ export default function ViewTasks() {
     return (
         <>
             <Breadcrumb steps={[
-                { name: "Productos", link: `/products/` },
-                { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
-                { name: `#${ticketId}`, link: `/products/${productId}/${versionId}/${ticketId}` },
+                { name: "Versiones", link: `/versions/` },
+                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Tareas asociadas", link: null }
             ]} />
             <div className="space-y-4">
@@ -95,7 +94,7 @@ export default function ViewTasks() {
                         selectedTasks={selectedTasks}
                         setSelectedTasks={setSelectedTasks} />}
                 {tasks.length === 0 &&
-                    <EmptyTableText
+                    <EmptyPageText
                         text="No hay tareas asignadas a este ticket"
                         description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
                         icon="task"/>}

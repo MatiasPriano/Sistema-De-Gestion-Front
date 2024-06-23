@@ -1,24 +1,3 @@
-// {
-//     "id": 1,
-//     "title": "Test",
-//     "description": "string",
-//     "status": "CERRADO",
-//     "severity": "S1",
-//     "client": {
-//       "id": 3,
-//       "CUIT": "20-12345678-3",
-//       "razon social": "Macro"
-//     },
-//     "employee": {
-//       "legajo": 3,
-//       "Nombre": "Patricia",
-//       "Apellido": "Gaona"
-//     },
-//     "version": "1.1",
-//     "maxResponseTime": "PT168H",
-//     "taskIds": []
-//   },
-
 import { Client, emptyClient } from "./client"
 import Employee, { emptyEmployee } from "./employee"
 
@@ -37,21 +16,25 @@ export default interface Ticket {
 }
 
 export type Status =
-    "Nuevo" |
-    "En progreso" |
-    "Esperando cliente" |
-    "Esperando desarrollo" |
-    "Resuelto a confirmar" |
-    "Cerrado" |
-    "Bloqueado"
+    "NUEVO" |
+    "EN_PROGRESO" |
+    "ESPERANDO_CLIENTE" |
+    "ESPERANDO_DESARROLLO" |
+    "RESUELTO_A_CONFIRMAR" |
+    "CERRADO" |
+    "BLOQUEADO"
 
 export type Severity = "S1" | "S2" | "S3" | "S4"
+
+export function statusToPrintable(status: Status): string {
+    return status.replaceAll("_", " ")
+}
 
 export const emptyTicket: Ticket = {
     id: 0,
     title: "",
     description: "",
-    status: "Nuevo",
+    status: "NUEVO",
     severity: "S1",
     createdDateTime: "",
     client: emptyClient,

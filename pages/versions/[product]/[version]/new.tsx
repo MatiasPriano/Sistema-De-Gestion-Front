@@ -6,13 +6,11 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
-import getResources from '@/services/resourceService';
 import { Client } from '@/types/client';
-import getClients from '@/services/clientService';
 
 export default function NewTicket() {
     const router = useRouter();
-    const { product, version } = router.query;
+    const { product: productId, version: versionId } = router.query;
 
     const [ ticket, setTicket ] = useState<Ticket>(emptyTicket)
 
@@ -37,28 +35,28 @@ export default function NewTicket() {
         // TODO: API call a backend para crear ticket y obtener el id del ticket
         const ticketId = 1
         toast.success("Ticket creado")
-        router.push(`/products/${product}/${version}/'${ticketId}/tasks`)
+        router.push(`/versions/${productId}/${versionId}/'${ticketId}/tasks`)
     }
     
     const [resources, setResources] = useState<Employee[]>([])
-    useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
-    }, [])
+    // useEffect(() => {
+    //     getResources().then((resources) => setResources(resources))
+    // }, [])
 
     const [clients, setClients] = useState<Client[]>([])
-    useEffect(() => {
-        getClients().then((clients) => setClients(clients)).catch((e) => console.log(e))
-    })
+    // useEffect(() => {
+    //     getClients().then((clients) => setClients(clients))
+    // })
 
     return (
         <div>
             <Breadcrumb steps={[
-                { name: "Productos", link: "/products/" },
-                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
+                { name: "Versiones", link: "/versions/" },
+                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
                 { name: "Nuevo ticket", link: null } 
             ]} />
-            <VersionHeader  productId={product as string}
-                            versionId={version as string}
+            <VersionHeader  productId={productId as string}
+                            versionId={versionId as string}
                             ticketId=""
                             title="Nuevo ticket"
             />

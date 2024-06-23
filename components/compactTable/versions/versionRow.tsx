@@ -5,17 +5,17 @@ import Version from "@/types/version";
 
 export default function VersionRow({ version }: { version: Version }) {
     const router = useRouter()
-    const handleViewProductClick = () => {
-        router.push(`/versions/${version.product.name}/${version.name}`)
+    const handleViewVersionClick = () => {
+        router.push(`/versions/${version.product.id}/${version.id}`)
     }
     const handleCreateTicketClick = () => {
-        router.push(`/versions/${version.product.name}/${version.name}/new`)
+        router.push(`/versions/${version.product.id}/${version.id}/new`)
     }
     
     const actions: Action[] = [
         {
             icon: "view",
-            onClick: handleViewProductClick,
+            onClick: handleViewVersionClick,
             title: "Ver producto"
         },
         {

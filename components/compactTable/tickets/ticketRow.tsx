@@ -18,13 +18,13 @@ const severityColours: Record<"S1" | "S2" | "S3" | "S4", ColouredCellColours> = 
 export default function TicketRow({ ticket, productId, versionId }: { ticket: Ticket, productId: string, versionId: string }) {
     const router = useRouter()
     const handleViewButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}`)
+        router.push(`/versions/${productId}/${versionId}/${ticket.id}`)
     }
     const handleEditButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}/edit`)
+        router.push(`/versions/${productId}/${versionId}/${ticket.id}/edit`)
     }
     const handleViewTasksButtonClick = () => {
-        router.push(`/products/${productId}/${versionId}/${ticket.id}/tasks`)
+        router.push(`/versions/${productId}/${versionId}/${ticket.id}/tasks`)
     }
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
