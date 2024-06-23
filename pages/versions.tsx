@@ -1,25 +1,18 @@
 import {useEffect, useState} from "react";
-import productsList from "@/components/productsMock";
 import Breadcrumb from "@/components/breadcrumb";
-import ProductTable from "@/components/compactTable/products/productTable";
-import Product from "@/types/product";
+import VersionTable from "@/components/compactTable/products/versionTable";
 import TextButton from "@/components/button/textButton";
 import Link from "next/link";
-import { URL } from "@/types/url";
+import { getVersions } from "@/services/supportService";
+import Version from "@/types/version";
 
-export default function Products() {
-    const [products, setProducts] = useState<Product[]>([])
+export default function Versions() {
+    const [versions, setVersions] = useState<Version[]>([])
 
     useEffect(() => {
-        // TODO: API call a backend para obtener productos
-        // fetch(URL.url + '/v1/versions')
-        // .then((response) =>{
-        //     return response.json()
-        // })
-        // .then((productsData) => {
-        //     setProducts(productsData)
-        // })
-        setProducts(productsList)
+        getVersions().then((versions: Version[]) => {
+            setVersions(versions)
+        })
     }, [])
 
     return (
@@ -31,7 +24,7 @@ export default function Products() {
             <header className="flex items-center">
                 <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1">Productos</h1>
             </header>
-            <ProductTable products={productsList} />
+            <VersionTable versions={versions} />
             <div className="flex items-center justify-start gap-x-6 px-4">
                 <Link href="/home">
                     <TextButton

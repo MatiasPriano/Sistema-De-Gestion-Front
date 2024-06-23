@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import ticketsList from '@/components/ticketsMock';
 import getResources from '@/services/resourceService';
-import Resource from '@/types/resource';
+import Employee from '@/types/employee';
 
 export default function ViewTicket() {
     const router = useRouter();
@@ -53,7 +53,7 @@ export default function ViewTicket() {
         setTicket(ticketsList[ticketId as unknown as number - 1])
     }, [])
 
-    const [resources, setResources] = useState<Resource[]>([])
+    const [resources, setResources] = useState<Employee[]>([])
     useEffect(() => {
         getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
     }, [])

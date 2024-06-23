@@ -3,3 +3,9 @@ export interface Client {
     "razon social": string,
     CUIT: string,
 }
+
+export const emptyClient: Client = {
+    id: 0,
+    "razon social": "",
+    CUIT: ""
+}

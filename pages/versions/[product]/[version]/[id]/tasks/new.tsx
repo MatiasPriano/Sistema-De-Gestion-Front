@@ -5,7 +5,7 @@ import Task, { emptyTask } from '@/types/task';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
-import Resource from '@/types/resource';
+import Employee from '@/types/employee';
 import getResources from '@/services/resourceService';
 
 export default function NewTask() {
@@ -42,7 +42,7 @@ export default function NewTask() {
         router.push(`/products/${product}/${version}/${id}/tasks`)
     }
     
-    const [resources, setResources] = useState<Resource[]>([])
+    const [resources, setResources] = useState<Employee[]>([])
     useEffect(() => {
         getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
     }, [])

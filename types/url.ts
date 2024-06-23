@@ -3,5 +3,5 @@ export default interface URL{
 }
 
 export const URL: URL = {
-    url: "localhost:8080"
+    url: "http://localhost:8080"
 }

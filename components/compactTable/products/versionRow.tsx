@@ -1,15 +1,15 @@
 import SimpleCell from "../cells/simpleCell";
-import Product from "@/types/product";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
+import Version from "@/types/version";
 
-export default function ProductRow({ product }: { product: Product }) {
+export default function VersionRow({ version }: { version: Version }) {
     const router = useRouter()
     const handleViewProductClick = () => {
-        router.push(`/products/${product.name}/${product.version}`)
+        router.push(`/versions/${version.product.name}/${version.name}`)
     }
     const handleCreateTicketClick = () => {
-        router.push(`/products/${product.name}/${product.version}/new`)
+        router.push(`/versions/${version.product.name}/${version.name}/new`)
     }
     
     const actions: Action[] = [
@@ -26,12 +26,12 @@ export default function ProductRow({ product }: { product: Product }) {
     ]
     
     return (
-        <tr key={product.name} >
+        <tr key={version.name} >
             <td className="overflow-hidden">
-                <SimpleCell name={product.name} />
+                <SimpleCell name={version.product.name} />
             </td>
             <td className="overflow-hidden">
-                <SimpleCell name={product.version} centered={true} />
+                <SimpleCell name={version.name} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>

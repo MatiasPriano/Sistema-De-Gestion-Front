@@ -73,10 +73,10 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
                 <SimpleCell name={ticket.createdDateTime} centered={true} />
             </td>
             <td className="overflow-hidden">
-                <ResourceCell name={ticket.responsable} />
+                <ResourceCell name={ticket.employee.Nombre + " " + ticket.employee.Apellido} />
             </td>
             <td className="overflow-hidden">
-                <SimpleCell name={ticket.client} centered={true} />
+                <SimpleCell name={ticket.client["razon social"]} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <SimpleCell name={ticket.status} centered={true} />

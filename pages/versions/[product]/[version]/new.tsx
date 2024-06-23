@@ -5,7 +5,7 @@ import Ticket, { emptyTicket } from '@/types/ticket';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
-import Resource from '@/types/resource';
+import Employee from '@/types/employee';
 import getResources from '@/services/resourceService';
 import { Client } from '@/types/client';
 import getClients from '@/services/clientService';
@@ -40,7 +40,7 @@ export default function NewTicket() {
         router.push(`/products/${product}/${version}/'${ticketId}/tasks`)
     }
     
-    const [resources, setResources] = useState<Resource[]>([])
+    const [resources, setResources] = useState<Employee[]>([])
     useEffect(() => {
         getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
     }, [])
