@@ -22,5 +22,5 @@ export const emptyProject: Project = {
     responsable: "",
     estado: "OPEN",
     fechaInicio: "",
-    fechaFinalizacion: ""
+    fechaFinalizacion: "",
 }
