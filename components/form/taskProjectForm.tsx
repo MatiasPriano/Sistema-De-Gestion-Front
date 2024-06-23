@@ -5,8 +5,8 @@ import TextArea from "../input/textArea";
 import ButtonRow, { ButtonOption } from "../button/buttonRow";
 import TextButton from "../button/textButton";
 import { toast } from "react-hot-toast";
-import Task from "@/types/task";
 import ComboBox from "../input/comboBox";
+import TaskProject from "@/types/taskProjects";
 
 const priorityOptions: ButtonOption[] = [
     { title: "Baja", colour: "green" }, 
@@ -27,8 +27,8 @@ export interface TaskInputs {
 }
 
 interface TaskFormProps {
-    task: Task;
-    setTask: (task: Task) => void;
+    task: TaskProject;
+    setTask: (task: TaskProject) => void;
     disabledInputs: TaskInputs;
     requiredInputs: TaskInputs;
     submitButtonName: string;

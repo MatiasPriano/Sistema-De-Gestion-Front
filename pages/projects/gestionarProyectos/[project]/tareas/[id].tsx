@@ -1,21 +1,20 @@
 import { useRouter } from 'next/router';
-import VersionHeader from '@/components/versionHeader';
 import TaskForm, { TaskInputs } from '@/components/form/taskForm';
-import Task, { emptyTask } from '@/types/task';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
 import TaskProjectForm from '@/components/form/taskProjectForm';
-import tasksList from '@/components/tasksMock';
+import tasksList from '@/components/tasksProjectMock';
 import React from 'react';
+import TaskProject, { emptyTask } from '@/types/taskProjects';
 
 export default function ViewTask() {
     const router = useRouter();
     const { project: projectId, id: taskId } = router.query;
 
-    const [task, setTask] = useState<Task>(emptyTask)
+    const [task, setTask] = useState<TaskProject>(emptyTask)
 
     const disabledInputs: TaskInputs = {
         title: true,

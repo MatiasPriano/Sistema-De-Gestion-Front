@@ -24,7 +24,7 @@ export default function ViewTickets() {
                 { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
                 { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
                 { name: "Tareas del proyecto", link: `/projects/gestionarProyectos/${projectId}/tareas`}, 
-                { name: `${taskId}`, link: `/projects/gestionarProyectos/${projectId}/tareas/${taskId}` },
+                { name: `#${taskId}`, link: `/projects/gestionarProyectos/${projectId}/tareas/${taskId}` },
                 { name: "Tickets asociados", link: null }
             ]} />
             <div className="space-y-4">

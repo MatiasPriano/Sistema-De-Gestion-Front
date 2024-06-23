@@ -4,11 +4,7 @@ import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
 import React from "react";
-import Product from "@/types/product";
 import Task from "@/types/task";
-import Ticket from "@/types/ticket";
-
-
 
 export default function TaskRow({ task, projectId }: {task: Task, projectId: string }) {
     const router = useRouter()
@@ -28,7 +24,7 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
         {
             icon: "list",
             onClick: handleViewTicketsClick,
-            title: "Ver tickets"
+            title: "Ver tickets asociados"
         }
     ]
 
