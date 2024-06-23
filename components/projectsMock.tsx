@@ -14,7 +14,7 @@ const projectsList: Project[] = [
         },
 
         {
-            id: 3, name: 'Proyecto 3', responsable: 'Maximiliano Gant', 
+            id: 3, name: 'Prosafsafas', responsable: 'Maximiliano Gant', 
             fechaFinalizacion: '20/01/2025', fechaInicio: '30/06/2024', estado: 'Iniciado',
             descripcion: ''
         }
