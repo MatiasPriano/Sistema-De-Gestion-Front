@@ -11,10 +11,11 @@ import { useRouter } from "next/router";
 import projectsList from "@/components/projectsMock";
 
 const stateOptions: State[] = [
-    "Iniciado",
-    "En desarrollo",
-    "En transición",
-    "Terminado"
+    "OPEN",
+    "CLOSED",
+    "PROGRESS",
+    "BLOCKED",
+    "FINISHED"
 ];
 
 export interface ProjectInputs {
@@ -103,15 +104,12 @@ export default function ProjectForm({
             responsable: !disabledInputs.responsable && requiredInputs.responsable && !resources.includes(project.responsable),
             description: requiredInputs.description && project.descripcion.trim() === "",
             state: requiredInputs.state && !stateOptions.includes(project.estado),
-            endDateTime: !disabledInputs.endDateTime && requiredInputs.endDateTime && project.fechaFinalizacion.trim() === "",
+            endDateTime: !disabledInputs.endDateTime && requiredInputs.endDateTime && (project.fechaFinalizacion?.trim() || '') === "",
         };
-
-        if (!finalInvalidInputs.name &&
-            !finalInvalidInputs.responsable &&
-            !finalInvalidInputs.description &&
-            !finalInvalidInputs.state &&
-            !finalInvalidInputs.endDateTime) {
+        
+        if (!finalInvalidInputs.name) {
             onSubmit();
+            console.log("aprete el boton de guardar cambios lol")
         } else {
             setInvalidInputs(finalInvalidInputs);
             toast.error("Existen campos incompletos");
@@ -153,51 +151,51 @@ export default function ProjectForm({
                         disabled={disabledInputs.description} />
                 </div>
                 <div className="grid sm:grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-6">
-    <ComboBox
-        title="Estado"
-        options={stateOptions}
-        selected={project.estado}
-        disabled={disabledInputs.state}
-        onChange={setState}
-    />
-    <div className="space-y-2">
-        <label htmlFor="startDate" className="block text-sm font-medium text-title">Fecha de inicio</label>
-        <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input
-                id="startDate"
-                type="text"
-                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-                placeholder="Seleccionar fecha"
-                value={project.fechaInicio || ''}
-                onChange={(e) => setProject({ ...project, fechaInicio: e.target.value })}
-                onFocus={handleEndDateTimeFocus}
-            />
-        </div>
-    </div>
-    <div className="space-y-2">
-        <label htmlFor="endDate" className="block text-sm font-medium text-title">Fecha de fin</label>
-        <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input
-                id="endDate"
-                type="text"
-                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-                placeholder="Seleccionar fecha"
+                    <ComboBox
+                        title="Estado"
+                        options={stateOptions}
+                        selected={project.estado}
+                        disabled={disabledInputs.state}
+                        onChange={setState}
+                    />
+                    <div className="space-y-2">
+                        <label htmlFor="startDate" className="block text-sm font-medium text-title">Fecha de inicio</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                            </div>
+                            <input
+                                id="startDate"
+                                type="text"
+                                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                placeholder="Seleccionar fecha"
+                                value={project.fechaInicio || ''}
+                                onChange={(e) => setProject({ ...project, fechaInicio: e.target.value })}
+                                onFocus={handleEndDateTimeFocus}
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="endDate" className="block text-sm font-medium text-title">Fecha de fin</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                            </div>
+                            <input
+                                id="endDate"
+                                type="text"
+                                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                placeholder="Seleccionar fecha"
                 value={project.fechaFin || ''}
                 onChange={(e) => setProject({ ...project, fechaFin: e.target.value })}
-                onFocus={handleEndDateTimeFocus}
-            />
-        </div>
-    </div>
+                                onFocus={handleEndDateTimeFocus}
+                            />
+                        </div>
+                    </div>
     <div className="space-y-2">
         <label htmlFor="cost" className="block text-sm font-medium text-title">Costo del proyecto</label>
         <div className="relative">
@@ -214,7 +212,7 @@ export default function ProjectForm({
             />
         </div>
     </div>
-</div>
+                </div>
 
                 <div className="flex col-span-full pt-2">
                     <div className="flex items-center justify-end gap-x-6 px-4 w-full">

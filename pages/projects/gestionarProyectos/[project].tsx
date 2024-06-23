@@ -33,6 +33,7 @@ export default function ManageProject() {
     useEffect(() => {
         // TODO: API call para obtener detalles del ticket
         console.log(projectId)
+        console.log("aca actualizo???")
         setProject(projectsList[projectId as unknown as number - 1])
     }, [])
 
@@ -46,10 +47,47 @@ export default function ManageProject() {
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para editar ticket
-        toast.success("Cambios guardados")
-        router.push(`/projects/gestionarProyectos`)
-    }
+        
+        console.log("datos del proyecto");
+        console.log(project.id);
+        console.log(project.name);
+        console.log(project.descripcion);
+        console.log(project.estado);
+        console.log(project.fechaInicio);
+        console.log(project.fechaFinalizacion);
+        console.log(project.responsable);
+    
+        const url = `https://projects-backend-am35.onrender.com/projects/${project.id}?assigned_leader=${project.responsable}&description=${project.descripcion}&state=${project.estado}&title=${project.name}`;
+    
+        console.log("la url es:")
+        console.log(url)
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': '*/*'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            // Check if response is not empty before parsing
+            return response.text().then(text => {
+                return text ? JSON.parse(text) : {};
+            });
+        })
+        .then(data => {
+            console.log('Success:', data);
+            toast.success("Cambios guardados");
+            router.push(`/projects/gestionarProyectos`);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            toast.error("Hubo un error al guardar los cambios");
+        });
+    };
+    
 
     return (
         <div>

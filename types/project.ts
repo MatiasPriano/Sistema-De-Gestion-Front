@@ -9,17 +9,18 @@ export default interface Project {
 }
 
 export type State =
-    "Iniciado" |
-    "En desarrollo" |
-    "En transición" |
-    "Terminado"
+    "OPEN" |
+    "CLOSED" |
+    "PROGRESS" |
+    "BLOCKED" |
+    "FINISHED"
 
 export const emptyProject: Project = {
     id: 0,
     name: "",
     descripcion: "",
     responsable: "",
-    estado: "Iniciado",
+    estado: "OPEN",
     fechaInicio: "",
     fechaFinalizacion: ""
 }
