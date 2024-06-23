@@ -5,12 +5,20 @@ import ProductTable from "@/components/compactTable/products/productTable";
 import Product from "@/types/product";
 import TextButton from "@/components/button/textButton";
 import Link from "next/link";
+import { URL } from "@/types/url";
 
 export default function Products() {
     const [products, setProducts] = useState<Product[]>([])
 
     useEffect(() => {
         // TODO: API call a backend para obtener productos
+        // fetch(URL.url + '/v1/versions')
+        // .then((response) =>{
+        //     return response.json()
+        // })
+        // .then((productsData) => {
+        //     setProducts(productsData)
+        // })
         setProducts(productsList)
     }, [])
 

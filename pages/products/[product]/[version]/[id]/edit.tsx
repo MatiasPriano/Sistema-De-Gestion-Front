@@ -43,6 +43,13 @@ export default function ViewTicket() {
     const [ticket, setTicket] = useState(emptyTicket)
     useEffect(() => {
         // TODO: API call para obtener detalles del ticket
+        // fetch(URL.url + '/v1/...')
+        // .then((response) =>{
+        //     return response.json()
+        // })
+        // .then((ticketData) => {
+        //     setTicket(ticketData[ticketId as unknown as number - 1])
+        // })
         setTicket(ticketsList[ticketId as unknown as number - 1])
     }, [])
 

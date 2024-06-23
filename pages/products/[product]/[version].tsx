@@ -19,6 +19,13 @@ export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
     useEffect(() => {
         // TODO: API call para obtener todos los tickets de la version
+        // fetch(URL.url + '/v1/...')
+        // .then((response) =>{
+        //     return response.json()
+        // })
+        // .then((ticketsData) => {
+        //     setTickets(ticketsData)
+        // })
         setTickets(ticketsList)
     }, [])
 

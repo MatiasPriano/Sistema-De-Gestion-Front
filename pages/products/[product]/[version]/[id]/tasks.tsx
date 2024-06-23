@@ -29,6 +29,13 @@ export default function ViewTasks() {
 
     useEffect(() => {
         // TODO: API call para obtener tareas del back
+        // fetch(URL.url + '/v1/...')
+        // .then((response) =>{
+        //     return response.json()
+        // })
+        // .then((tasksData) => {
+        //     setTasks(tasksData)
+        // })
         setTasks(tasksList)
     }, [])
 

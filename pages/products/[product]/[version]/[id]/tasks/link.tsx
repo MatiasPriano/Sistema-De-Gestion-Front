@@ -30,6 +30,13 @@ export default function LinkTask() {
     const [tasks, setTasks] = useState<Task[]>([])
     useEffect(() => {
         // TODO: API call para obtener las primeras N tareas del back de proyectos
+        // fetch(URL.url + '/v1/...')
+        // .then((response) =>{
+        //     return response.json()
+        // })
+        // .then((tasksData) => {
+        //     setTasks(tasksData)
+        // })
         setTasks(tasksList)
     }, [])
 
