@@ -4,6 +4,8 @@ import Ticket from '@/types/ticket';
 import Task from '@/types/task';
 import { Client } from '@/types/client';
 import Employee from '@/types/employee';
+import NewTicket from '@/types/newTicket';
+import EditTicket from '@/types/editTicket';
 
 export async function getVersions(): Promise<Version[]> {
     let response = await fetch(URL.url + '/v1/versions')
@@ -13,6 +15,10 @@ export async function getVersions(): Promise<Version[]> {
     }
     return await response.json()
 }
+
+// export async function getVersion(versionId: number): Promise<Version> {
+//     // let response await fetch(URL.url + '/v1/')
+// }
 
 export async function getTicketsByVersion(versionId: number): Promise<Ticket[]> {
     let response = await fetch(URL.url + `/v1/versions/${versionId}/tickets`)
@@ -33,38 +39,38 @@ export async function getTicket(ticketId: number): Promise<Ticket | null> {
     return await response.json()
 }
 
-export async function createTicket(ticket: Ticket): Promise<number> {
+export async function createTicket(newTicket: NewTicket): Promise<number> {
     let response = await fetch(URL.url + '/v1/tickets', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(ticket),
+        body: JSON.stringify(newTicket),
     })
 
     if (!response.ok) {
-        console.log(response)
+        console.log("No se pudo crear el ticket")
         return -1
     }
-
-    return await response.json()
+    let createdTicket: Ticket = await response.json()
+    return createdTicket.id
 }
 
-export async function updateTicket(ticket: Ticket): Promise<number> {
-    let response = await fetch(URL.url + `/v1/tickets/${ticket.id}`, {
+export async function updateTicket(editTicket: EditTicket, ticketId: number): Promise<number> {
+    let response = await fetch(URL.url + `/v1/tickets/${ticketId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(ticket),
+        body: JSON.stringify(editTicket),
     })
 
     if (!response.ok) {
-        console.log(response)
+        console.log("No se pudo editar el ticket")
         return -1
     }
-
-    return await response.json()
+    let editedTicket: Ticket = await response.json()
+    return editedTicket.id
 }
 
 export async function deleteTicket(ticketId: string): Promise<string> {

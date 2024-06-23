@@ -7,6 +7,7 @@ import ConfirmationDialog from "@/components/confirmationDialog";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
+import Employee from "@/types/employee";
 
 const severityColours: Record<"S1" | "S2" | "S3" | "S4", ColouredCellColours> = {
     "S1": "red",
@@ -73,7 +74,7 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
                 <SimpleCell name={ticket.createdDateTime} centered={true} />
             </td>
             <td className="overflow-hidden">
-                <ResourceCell name={ticket.employee.Nombre + " " + ticket.employee.Apellido} />
+                <ResourceCell name={getEmployeeName(ticket.employee)} />
             </td>
             <td className="overflow-hidden">
                 <SimpleCell name={ticket.client["razon social"]} centered={true} />
@@ -96,4 +97,12 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
         </tr>
         
     );
+}
+
+function getEmployeeName(employee: Employee) {
+    if (employee) {
+        return employee.Nombre + " " + employee.Apellido
+    } else {
+        return "No definido"
+    }
 }

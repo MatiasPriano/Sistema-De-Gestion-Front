@@ -1,4 +1,3 @@
-import Ticket, { Severity, Status } from "@/types/ticket"
 import Input from "../input/input"
 import { useState } from "react"
 import AutocompleteInput from "../input/autocomplete"
@@ -7,16 +6,21 @@ import ComboBox from "../input/comboBox"
 import ButtonRow, { ButtonOption } from "../button/buttonRow"
 import TextButton from "../button/textButton"
 import { toast } from 'react-hot-toast';
+import Employee from "@/types/employee"
+import EditTicket from "@/types/editTicket"
+import { TicketInputs } from "@/types/ticketInputs"
+import { Status } from "@/types/status"
+import { Severity } from "@/types/severity"
 
 const statusOptions: Status[] =
     [
-        "Nuevo",
-        "En progreso",
-        "Esperando cliente",
-        "Esperando desarrollo",
-        "Resuelto a confirmar",
-        "Cerrado",
-        "Bloqueado"
+        "NUEVO",
+        "EN_PROGRESO",
+        "ESPERANDO_CLIENTE",
+        "ESPERANDO_DESARROLLO",
+        "RESUELTO_A_CONFIRMAR",
+        "CERRADO",
+        "BLOQUEADO"
     ]
 
 const severityOptions: ButtonOption[] =
@@ -26,46 +30,34 @@ const severityOptions: ButtonOption[] =
         {title: "S3", colour: "yellow" },
         {title: "S4", colour: "green" },
     ]
-
-export interface TicketInputs {
-    [key: string]: boolean
-    title: boolean
-    description: boolean
-    responsable: boolean
-    status: boolean
-    severity: boolean
-    client: boolean
-}
-
-export interface TicketFormProps {
-    ticket: Ticket
-    setTicket: (ticket: Ticket) => void
+    
+export interface EditTicketFormProps {
+    editTicket: EditTicket
+    setEditTicket: (editTicket: EditTicket) => void
     disabledInputs: TicketInputs
     requiredInputs: TicketInputs
     submitButtonName: string
     onSubmit: () => void
     onCancel: () => void
-    resources: string[]
-    clients: string[]
+    employees: Employee[]
 }
 
 export default function TicketForm(
     {
-        ticket,
-        setTicket,
+        editTicket: editTicket,
+        setEditTicket: setTicket,
         disabledInputs,
         requiredInputs,
         submitButtonName,
         onSubmit,
         onCancel,
-        resources,
-        clients
-    } : TicketFormProps) {
+        employees,
+    } : EditTicketFormProps) {
         const [invalidInputs, setInvalidInputs] = useState<TicketInputs>(
             {
                 title: false,
                 description: false,
-                responsable: false,
+                employee: false,
                 status: false,
                 severity: false,
                 client: false,
@@ -73,58 +65,48 @@ export default function TicketForm(
         )
 
         const setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-            setTicket({ ...ticket, title: event.target.value })
+            setTicket({ ...editTicket, title: event.target.value })
         }
         const handleTitleFocus = () => {
             setInvalidInputs({...invalidInputs, title: false})
         }
 
-        const setResponsable = (responsable: string) => {
-            setTicket({ ...ticket, responsable: responsable })
+        const setEmployeeId = (employeeId: number | null) => {
+            setTicket({ ...editTicket, employeeId: employeeId })
         }
-        const handleResponsableFocus = () => {
-            setInvalidInputs({ ...invalidInputs, responsable: false })
+        const handleEmployeeFocus = () => {
+            setInvalidInputs({ ...invalidInputs, employee: false })
         }
 
         const setDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            setTicket({ ...ticket, description: event.target.value })
+            setTicket({ ...editTicket, description: event.target.value })
         }
         const handleDescriptionFocus = () => {
             setInvalidInputs({ ...invalidInputs, description: false })
         }
 
         const setStatus = (status: string) => {
-            setTicket({ ...ticket, status: status as Status })
+            setTicket({ ...editTicket, status: status as Status })
         }
 
         const setSeverity = (severity: string | null) => {
-            setTicket({ ...ticket, severity: severity as Severity })
+            setTicket({ ...editTicket, severity: severity as Severity })
         }
         const handleSeverityFocus = () => {
             setInvalidInputs({ ...invalidInputs, severity: false })
-        }
-
-        const setClient = (client: string) => {
-            setTicket({ ...ticket, client: client })
-        }
-        const handleClientFocus = () => {
-            setInvalidInputs({ ...invalidInputs, client: false })
         }
 
         const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault()
 
             const finalInvalidInputs: TicketInputs = {
-                title: requiredInputs.title && ticket.title.trim() === "",
-                responsable: !disabledInputs.responsable && requiredInputs.responsable && !resources.includes(ticket.responsable),
-                description: requiredInputs.description && ticket.description.trim() === "",
-                status: requiredInputs.status && !statusOptions.includes(ticket.status),
-                severity: requiredInputs.severity && !["S1", "S2", "S3", "S4"].includes(ticket.severity),
-                client: !disabledInputs.client && requiredInputs.client && !clients.includes(ticket.client),
+                title: requiredInputs.title && editTicket.title.trim() === "",
+                employee: !disabledInputs.responsable && requiredInputs.responsable && (editTicket.employeeId === null || !employees.map((employee) => employee.legajo).includes(editTicket.employeeId)),
+                description: requiredInputs.description && editTicket.description.trim() === "",
+                status: requiredInputs.status && !statusOptions.includes(editTicket.status),
+                severity: requiredInputs.severity && !["S1", "S2", "S3", "S4"].includes(editTicket.severity),
+                client: false,
             }
-            console.log(ticket)
-            console.log(invalidInputs)
-            console.log()
             if (!finalInvalidInputs.title &&
                 !finalInvalidInputs.responsable &&
                 !finalInvalidInputs.description &&
@@ -144,7 +126,7 @@ export default function TicketForm(
                     <Input  
                         title="Título"
                         placeholder="TKT-001"
-                        value={ticket.title}
+                        value={editTicket.title}
                         setValue={setTitle}
                         error={invalidInputs.title}
                         handleFocus={handleTitleFocus}
@@ -153,18 +135,18 @@ export default function TicketForm(
                     <AutocompleteInput
                         title="Responsable"
                         placeholder="Juan Perez"
-                        value={ticket.responsable}
-                        setValue={setResponsable}
+                        value={editTicket.employeeId}
+                        setValue={setEmployeeId}
                         error={invalidInputs.responsable}
                         errorText="El responsable debe ser valido"
-                        handleFocus={handleResponsableFocus}
+                        handleFocus={handleEmployeeFocus}
                         isRequired={requiredInputs.responsable}
-                        items={resources}
+                        items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + employee.Apellido }})}
                         disabled={disabledInputs.responsable} />
                     <div className="col-span-full">
                         <TextArea
                             title="Descripción"
-                            value={ticket.description}
+                            value={editTicket.description}
                             setValue={setDescription}
                             placeholder="El usuario describe que no puede descargar ultima factura emitida."
                             isRequired={requiredInputs.description}
@@ -176,30 +158,19 @@ export default function TicketForm(
                         <ComboBox
                             title="Estado"
                             options={statusOptions}
-                            selected={ticket.status}
+                            selected={editTicket.status}
                             disabled={disabledInputs.status}
                             onChange={setStatus} />
                         <ButtonRow
                             title="Severidad"
                             options={severityOptions}
-                            selected={ticket.severity}
+                            selected={editTicket.severity}
                             setSelected={setSeverity}
                             isRequired={requiredInputs.severity}
                             error={invalidInputs.severity}
                             handleFocus={handleSeverityFocus}
                             disabled={disabledInputs.severity} />
                     </div>
-                    <AutocompleteInput
-                        title='Cliente'
-                        placeholder='PSA - Soporte'
-                        value={ticket.client}
-                        setValue={setClient}
-                        isRequired={requiredInputs.client}
-                        error={invalidInputs.client}
-                        errorText="El cliente debe ser valido"
-                        handleFocus={handleClientFocus}
-                        items={clients}
-                        disabled={disabledInputs.client} />
                     <div className='flex col-span-full pt-2'>
                         <div className="flex items-center justify-end gap-x-6 px-4 w-full">
                             <TextButton

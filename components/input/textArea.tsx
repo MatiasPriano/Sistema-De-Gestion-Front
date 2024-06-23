@@ -27,7 +27,7 @@ function getTextAreaClassName(isDisabled: boolean, isObligatory: boolean, isEmpt
 }
 
 function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
-    let className = "text-red-500 absolute transition-opacity duration-300";
+    let className = "text-red absolute transition-opacity duration-300";
     if (isEmpty && isObligatory) {
         className += ' opacity-100'
     } else {

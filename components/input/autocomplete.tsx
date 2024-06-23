@@ -13,13 +13,13 @@ function getSubtextClassName(isObligatory: boolean, isEmpty: boolean) {
 interface AutocompleteInputProps {
     title: string;
     placeholder: string;
-    value: string;
-    setValue: (value: string) => void;
+    value: number | null;
+    setValue: (value: number | null) => void;
     error?: boolean;
     errorText?: string;
     handleFocus?: () => void;
     isRequired: boolean;
-    items: string[];
+    items: {id: number, name: string }[];
     disabled?: boolean;
 }
 
@@ -32,17 +32,18 @@ export default function AutocompleteInput({
     errorText = "",
     isRequired = false, 
     items,
-    disabled = false
+    disabled = false,
 }: AutocompleteInputProps) {
-    const handleOnSearch = (value: string, _: string[]) => {
-        setValue(value)
+    const handleOnSearch = (value: string, results: { id: number, name: string }[]) => {
+        if (results.length === 0) setValue(null)
+        else {
+            let matches = results.filter((result) => result.name === value)
+            if (matches.length === 0) setValue(null)
+            else setValue(matches[0].id)
+        }
     }
-    const handleOnSelect = (value: string) => {
-        setValue(value)
-    }
-    const newItems:{ id: number, name: string }[] = []
-    for (let i = 0; i < items.length; i++) {
-        newItems.push({id: i, name: items[i]})
+    const handleOnSelect = (value: { id: number, name: string }) => {
+        setValue(value.id)
     }
     return (
         <div className="space-y-2">
@@ -53,7 +54,7 @@ export default function AutocompleteInput({
                 {disabled && <div className="my-4 font-medium text-bold text-title">{value}</div>}
                 {!disabled &&
                     <ReactSearchAutocomplete
-                        items={newItems}
+                        items={items}
                         placeholder={placeholder}
                         onSearch={handleOnSearch}
                         onSelect={handleOnSelect}/>}

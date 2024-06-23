@@ -24,6 +24,15 @@ export default function Tickets() {
         getTicketsByVersion(versionId as unknown as number).then((tickets) => setTickets(tickets))
     }, [])
 
+    // const [versionName, setVersionName] = useState<string>("")
+    // const [productName, setProductName] = useState<string>("")
+    // useEffect(() => {
+    //     getVersion(Number(versionId)).then((version) => {
+    //         setProductName(version.product.name)
+    //         setVersionName(version.name)
+    //     })
+    // }, [])
+
     return (
         <>
             <Breadcrumb steps={[

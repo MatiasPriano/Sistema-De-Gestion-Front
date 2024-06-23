@@ -1,23 +1,26 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
-import Ticket, { emptyTicket } from '@/types/ticket';
+import Ticket from '@/types/ticket';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
 import { Client } from '@/types/client';
+import { createTicket, getClients, getEmployees } from '@/services/supportService';
+import NewTicket, { getEmptyNewTicket } from '@/types/newTicket';
+import { TicketInputs } from '@/types/ticketInputs';
+import NewTicketForm from '@/components/form/newTicketForm';
 
-export default function NewTicket() {
+export default function NewTicketComponent() {
     const router = useRouter();
     const { product: productId, version: versionId } = router.query;
 
-    const [ ticket, setTicket ] = useState<Ticket>(emptyTicket)
+    const [ newTicket, setNewTicket ] = useState<NewTicket>(getEmptyNewTicket(Number(versionId)))
 
     const disabledInputs: TicketInputs = {
         title: false,
         description: false,
-        responsable: false,
+        employee: false,
         status: true,
         severity: false,
         client: false,
@@ -25,28 +28,33 @@ export default function NewTicket() {
     const requiredInputs: TicketInputs = {
         title: true,
         description: true,
-        responsable: false,
+        employee: false,
         status: true,
         severity: true,
         client: true,
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para crear ticket y obtener el id del ticket
-        const ticketId = 1
-        toast.success("Ticket creado")
-        router.push(`/versions/${productId}/${versionId}/'${ticketId}/tasks`)
+        console.log("NewTicket: ", newTicket)
+        createTicket(newTicket).then((ticketId) => {
+            if (ticketId === -1) {
+                toast.error("Hubo un problema al crear el ticket")
+            } else {
+                toast.success("Ticket creado")
+                router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
+            }
+        })
     }
     
-    const [resources, setResources] = useState<Employee[]>([])
-    // useEffect(() => {
-    //     getResources().then((resources) => setResources(resources))
-    // }, [])
+    const [employees, setEmployees] = useState<Employee[]>([])
+    useEffect(() => {
+        getEmployees().then((employee) => setEmployees(employee))
+    }, [])
 
     const [clients, setClients] = useState<Client[]>([])
-    // useEffect(() => {
-    //     getClients().then((clients) => setClients(clients))
-    // })
+    useEffect(() => {
+        getClients().then((clients) => setClients(clients))
+    })
 
     return (
         <div>
@@ -60,14 +68,14 @@ export default function NewTicket() {
                             ticketId=""
                             title="Nuevo ticket"
             />
-            <TicketForm
-                ticket={ticket}
-                setTicket={setTicket}
+            <NewTicketForm
+                newTicket={newTicket}
+                setNewTicket={setNewTicket}
                 disabledInputs={disabledInputs}
                 requiredInputs={requiredInputs}
                 onCancel={() => router.back()}
-                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                clients={clients.map((client) => client['razon social'])}
+                employees={employees}
+                clients={clients}
                 submitButtonName="Crear"
                 onSubmit={onSubmit} />
         </div>

@@ -1,5 +1,7 @@
-import Ticket, { statusToPrintable } from "@/types/ticket";
+import Ticket from "@/types/ticket";
 import DetailCard from "./card/detailCard";
+import Employee from "@/types/employee";
+import { statusToPrintable } from "@/types/status";
 
 type Colour = "red" | "orange" | "yellow" | "green";
 
@@ -56,7 +58,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 <DetailCard
                     mainContent={
                         <div className="text-center text-xl font-extrabold text-pink-300 flex items-center justify-center px-4">
-                            <div className="line-clamp-2 word-wrap">{ticket.employee.Nombre + ticket.employee.Apellido}</div>
+                            <div className="line-clamp-2 word-wrap">{getEmployeeName(ticket.employee)}</div>
                         </div>
                     }
                     title="Responsable"
@@ -67,4 +69,12 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
             <p className="mx-2 sm:mx-8 text-title">{ticket.description}</p>
         </div>
     );
+}
+
+function getEmployeeName(employee: Employee | null) {
+    if (employee) {
+        return employee.Nombre + " " + employee.Apellido
+    } else {
+        return "No definido"
+    }
 }

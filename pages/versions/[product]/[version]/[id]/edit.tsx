@@ -1,30 +1,30 @@
 import { useRouter } from 'next/router';
-import TicketForm, { TicketInputs } from '@/components/form/ticketForm';
 import VersionHeader from '@/components/versionHeader';
-import Ticket, { emptyTicket } from '@/types/ticket';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
-import ticketsList from '@/components/ticketsMock';
-import getResources from '@/services/resourceService';
 import Employee from '@/types/employee';
+import { TicketInputs } from '@/types/ticketInputs';
+import EditTicket, { emptyEditTicket, getEditTicketFromTicket } from '@/types/editTicket';
+import { getEmployees, getTicket, updateTicket } from '@/services/supportService';
+import EditTicketForm from '@/components/form/editTicketForm';
 
-export default function ViewTicket() {
+export default function EditTicketComponent() {
     const router = useRouter();
     const { product: productId, version: versionId, id: ticketId } = router.query;
 
     const disabledInputs: TicketInputs = {
         title: true,
         description: false,
-        responsable: false,
+        employee: false,
         status: false,
-        severity: false,
+        severity: true,
         client: true,
     }
     const requiredInputs: TicketInputs = {
         title: true,
         description: true,
-        responsable: false,
+        employee: false,
         status: true,
         severity: true,
         client: true,
@@ -35,35 +35,39 @@ export default function ViewTicket() {
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para editar ticket
-        toast.success("Cambios guardados")
-        router.push(`/products/${productId}/${versionId}/${ticketId}`)
+        updateTicket(editTicket, Number(ticketId)).then((id) => {
+            if (id === -1) {
+                toast.error("No se pudo editar el ticket")
+            } else {
+                toast.success("Cambios guardados")
+                router.back()
+            }
+        })
     }
 
-    const [ticket, setTicket] = useState(emptyTicket)
+    const [editTicket, setEditTicket] = useState<EditTicket>(emptyEditTicket)
     useEffect(() => {
-        // TODO: API call para obtener detalles del ticket
-        // fetch(URL.url + '/v1/...')
-        // .then((response) =>{
-        //     return response.json()
-        // })
-        // .then((ticketData) => {
-        //     setTicket(ticketData[ticketId as unknown as number - 1])
-        // })
-        setTicket(ticketsList[ticketId as unknown as number - 1])
+        getTicket(Number(ticketId)).then((ticket) => {
+            if (ticket === null) {
+                toast.error("Ticket no existe")
+                router.push(`/versions/${productId}/${versionId}`)
+            } else {
+                setEditTicket(getEditTicketFromTicket(ticket))
+            }
+        })
     }, [])
 
-    const [resources, setResources] = useState<Employee[]>([])
+    const [employees, setEmployees] = useState<Employee[]>([])
     useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+        getEmployees().then((employees) => setEmployees(employees))
     }, [])
 
     return (
         <div>
             <Breadcrumb steps={[
-                { name: "Productos", link: `/products/` },
-                { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
-                { name: `#${ticketId}`, link: `/products/${productId}/${versionId}/${ticketId}` },
+                { name: "Versiones", link: `/versions/` },
+                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Editar ticket", link: null }
             ]} />
             <VersionHeader  productId={productId as string}
@@ -71,16 +75,15 @@ export default function ViewTicket() {
                             ticketId={ticketId as string}
                             title="Editar un ticket"
             />
-            <TicketForm
-                ticket={ticket}
-                setTicket={setTicket}
+            <EditTicketForm
+                editTicket={editTicket}
+                setEditTicket={setEditTicket}
                 disabledInputs={disabledInputs}
                 requiredInputs={requiredInputs}
                 submitButtonName={'Guardar cambios'}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                clients={[]} />
+                employees={employees} />
         </div>
     )
 }

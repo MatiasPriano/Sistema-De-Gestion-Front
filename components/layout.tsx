@@ -18,7 +18,7 @@ export default function Layout({ children, pageTitle }: { children: any, pageTit
             <div className="hidden sm:ml-8 sm:block">
               <div className="flex space-x-4">
                 <Link href="/projects" className="bg-primary hover:bg-primaryHover text-darkTitle rounded-md px-3 py-2 font-medium transition-colors duration-300 ease-in-out">Proyectos</Link>
-                <Link href="/products" className="bg-primary hover:bg-primaryHover text-darkTitle rounded-md px-3 py-2 font-medium transition-colors duration-300 ease-in-out">Soporte</Link>
+                <Link href="/versions" className="bg-primary hover:bg-primaryHover text-darkTitle rounded-md px-3 py-2 font-medium transition-colors duration-300 ease-in-out">Soporte</Link>
               </div>
             </div>
           </div>  
