@@ -24,8 +24,8 @@ export default function NewProject() {
       name: true,
       description: true,
       responsable: false,
-      state: true,
-      endDateTime: true
+      state: false,
+      endDateTime: false
   } 
 
   const [project, setProject] = useState(emptyProject)
@@ -38,7 +38,7 @@ export default function NewProject() {
       // TODO: API call a backend para crear ticket y obtener el id del ticket
       const ticketId = 1
       toast.success("Proyecto creado")
-      router.push(`/products/gestionarProyectos`)
+      router.push(`/projects/gestionarProyectos`)
   }
 
   const [resources, setResources] = useState<Resource[]>([])

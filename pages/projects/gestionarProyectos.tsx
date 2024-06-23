@@ -34,6 +34,7 @@ export default function Projects() {
           descripcion: project.description
         }));
         setList(projects);
+        console.log(projects)
       })
       .catch(error => {
         console.error("Error:", error);

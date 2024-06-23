@@ -23,10 +23,10 @@ export default function ManageProject() {
 
     const requiredInputs: ProjectInputs = {
         name: true,
-        description: true,
+        description: false,
         responsable: false,
-        state: true,
-        endDateTime: true
+        state: false,
+        endDateTime: false
     }
 
     const [project, setProject] = useState(emptyProject)

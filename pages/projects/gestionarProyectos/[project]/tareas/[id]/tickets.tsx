@@ -8,7 +8,7 @@ import Ticket from '@/types/ticket';
 
 export default function ViewTickets() {
     const router = useRouter();
-    const { project: projectId, task: taskId } = router.query;
+    const { project: projectId, id: taskId } = router.query;
 
     const [tickets, setTickets] = useState<Ticket[]>([])
 
