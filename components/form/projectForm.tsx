@@ -91,9 +91,6 @@ export default function ProjectForm({
         setInvalidInputs({ ...invalidInputs, endDateTime: false });
     }
 
-    const setCost = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setProject({ ...project, cost: event.target.value });
-    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -192,25 +189,9 @@ export default function ProjectForm({
                 type="text"
                 className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                 placeholder="Seleccionar fecha"
-                value={project.fechaFin || ''}
-                onChange={(e) => setProject({ ...project, fechaFin: e.target.value })}
+                value={project.fechaFinalizacion || ''}
+                onChange={(e) => setProject({ ...project, fechaFinalizacion: e.target.value })}
                 onFocus={handleEndDateTimeFocus}
-            />
-        </div>
-    </div>
-    <div className="space-y-2">
-        <label htmlFor="cost" className="block text-sm font-medium text-title">Costo del proyecto</label>
-        <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <img src="https://img.icons8.com/?size=100&id=634&format=png&color=9ca3af" className="h-6 w-6 text-title" alt="icono de costo"></img>
-            </div>
-            <input
-                id="cost"
-                type="number"
-                className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-                placeholder="Ingrese el costo"
-                value={project.cost || ''}
-                onChange={(e) => setProject({ ...project, cost: e.target.value })}
             />
         </div>
     </div>

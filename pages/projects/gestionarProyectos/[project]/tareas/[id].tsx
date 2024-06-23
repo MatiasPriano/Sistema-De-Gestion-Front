@@ -9,6 +9,7 @@ import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
 import TaskProjectForm from '@/components/form/taskProjectForm';
 import tasksList from '@/components/tasksMock';
+import React from 'react';
 
 export default function ViewTask() {
     const router = useRouter();

@@ -19,7 +19,7 @@ export default function TaskRow({ task, projectId, product }: {task: Task, proje
         router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`);
     }
     const handleViewTicketsClick = () => {
-        router.push(`/products/${product.name}/${product.version}`);
+        router.push(`/products/${product}/${product}`);
     }
 
     const actions: Action[] = [

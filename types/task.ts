@@ -1,4 +1,8 @@
 export default interface Task {
+    maxTimeResolution: string;
+    endDate: any;
+    startDate: any;
+    maxResolutionTime: string;
     id: number;
     title: string;
     responsable?: string;

@@ -30,6 +30,10 @@ export default function NewProject() {
 
   const [project, setProject] = useState(emptyProject)
 
+  const onCancel = () => {
+    router.back()
+}
+
   const onSubmit = () => {
       // TODO: API call a backend para crear ticket y obtener el id del ticket
       const ticketId = 1
@@ -58,10 +62,11 @@ export default function NewProject() {
                     setProject={setProject}
                     disabledInputs={disabledInputs}
                     requiredInputs={requiredInputs}
-                    onCancel={() => router.back()}
-                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
                     submitButtonName="Crear"
-                    onSubmit={onSubmit} />
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                     />
             </div>
       </div>
 
