@@ -1,6 +1,7 @@
 import Task from "@/types/task"
 import CompactTable from "../compactTable"
 import TaskRecordRow from "./taskRecordRow"
+import React from "react"
 
 interface TaskRecordTableProps {
     tasks: Task[],

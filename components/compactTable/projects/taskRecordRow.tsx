@@ -2,6 +2,7 @@ import Task from "@/types/task";
 import ResourceCell from "../cells/resourceCell";
 import SimpleCell from "../cells/simpleCell";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
+import React from "react";
 
 interface TaskRecordRowProps {
     task: Task

@@ -4,6 +4,7 @@ import TaskRecordTable from "@/components/compactTable/projects/taskRecordTable"
 import tasksList from "@/components/tasksMock";
 import Task from "@/types/task";
 import { useRouter } from "next/router";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function ViewTasksRecord() {

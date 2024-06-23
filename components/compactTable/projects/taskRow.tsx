@@ -1,11 +1,17 @@
-import Task from "@/types/task";
+
 import ResourceCell from "../cells/resourceCell";
 import SimpleCell from "../cells/simpleCell";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
+import React from "react";
+import Product from "@/types/product";
+import Task from "@/types/task";
+import Ticket from "@/types/ticket";
 
-export default function TaskRow({ task, projectId }: {task: Task, projectId: string}) {
+
+
+export default function TaskRow({ task, projectId, product }: {task: Task, projectId: string, product: Product }) {
     // const toggleCheckbox = () => {
     //     setSelected(task.id, !selected)
     // }
@@ -13,14 +19,24 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
     const handleViewTaskClick = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`)
     }
+    const handleViewTicketsClick = () => {
+        router.push(`/products/${product}`)
+    }
 
     const actions: Action[] = [
         {
             icon: "view",
             onClick: handleViewTaskClick,
             title: "Ver tarea"
+        },
+        {
+            icon: "list",
+            onClick: handleViewTicketsClick,
+            title: "Ver tickets"
         }
     ]
+
+   
     
     return (
         <tr key={task.id} >
@@ -41,7 +57,9 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>
+        
             </td>
+            
         </tr>
         
     );
@@ -55,3 +73,5 @@ const statusColourMap : StatusColourMap = {
     "Abierta": "green",
     "Cerrada" : "red"
 }
+
+
