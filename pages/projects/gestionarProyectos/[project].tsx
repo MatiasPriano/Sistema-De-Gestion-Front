@@ -1,6 +1,7 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
+import Loading from "@/components/loader";
 //import projectsList from "@/components/projectsMock";
 import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
@@ -30,12 +31,14 @@ export default function ManageProject() {
     }
 
     const [project, setProject] = useState(emptyProject)
+    const [resources, setResources] = useState<Resource[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-
-    
     useEffect(() => {
+     
         if (projectId) {
-            fetch("https://projects-backend-am35.onrender.com/projects", {
+            let employedPromise  = getResources()
+            let projectPromise = fetch("https://projects-backend-am35.onrender.com/projects", {
                 method: "GET",
                 headers: {
                     "Accept": "*/*"
@@ -47,9 +50,10 @@ export default function ManageProject() {
                 }
                 throw new Error("Error al obtener la lista de proyectos");
             })
-            .then(data => {
+            Promise.all([employedPromise,projectPromise]).then(([employed,proyects]) => {
+                setResources(employed);
                 // Mapea los datos obtenidos para que coincidan con el formato esperado
-                const projects = data.map(project => ({
+                const projects = proyects.map(project => ({
                     id: project.id,
                     name: project.title,
                     responsable: project.assignedLeader || 'Sin asignar', // Ajustar según sea necesario
@@ -64,7 +68,7 @@ export default function ManageProject() {
                     setProject(currentProject);
                 } else {
                     console.error("Project not found");
-                }
+                }setIsLoading(false);
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -72,11 +76,6 @@ export default function ManageProject() {
         }
     }, [projectId]);
 
-
-    const [resources, setResources] = useState<Resource[]>([])
-    useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
-    }, [])
 
     const onCancel = () => {
         router.back()
@@ -127,16 +126,16 @@ export default function ManageProject() {
 
     return (
         <div>
-            <Breadcrumb steps={[
+            {!isLoading && <Breadcrumb steps={[
                 { name: "Proyectos", link: "/projects/" },
                 { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
                 { name: `${projectId}`, link: null }
-            ]} />
+            ]} />}
             <div className="space-y-4">
                 <header className="flex items-center">
                   <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Gestionar Proyecto</h1>
                 </header>
-                <ProjectForm
+                {!isLoading && <ProjectForm
                     project={project}
                     setProject={setProject}
                     disabledInputs={disabledInputs}
@@ -145,7 +144,8 @@ export default function ManageProject() {
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                    />
+                    />}
+                      {isLoading && <Loading data="proyecto"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

@@ -5,7 +5,7 @@ export default function Loading({ data }: { data: string }) {
         disabled
         type="button"
         className="text-blue-950 bg-gray-100 ring-4 ring-white font-bold rounded-xl text-2xl 
-                px-7 py-7 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+                px-7 py-7 text-center me-2  inline-flex items-center"
       >
         <svg
           aria-hidden="true"

@@ -22,7 +22,7 @@ export default function Versions() {
     <>
       {!isLoading && <Breadcrumb steps={[{ name: "Versiones", link: null }]} />}
       <div className="space-y-4">
-        {isLoading && <header className="flex items-center">
+        {!isLoading && <header className="flex items-center">
           <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1">
             Versiones
           </h1>

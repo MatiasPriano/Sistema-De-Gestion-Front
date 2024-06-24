@@ -1,6 +1,8 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import TaskTable from "@/components/compactTable/projects/taskTable";
+import getResources from "@/services/resourceService";
+import Employee from "@/types/employee";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,10 +12,12 @@ export default function ViewTasks() {
     const { project: projectId } = router.query;
 
     const [tasks, setTasks] = useState([]);
+    const [resources, setResources] = useState<Employee[]>([]);
 
     useEffect(() => {
+        const resourcePromise = getResources();
         if (projectId) {
-            fetch(`https://projects-backend-am35.onrender.com/proyect/${projectId}/tasks/get`, {
+            const taskPromise =  fetch(`https://projects-backend-am35.onrender.com/proyect/${projectId}/tasks/get`, {
                 method: "GET",
                 headers: {
                     "Accept": "*/*"
@@ -25,14 +29,27 @@ export default function ViewTasks() {
                     }
                     throw new Error("Error al obtener la lista de tareas");
                 })
-                .then(data => {
+                Promise.all([resourcePromise, taskPromise]).then(([resources, data]) => {
                     // Ajustar según la estructura de respuesta de la API
-                    const tasks = data.map(task => ({
+
+                    const tasks = data.map((task:any) => {
+                        let employeeName = null;
+                        if(task.assignedEmployee){
+
+                            let  employee = resources.filter((resource)=>resource.legajo === task.assignedEmployee)[0]
+                            employeeName = employee.Nombre + " " + employee.Apellido;
+                  
+                            }else{
+                              employeeName = "Sin asignar" 
+                            }
+
+
+                    return{
                         id: task.id,
                         title: task.title,
                         description: task.description,
                         state: task.state,
-                        responsable: task.assignedEmployee, 
+                        responsable: employeeName, 
                         priority: task.priority,
                         startDate: new Date(task.startDate).toLocaleDateString(),
                         finishDate: task.finishDate ? new Date(task.finishDate).toLocaleDateString() : 'Sin fecha',
@@ -40,7 +57,7 @@ export default function ViewTasks() {
                         associatedTickets: task.associatedTickets,
                         firstTicketDate: task.firstTicketDate ? new Date(task.firstTicketDate).toLocaleDateString() : 'Sin fecha',
                         firstTicketId: task.firstTicketId,
-                    }));
+                    }});
                     setTasks(tasks);
                 })
                 .catch(error => {
