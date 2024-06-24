@@ -105,7 +105,7 @@ export default function Products() {
             </h5>
           </div>
           <p className="mb-3 font-normal text-subtitle">
-            Consultar los proyectos que fueron archivados
+            Consultar los proyectos archivados
           </p>
           <br />
           <TextButton
