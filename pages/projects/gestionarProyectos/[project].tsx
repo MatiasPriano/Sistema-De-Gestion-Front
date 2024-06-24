@@ -56,7 +56,7 @@ export default function ManageProject() {
                 const projects = proyects.map(project => ({
                     id: project.id,
                     name: project.title,
-                    responsable: project.assignedLeader || 'Sin asignar', // Ajustar según sea necesario
+                    responsable: project.assignedLeader, // Ajustar según sea necesario
                     fechaFinalizacion: project.finishDate ? new Date(project.finishDate).toLocaleDateString() : 'Sin fecha',
                     fechaInicio: new Date(project.startDate).toLocaleDateString(),
                     estado: project.state,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Input from "../input/input";
 import AutocompleteInput from "../input/autocomplete";
 import TextArea from "../input/textArea";
@@ -129,18 +129,15 @@ export default function ProjectForm({
           isRequired={requiredInputs.name}
           disabled={disabledInputs.name}
         />
-        <AutocompleteInput
+        <Input
           title="Responsable"
           placeholder="Buscar responsable"
           value={project.responsable}
-          setValue={setResponsable}
+          setValue={(event: ChangeEvent<HTMLInputElement>) => setResponsable(event.target.value)}
           error={invalidInputs.responsable}
-          errorText="El responsable debe ser válido"
           handleFocus={handleResponsableFocus}
           isRequired={requiredInputs.responsable}
-          items={resources}
-          disabled={disabledInputs.responsable}
-        />
+          disabled={disabledInputs.responsable} />
         <div className="col-span-full">
           <TextArea
             title="Descripción"
