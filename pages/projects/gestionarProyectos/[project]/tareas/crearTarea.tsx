@@ -28,12 +28,12 @@ export default function NewTask() {
     }
 
     const requiredInputs: TaskInputs = {
-        title: true,
+        title: false,
         responsable: false,
-        description: true,
-        project: true,
-        status: true,
-        priority: true,
+        description: false,
+        project: false,
+        status: false,
+        priority: false,
         startDate: false,
         endDate: false,
         maxResolutionTime: false
@@ -44,10 +44,40 @@ export default function NewTask() {
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para crear tarea y asociarla a ticket
-        toast.success("Tarea creada")
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
-    }
+        const url = `https://projects-backend-am35.onrender.com/projects/${projectId}/tasks/new`;
+        const postData = {
+            assignedEmployee: task.responsable, // Asumiendo que task.responsable es el ID del empleado
+            description: task.description,
+            priority: task.priority,
+            startDateTime: null,
+            state: task.status,
+            title: task.title
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*'
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            toast.success("Tarea creada exitosamente");
+            router.push(`/projects/gestionarProyectos/${projectId}/tareas`);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            toast.error("Hubo un error al crear la tarea");
+        });
+    };
     
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {

@@ -17,9 +17,9 @@ const stateOptions: State[] = [
 ];
 
 const priorityOptions: ButtonOption[] = [
-    { title: "Baja", colour: "green" }, 
-    { title: "Media", colour: "orange" }, 
-    { title: "Alta", colour: "red" }, 
+    { title: "LOW", colour: "green" }, 
+    { title: "MEDIUM", colour: "orange" }, 
+    { title: "HIGH", colour: "red" }, 
 ];
 
 export interface TaskInputs {
@@ -74,8 +74,8 @@ export default function TaskProjectForm ({
             title: requiredInputs.title && task.title.trim() === "",
             responsable: requiredInputs.responsable && !resources.includes(task.responsable || ""),
             description: requiredInputs.description && task.description.trim() === "",
-            status: requiredInputs.status && !["Abierta", "Cerrada"].includes(task.status),
-            priority: requiredInputs.priority && !["Baja", "Media", "Alta"].includes(task.priority),
+            status: requiredInputs.status && !["OPEN", "CLOSED"].includes(task.status),
+            priority: requiredInputs.priority && !["LOW", "MEDIUM", "HIGH"].includes(task.priority),
             startDate: requiredInputs.startDate && task.startDate.trim() === "",
             endDate: requiredInputs.endDate && task.endDate.trim() === "",
             maxResolutionTime: requiredInputs.maxResolutionTime && task.maxTimeResolution.trim() === "",

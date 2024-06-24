@@ -1,21 +1,23 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
 import TaskForm, { TaskInputs } from '@/components/form/taskForm';
-import Task, { emptyTask } from '@/types/task';
+import Task, { emptyTask } from '@/types/taskProjects';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
 import TaskProjectForm from '@/components/form/taskProjectForm';
-import tasksList from '@/components/tasksMock';
+import tasksList from '@/components/tasksProjectMock';
 import React from 'react';
+import TaskProject from '@/types/taskProjects';
 
 export default function ViewTask() {
     const router = useRouter();
     const { project: projectId, id: taskId } = router.query;
 
-    const [task, setTask] = useState<Task>(emptyTask)
+    const [task, setTask] = useState<TaskProject>(emptyTask);
+
 
     const disabledInputs: TaskInputs = {
         title: false,
@@ -27,12 +29,12 @@ export default function ViewTask() {
     }
 
     const requiredInputs: TaskInputs = {
-        title: true,
+        title: false,
         responsable: false,
-        description: true,
-        project: true,
-        status: true,
-        priority: true
+        description: false,
+        project: false,
+        status: false,
+        priority: false
     }
 
     useEffect(() => {
@@ -45,10 +47,35 @@ export default function ViewTask() {
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para crear tarea y asociarla a ticket
-        toast.success("Cambios guardados")
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
-    }
+    
+        const url = `https://projects-backend-am35.onrender.com/tasks/${task.id}?assigned_leader=${task.responsable}&priority=${task.priority}&state=${task.status}`;
+        //curl -X PATCH "https://projects-backend-am35.onrender.com/tasks/4?assigned_employee=2&priority=LOW&state=OPEN" -H  "accept: */*"
+
+        console.log("la url es:")
+        console.log(url)
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': '*/*'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            toast.success("Cambios guardados");
+            router.push(`/projects/gestionarProyectos/${projectId}/tareas`);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            toast.error("Hubo un error al guardar los cambios");
+        });
+    };
     
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {
