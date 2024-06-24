@@ -6,7 +6,7 @@ import { Client } from '@/types/client';
 import Employee from '@/types/employee';
 import NewTicket from '@/types/newTicket';
 import EditTicket from '@/types/editTicket';
-import { Project } from '@/types/project';
+import { Project }  from '@/types/project';
 import { NewTask } from '@/types/newTask';
 
 export async function getVersions(): Promise<Version[]> {
