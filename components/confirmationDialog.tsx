@@ -1,8 +1,8 @@
 // components/ConfirmationDialog.tsx
 
-import React from 'react';
-import Modal from 'react-modal';
-import TextButton from './button/textButton';
+import React from "react";
+import Modal from "react-modal";
+import TextButton from "./button/textButton";
 
 type ConfirmationDialogProps = {
   isOpen: boolean;
@@ -32,19 +32,16 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       <div className="bg-background p-6 rounded-lg shadow-md max-w-md w-full">
         <h2 className="text-xl text-title font-semibold mb-4">{title}</h2>
         <p className="text-subtitle mb-6">{message}</p>
-        {items.length > 0 && 
+        {items.length > 0 && (
           <ul>
-            {items.map((item) => <li>{item}</li>)}
-          </ul>}
+            {items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        )}
         <div className="flex justify-end space-x-4">
-          <TextButton
-            name="Confirmar"
-            style="red"
-            onClick={onConfirm} />
-          <TextButton
-            name="Cancelar"
-            style="transparent"
-            onClick={onCancel} />
+          <TextButton name="Confirmar" style="red" onClick={onConfirm} />
+          <TextButton name="Cancelar" style="transparent" onClick={onCancel} />
         </div>
       </div>
     </Modal>

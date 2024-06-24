@@ -1,21 +1,23 @@
 import Task from "@/types/task";
-import { useState } from "react";
 import SimpleCell from "../cells/simpleCell";
-import ResourceCell from "../cells/resourceCell";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
 import { stateToPrintable } from "@/types/taskState";
 import { priorityToPrintable } from "@/types/taskPriority";
 
 interface LinkTaskRowProps {
-    task: Task
-    selected: boolean
-    setSelected: (taskId: number, selected: boolean) => void
+  task: Task;
+  selected: boolean;
+  setSelected: (taskId: number, selected: boolean) => void;
 }
 
-export default function LinkTaskRow({ task, selected, setSelected }: LinkTaskRowProps) {
-    const toggleCheckbox = () => {
-        setSelected(task.id, !selected)
-    }
+export default function LinkTaskRow({
+  task,
+  selected,
+  setSelected,
+}: LinkTaskRowProps) {
+  const toggleCheckbox = () => {
+    setSelected(task.id, !selected);
+  };
 
     return (
         <tr key={task.id} className={getCheckBoxClass(selected)} onClick={toggleCheckbox} >
@@ -44,16 +46,16 @@ export default function LinkTaskRow({ task, selected, setSelected }: LinkTaskRow
 }
 
 function getCheckBoxClass(isChecked: boolean) {
-    let className = 'transition-all duration-200 text-title'
+  let className = "transition-all duration-200 text-title";
 
-    if (isChecked) {
-        className += ' bg-selected'
-    }
-    return className
+  if (isChecked) {
+    className += " bg-selected";
+  }
+  return className;
 }
 
 interface StatusColourMap {
-    [key: string]: ColouredCellColours;
+  [key: string]: ColouredCellColours;
 }
 
 const statusColourMap : StatusColourMap = {

@@ -1,39 +1,39 @@
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import VersionHeader from "@/components/versionHeader";
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import Ticket from "@/types/ticket";
 import TicketTable from "@/components/compactTable/tickets/ticketTable";
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { getTicketsByVersion, getVersion } from '@/services/supportService';
-import EmptyPageText from '@/components/emptyPageText';
-import Loading from '@/components/loader';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { getTicketsByVersion, getVersion } from "@/services/supportService";
+import EmptyPageText from "@/components/emptyPageText";
+import Loading from "@/components/loader";
 
 export default function Tickets() {
-    const router = useRouter();
-    const { product: productId, version: versionId } = router.query;
+  const router = useRouter();
+  const { product: productId, version: versionId } = router.query;
 
-    const handleNewTicketButton = () => {
-        router.push(`/versions/${productId}/${versionId}/new`)
-    }
+  const handleNewTicketButton = () => {
+    router.push(`/versions/${productId}/${versionId}/new`);
+  };
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [tickets, setTickets] = useState<Ticket[]>([])
-    const [productName, setProductName] = useState<string>("")
-    const [versionName, setVersionName] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [productName, setProductName] = useState<string>("");
+  const [versionName, setVersionName] = useState<string>("");
 
-    useEffect(() => {
-        let ticketsPromise = getTicketsByVersion(versionId as unknown as number)
-        let versionPromise = getVersion(Number(versionId))
+  useEffect(() => {
+    let ticketsPromise = getTicketsByVersion(versionId as unknown as number);
+    let versionPromise = getVersion(Number(versionId));
 
-        Promise.all([ticketsPromise, versionPromise]).then(([tickets, version]) => {
-            setTickets(tickets)
-            setProductName(version.product.name)
-            setVersionName(version.name)
-            setIsLoading(false)
-        })
-    }, [])
+    Promise.all([ticketsPromise, versionPromise]).then(([tickets, version]) => {
+      setTickets(tickets);
+      setProductName(version.product.name);
+      setVersionName(version.name);
+      setIsLoading(false);
+    });
+  }, []);
 
     return (
         <>

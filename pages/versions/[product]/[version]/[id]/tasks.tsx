@@ -1,25 +1,30 @@
-import { useRouter } from 'next/router';
-import VersionHeader from '@/components/versionHeader';
-import TicketTaskTable from '@/components/compactTable/ticketTasks/ticketTaskTable';
-import Task from '@/types/task';
-import EmptyPageText from '@/components/emptyPageText';
-import TextButton from '@/components/button/textButton';
-import Breadcrumb from '@/components/breadcrumb';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import ConfirmationDialog from '@/components/confirmationDialog';
-import { desassociateTasks, getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
-import Loading from '@/components/loader';
+import { useRouter } from "next/router";
+import VersionHeader from "@/components/versionHeader";
+import TicketTaskTable from "@/components/compactTable/ticketTasks/ticketTaskTable";
+import Task from "@/types/task";
+import EmptyPageText from "@/components/emptyPageText";
+import TextButton from "@/components/button/textButton";
+import Breadcrumb from "@/components/breadcrumb";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import ConfirmationDialog from "@/components/confirmationDialog";
+import {
+  desassociateTasks,
+  getTaskIdsByTicket,
+  getTasks,
+  getVersion,
+} from "@/services/supportService";
+import Loading from "@/components/loader";
 
 export default function ViewTasks() {
-    const router = useRouter();
-    const { product: productId, version: versionId, id: ticketId } = router.query;
+  const router = useRouter();
+  const { product: productId, version: versionId, id: ticketId } = router.query;
 
-    const [selectedTasks, setSelectedTasks] = useState<number[]>([])
+  const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
 
-    const handleNewTaskButton = () => {
-        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/new/`)
-    }
+  const handleNewTaskButton = () => {
+    router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/new/`);
+  };
 
     const handleLinkTaskButton = () => {
         router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/link/`)
@@ -33,44 +38,41 @@ export default function ViewTasks() {
         let taskIdsPromise = getTaskIdsByTicket(Number(ticketId))
         let versionPromise = getVersion(Number(versionId))
 
-        Promise.all([taskIdsPromise, versionPromise]).then(([taskIds, version]) => {
-            setProductName(version.product.name)
-            setVersionName(version.name)
-            getTasks(taskIds).then((tasks: Task[]) => {
-                setTasks(tasks)
-                setIsLoading(false)
-            })
-        })
-    }, [])
+    Promise.all([taskIdsPromise, versionPromise]).then(([taskIds, version]) => {
+      setProductName(version.product.name);
+      setVersionName(version.name);
+      getTasks(taskIds).then((tasks: Task[]) => {
+        setTasks(tasks);
+        setIsLoading(false);
+      });
+    });
+  }, []);
 
-    const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false)
+  const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false);
 
-    const handleUnlinkTaskClick = () => {
-        setIsUnlinkDialogOpen(true)   
-    }
+  const handleUnlinkTaskClick = () => {
+    setIsUnlinkDialogOpen(true);
+  };
 
-    const handleDialogUnlink = () => {
-        // TODO: API call para obtener tareas del back
-        setIsUnlinkDialogOpen(false)
-        desassociateTasks(Number(ticketId), selectedTasks).then((wasUnlinked) => {
-            if (wasUnlinked) {
-                if (selectedTasks.length === 1) toast.success("1 tarea desasociada")
-                else toast.success(`${selectedTasks.length} tareas desasociadas`)
-                setTasks(tasks.filter((task) => !selectedTasks.includes(task.id)))
-            } else {
-                toast.error("Hubo un problema al desasociar tareas")
-            }
-            setSelectedTasks([])
-        })
-        
-        
-        
-    }
+  const handleDialogUnlink = () => {
+    // TODO: API call para obtener tareas del back
+    setIsUnlinkDialogOpen(false);
+    desassociateTasks(Number(ticketId), selectedTasks).then((wasUnlinked) => {
+      if (wasUnlinked) {
+        if (selectedTasks.length === 1) toast.success("1 tarea desasociada");
+        else toast.success(`${selectedTasks.length} tareas desasociadas`);
+        setTasks(tasks.filter((task) => !selectedTasks.includes(task.id)));
+      } else {
+        toast.error("Hubo un problema al desasociar tareas");
+      }
+      setSelectedTasks([]);
+    });
+  };
 
-    const handleUnlinkCancel = () => {
-        setIsUnlinkDialogOpen(false)
-        setSelectedTasks([])
-    }
+  const handleUnlinkCancel = () => {
+    setIsUnlinkDialogOpen(false);
+    setSelectedTasks([]);
+  };
 
     return (
         <>
@@ -134,9 +136,10 @@ export default function ViewTasks() {
 }
 
 function getUnlinkConfirmationMessage(tasks: Task[]) {
-    let message = "¿Está seguro/a de que desea desasociar las siguientes tareas? \n"
-    for (const task of tasks) {
-        message += ` - ${task.title}`
-    }
-    return message
+  let message =
+    "¿Está seguro/a de que desea desasociar las siguientes tareas? \n";
+  for (const task of tasks) {
+    message += ` - ${task.title}`;
+  }
+  return message;
 }

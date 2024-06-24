@@ -11,19 +11,19 @@ import { NewTask, emptyNewTask } from '@/types/newTask';
 import Loading from '@/components/loader';
 
 export default function NewTaskComponent() {
-    const router = useRouter();
-    const { product: productId, version: versionId, id: ticketId } = router.query;
+  const router = useRouter();
+  const { product: productId, version: versionId, id: ticketId } = router.query;
 
-    const [newTask, setNewTask] = useState<NewTask>(emptyNewTask)
+  const [newTask, setNewTask] = useState<NewTask>(emptyNewTask);
 
-    const disabledInputs: TaskInputs = {
-        title: false,
-        responsable: false,
-        description: false,
-        project: false,
-        state: false,
-        priority: false
-    }
+  const disabledInputs: TaskInputs = {
+    title: false,
+    responsable: false,
+    description: false,
+    project: false,
+    state: false,
+    priority: false,
+  };
 
     const requiredInputs: TaskInputs = {
         title: true,

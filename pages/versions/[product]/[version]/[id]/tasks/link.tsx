@@ -13,10 +13,10 @@ import Loading from '@/components/loader';
 import { associateTasks, getAllTasks, getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
 
 export default function LinkTask() {
-    const router = useRouter();
-    const { product: productId, version: versionId, id: ticketId } = router.query;
+  const router = useRouter();
+  const { product: productId, version: versionId, id: ticketId } = router.query;
 
-    const [selectedTasks, setSelectedTasks] = useState<number[]>([])
+  const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
 
     const handleLinkTaskClick = () => {
         associateTasks(Number(ticketId), selectedTasks).then((wasLinked) => {
@@ -65,63 +65,95 @@ export default function LinkTask() {
         setSearchText(event.target.value)
     }
 
-    const onSearchClick = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setFilteredTasks(tasks.filter((task) => task.title.includes(searchText)))
-    }
+  const onSearchClick = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFilteredTasks(tasks.filter((task) => task.title.includes(searchText)));
+  };
 
-    return (
-        <>
-            {!isLoading && <Breadcrumb steps={[
-                { name: "Productos", link: `/versions/` },
-                { name: `${productName} - ${productName}`, link: `/versions/${productId}/${versionId}/` },
-                { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
-                { name: "Tareas asociadas", link: `/versions/${productId}/${versionId}/${ticketId}/tasks/` },
-                { name: "Asociar tarea", link: null }
-            ]} />}
-            <div className="space-y-4">
-                {!isLoading && <VersionHeader  productId={productName}
-                                versionId={versionName}
-                                ticketId={ticketId as string}
-                                title="Asociar tareas al ticket"
-                />}
-                {!isLoading && <div className="flex space-x-4 items-center px-4">
-                    <form onSubmit={onSearchClick} className="flex space-x-4 items-center w-full">
-                        <div className="w-full">
-                            <Input
-                                title=""
-                                placeholder="Buscar"
-                                value={searchText}
-                                setValue={handleSearch}
-                                isRequired={false} />
-                        </div>
-                        <IconButton
-                            icon="search"
-                            title="Buscar"
-                            style="primary"
-                            type="submit" />
-                    </form>
-                    <TextButton
-                        name="Asociar"
-                        style="secondary"
-                        onClick={handleLinkTaskClick}
-                        disabled={selectedTasks.length === 0} />
-                </div>}
-                {filteredTasks.length > 0 && !isLoading &&
-                    <LinkTaskTable
-                        tasks={filteredTasks}
-                        selectedTasks={selectedTasks}
-                        setSelectedTasks={setSelectedTasks} />}
-                {filteredTasks.length === 0 && !isLoading &&
-                    <EmptyPageText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
-                {filteredTasks.length === 0 && isLoading && <Loading data="tareas"/>}
-                <div className="flex items-center justify-start gap-x-6 px-4">
-                    <TextButton
-                        name="Volver"
-                        style="transparent"
-                        onClick={() => router.back()} />
-                </div>
-            </div>
-        </>
-    )
+  return (
+    <>
+      {!isLoading && (
+        <Breadcrumb
+          steps={[
+            { name: "Productos", link: `/versions/` },
+            {
+              name: `${productName} - ${productName}`,
+              link: `/versions/${productId}/${versionId}/`,
+            },
+            {
+              name: `#${ticketId}`,
+              link: `/versions/${productId}/${versionId}/${ticketId}`,
+            },
+            {
+              name: "Tareas asociadas",
+              link: `/versions/${productId}/${versionId}/${ticketId}/tasks/`,
+            },
+            { name: "Asociar tarea", link: null },
+          ]}
+        />
+      )}
+      <div className="space-y-4">
+        {!isLoading && (
+          <VersionHeader
+            productId={productName}
+            versionId={versionName}
+            ticketId={ticketId as string}
+            title="Asociar tareas al ticket"
+          />
+        )}
+        {!isLoading && (
+          <div className="flex space-x-4 items-center px-4">
+            <form
+              onSubmit={onSearchClick}
+              className="flex space-x-4 items-center w-full"
+            >
+              <div className="w-full">
+                <Input
+                  title=""
+                  placeholder="Buscar"
+                  value={searchText}
+                  setValue={handleSearch}
+                  isRequired={false}
+                />
+              </div>
+              <IconButton
+                icon="search"
+                title="Buscar"
+                style="primary"
+                type="submit"
+              />
+            </form>
+            <TextButton
+              name="Asociar"
+              style="secondary"
+              onClick={handleLinkTaskClick}
+              disabled={selectedTasks.length === 0}
+            />
+          </div>
+        )}
+        {filteredTasks.length > 0 && !isLoading && (
+          <LinkTaskTable
+            tasks={filteredTasks}
+            selectedTasks={selectedTasks}
+            setSelectedTasks={setSelectedTasks}
+          />
+        )}
+        {filteredTasks.length === 0 && !isLoading && (
+          <EmptyPageText
+            text="No se encontraron resultados"
+            description="Pruebe con otro valor"
+            icon="search"
+          />
+        )}
+        {filteredTasks.length === 0 && isLoading && <Loading data="tareas" />}
+        <div className="flex items-center justify-start gap-x-6 px-4">
+          <TextButton
+            name="Volver"
+            style="transparent"
+            onClick={() => router.back()}
+          />
+        </div>
+      </div>
+    </>
+  );
 }
