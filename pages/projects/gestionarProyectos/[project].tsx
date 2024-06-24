@@ -1,7 +1,7 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
-import projectsList from "@/components/projectsMock";
+//import projectsList from "@/components/projectsMock";
 import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
@@ -30,12 +30,48 @@ export default function ManageProject() {
     }
 
     const [project, setProject] = useState(emptyProject)
+
+
+    
     useEffect(() => {
-        // TODO: API call para obtener detalles del ticket
-        console.log(projectId)
-        console.log("aca actualizo???")
-        setProject(projectsList[projectId as unknown as number - 1])
-    }, [])
+        if (projectId) {
+            fetch("https://projects-backend-am35.onrender.com/projects", {
+                method: "GET",
+                headers: {
+                    "Accept": "*/*"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Error al obtener la lista de proyectos");
+            })
+            .then(data => {
+                // Mapea los datos obtenidos para que coincidan con el formato esperado
+                const projects = data.map(project => ({
+                    id: project.id,
+                    name: project.title,
+                    responsable: project.assignedLeader || 'Sin asignar', // Ajustar según sea necesario
+                    fechaFinalizacion: project.finishDate ? new Date(project.finishDate).toLocaleDateString() : 'Sin fecha',
+                    fechaInicio: new Date(project.startDate).toLocaleDateString(),
+                    estado: project.state,
+                    descripcion: project.description
+                }));
+
+                const currentProject = projects.find(proj => proj.id === Number(projectId));
+                if (currentProject) {
+                    setProject(currentProject);
+                } else {
+                    console.error("Project not found");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    }, [projectId]);
+
 
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {
