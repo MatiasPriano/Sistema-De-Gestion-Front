@@ -14,7 +14,7 @@ export default function ManageProject() {
     const { project: projectId } = router.query;
 
     const disabledInputs: ProjectInputs = {
-        name: true,
+        name: false,
         description: false,
         responsable: false,
         state: false,

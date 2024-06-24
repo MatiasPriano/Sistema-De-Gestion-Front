@@ -35,16 +35,57 @@ export default function NewProject() {
 }
 
   const onSubmit = () => {
-      // TODO: API call a backend para crear ticket y obtener el id del ticket
-      const ticketId = 1
-      toast.success("Proyecto creado")
-      router.push(`/projects/gestionarProyectos`)
-  }
+    const url = 'https://projects-backend-am35.onrender.com/projects/new';
+    const postData = {
+        assignedLeader: project.responsable,
+        description: project.descripcion,
+        startDate: project.fechaInicio, // Asegúrate de que sea una fecha válida o null
+        state: project.estado,
+        title: project.name
+    };
 
-  const [resources, setResources] = useState<Resource[]>([])
-  useEffect(() => {
-      getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
-  }, [])
+    console.log("datos del proyecto a crear");
+    console.log(project.id);
+    console.log(project.name);
+    console.log(project.descripcion);
+    console.log(project.estado);
+    console.log(project.fechaInicio);
+    console.log(project.fechaFinalizacion);
+    console.log(project.responsable);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'accept': '*/*'
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        return response.text().then(text => {
+            return text ? JSON.parse(text) : {};
+        });
+    })
+    .then(data => {
+        console.log('Success:', data);
+        toast.success("Proyecto creado exitosamente");
+        router.push(`/projects/gestionarProyectos`);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        toast.error("Hubo un error al crear el proyecto");
+    });
+};
+
+const [resources, setResources] = useState<Resource[]>([]);
+useEffect(() => {
+    getResources().then((resources) => setResources(resources)).catch((e) => console.log(e));
+}, []);
+
 
   return (
       <div>
