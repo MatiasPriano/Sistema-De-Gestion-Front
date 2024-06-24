@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
-import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
+import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
 //import projectsList from "@/components/projectsMock";
 import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
@@ -157,6 +157,7 @@ export default function ManageProject() {
           resources={resources.map(
             (resource) => resource.Nombre + " " + resource.Apellido
           )}
+          mode={ProjectMode.View}
         />
         <div className="flex items-center justify-start gap-x-6 px-4">
           <TextButton

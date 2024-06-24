@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
-import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
+import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
 import Loading from "@/components/loader";
 //import projectsList from "@/components/projectsMock";
 import getResources from "@/services/resourceService";
@@ -144,7 +144,7 @@ export default function ManageProject() {
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                    />}
+                    mode={ProjectMode.Edit} />}
                       {isLoading && <Loading data="proyecto"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton

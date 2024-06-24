@@ -24,6 +24,12 @@ export interface ProjectInputs {
   endDateTime: boolean;
 }
 
+export enum ProjectMode {
+  View,
+  Edit,
+  New,
+}
+
 export interface ProjectFormProps {
   project: Project;
   setProject: (project: Project) => void;
@@ -33,6 +39,7 @@ export interface ProjectFormProps {
   onSubmit: () => void;
   onCancel: () => void;
   submitButtonName: string;
+  mode: ProjectMode;
 }
 
 export default function ProjectForm({
@@ -44,6 +51,7 @@ export default function ProjectForm({
   requiredInputs,
   disabledInputs,
   submitButtonName,
+  mode,
 }: ProjectFormProps) {
   const [invalidInputs, setInvalidInputs] = useState<ProjectInputs>({
     name: false,
@@ -225,14 +233,14 @@ export default function ProjectForm({
         </div>
 
         <div className="flex col-span-full pt-2">
-          <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+          {mode !== ProjectMode.View && <div className="flex items-center justify-end gap-x-6 px-4 w-full">
             <TextButton
               name="Cancelar"
               style="transparent"
               onClick={onCancel}
             />
             <TextButton name={submitButtonName} type="submit" style="primary" />
-          </div>
+          </div>}
         </div>
       </main>
     </form>

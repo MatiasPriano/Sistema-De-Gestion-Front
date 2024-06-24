@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
-import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
+import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
 import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
@@ -107,7 +107,7 @@ useEffect(() => {
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                     />
+                    mode={ProjectMode.New} />
             </div>
       </div>
 
