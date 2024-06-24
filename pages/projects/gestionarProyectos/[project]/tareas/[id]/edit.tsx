@@ -8,10 +8,12 @@ import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
 import TaskProjectForm from '@/components/form/taskProjectForm';
+import tasksList from '@/components/tasksMock';
+import React from 'react';
 
-export default function NewTask() {
+export default function ViewTask() {
     const router = useRouter();
-    const { project: projectId } = router.query;
+    const { project: projectId, id: taskId } = router.query;
 
     const [task, setTask] = useState<Task>(emptyTask)
 
@@ -26,12 +28,17 @@ export default function NewTask() {
 
     const requiredInputs: TaskInputs = {
         title: true,
-        responsable: false,
+        responsable: true,
         description: true,
         project: true,
         status: true,
-        priority: true,
+        priority: true
     }
+
+    useEffect(() => {
+        // TODO: API call para conseguir los datos del ticket con id {ticketId}
+        setTask(tasksList[taskId as unknown as number - 1])
+    }, [])
 
     const onCancel = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
@@ -48,12 +55,6 @@ export default function NewTask() {
         getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
     }, [])
 
-    const [projects, setProjects] = useState<string[]>([])
-    useEffect(() => {
-        //TODO: API call para obtener los proyectos del back de proyectos
-        // setProjects([])
-    })
-
     return (
         <div>
             <Breadcrumb steps={[
@@ -61,18 +62,18 @@ export default function NewTask() {
                 { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
                 { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
                 { name: "Tareas del proyecto", link: `/projects/gestionarProyectos/${projectId}/tareas`},
-                { name: "Nueva tarea", link: null }
+                { name: `#${taskId}`, link: null }
             ]} />
             <div className="space-y-4">
                 <header className="flex items-center">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Crear Tarea</h1>
+                    <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Ver Tarea</h1>
                 </header>
                 <TaskProjectForm
                     task={task}
                     setTask={setTask}
                     disabledInputs={disabledInputs}
                     requiredInputs={requiredInputs}
-                    submitButtonName="Crear"
+                    submitButtonName="Editar"
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}

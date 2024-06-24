@@ -14,6 +14,8 @@ export default function ProjectRow({ project }: { project: Project }) {
     const handleViewTasksClick = () => {
         router.push(`/projects/gestionarProyectos/${project.id}/tareas`)
     }
+
+    
     
     const actions: Action[] = [
         {

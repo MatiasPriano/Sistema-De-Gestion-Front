@@ -13,11 +13,11 @@ export default interface TaskProject {
 }
 
 export type State =
-    "Abierta" |
-    "Cerrada" |
-    "Bloqueada" |
-    "En desarrollo" |
-    "Terminada"
+    "OPEN" |
+    "CLOSED" |
+    "BLOCKED" |
+    "PROGRESS" |
+    "FINISHED"
 
 export const emptyTask: TaskProject = {
     id: 0,

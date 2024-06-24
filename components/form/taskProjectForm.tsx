@@ -6,7 +6,15 @@ import ButtonRow, { ButtonOption } from "../button/buttonRow";
 import TextButton from "../button/textButton";
 import { toast } from "react-hot-toast";
 import ComboBox from "../input/comboBox";
-import TaskProject from "@/types/taskProjects";
+import TaskProject, { State } from "@";
+
+const stateOptions: State[] = [
+    "OPEN",
+    "CLOSED",
+    "PROGRESS",
+    "BLOCKED",
+    "FINISHED"
+];
 
 const priorityOptions: ButtonOption[] = [
     { title: "Baja", colour: "green" }, 
@@ -137,7 +145,7 @@ export default function TaskProjectForm ({
         setInvalidInputs({ ...invalidInputs, maxResolutionTime: false });
     }
     const setState = (state: string) => {
-        setTask({ ...task, status: state });
+        setTask({ ...task, status: state as State });
     };
 
     return (
@@ -236,10 +244,12 @@ export default function TaskProjectForm ({
                 </div>
 
                 <ComboBox
-                    title="Estado"
-                    selected={task.status}
-                    disabled={true}
-                    onChange={setState} options={["Abierta"]}    />
+        title="Estado"
+        options={stateOptions}
+        selected={task.status}
+        disabled={disabledInputs.state}
+        onChange={setState}
+    />
 
                 <ButtonRow
                     title="Prioridad"
