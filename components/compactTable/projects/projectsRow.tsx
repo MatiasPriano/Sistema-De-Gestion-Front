@@ -1,3 +1,4 @@
+
 import SimpleCell from "../cells/simpleCell";
 import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
@@ -15,7 +16,7 @@ export default function ProjectRow({ project }: { project: Project }) {
         router.push(`/projects/gestionarProyectos/${project.id}/tareas`)
     }
     const handleViewProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/proyectos`)
+        router.push(`/projects/gestionarProyectos/${project.id}/[projectView]`)
     }
 
     

@@ -1,4 +1,5 @@
 export default interface Project {
+    projectview: any;
     id: number
     name: string;
     fechaInicio: string;

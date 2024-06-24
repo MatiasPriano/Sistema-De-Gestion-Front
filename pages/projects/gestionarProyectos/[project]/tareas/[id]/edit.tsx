@@ -30,9 +30,9 @@ export default function ViewTask() {
         title: true,
         responsable: false,
         description: true,
-        project: true,
-        status: true,
-        priority: true
+        project: false,
+        status: false,
+        priority: false
     }
 
     useEffect(() => {

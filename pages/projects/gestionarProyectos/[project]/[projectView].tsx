@@ -1,4 +1,3 @@
-
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs } from "@/components/form/projectForm";
@@ -20,7 +19,8 @@ export default function ManageProject() {
         description: true,
         responsable: true,
         state: true,
-        endDateTime: true
+        endDate: true,
+        startDate: true
     }
 
     const requiredInputs: ProjectInputs = {
@@ -117,7 +117,7 @@ export default function ManageProject() {
         })
         .then(data => {
             console.log('Success:', data);
-            toast.success("Cambios guardados");
+            //toast.success("");
             router.push(`/projects/gestionarProyectos`);
         })
         .catch((error) => {
@@ -143,8 +143,8 @@ export default function ManageProject() {
                     setProject={setProject}
                     disabledInputs={disabledInputs}
                     requiredInputs={requiredInputs}
-                    submitButtonName={'Guardar cambios'}
-                    onSubmit={onSubmit}
+                    submitButtonName={'Aceptar'}
+                    //onSubmit={onSubmit}
                     onCancel={onCancel}
                     resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
                     />

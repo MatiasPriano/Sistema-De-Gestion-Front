@@ -24,7 +24,7 @@ export default function TaskRecordRow({ task }: TaskRecordRowProps) {
                 <SimpleCell name={task.priority} centered={true} />
             </td>
             <td className="w-30 overflow-hidden">
-                <ColouredCell name={task.status} colour={statusColourMap[task.status]} />
+                <SimpleCell name={task.status} centered={true} />
             </td>
         </tr>        
     );

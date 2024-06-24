@@ -28,12 +28,12 @@ export default function NewTask() {
     }
 
     const requiredInputs: TaskInputs = {
-        title: true,
+        title: false,
         responsable: false,
-        description: true,
-        project: true,
-        status: true,
-        priority: true,
+        description: false,
+        project: false,
+        status: false,
+        priority: false,
         startDate: false,
         endDate: false,
         maxResolutionTime: false
