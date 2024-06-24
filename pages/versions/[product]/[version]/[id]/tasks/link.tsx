@@ -50,6 +50,15 @@ export default function LinkTask() {
         // TODO: API call para obtener las tareas con un nombre que contenga searchText y setearlas con setTasks
     }
 
+    // const [versionName, setVersionName] = useState<string>("")
+    // const [productName, setProductName] = useState<string>("")
+    // useEffect(() => {
+    //     getVersion(Number(versionId)).then((version) => {
+    //         setProductName(version.product.name)
+    //         setVersionName(version.name)
+    //     })
+    // }, [])
+
     return (
         <>
             <Breadcrumb steps={[

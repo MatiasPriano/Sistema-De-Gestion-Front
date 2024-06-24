@@ -17,7 +17,7 @@ export default function Tickets() {
         router.push(`/versions/${productId}/${versionId}/new`)
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [tickets, setTickets] = useState<Ticket[]>([])
 
     useEffect(() => {

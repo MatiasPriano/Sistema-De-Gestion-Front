@@ -32,9 +32,17 @@ export default function ViewTasks() {
         getTaskIdsByTicket(Number(ticketId)).then((taskIds: number[]) => setTaskIds(taskIds))
     }, [])
 
+    const [isLoading, setIsLoading] = useState<boolean>()
     useEffect(() => {
         // getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
     }, [taskIds])
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
+    //         setIsLoading(false)
+    //     }, 1000); //capaz no es necesario usar el timeout y solo dejar los setIsLoading entre el getter  
+    // }, [taskIds])
 
     const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false)
 
@@ -57,6 +65,15 @@ export default function ViewTasks() {
         setIsUnlinkDialogOpen(false)
         setSelectedTasks([])
     }
+
+    // const [versionName, setVersionName] = useState<string>("")
+    // const [productName, setProductName] = useState<string>("")
+    // useEffect(() => {
+    //     getVersion(Number(versionId)).then((version) => {
+    //         setProductName(version.product.name)
+    //         setVersionName(version.name)
+    //     })
+    // }, [])
 
     return (
         <>
@@ -91,7 +108,7 @@ export default function ViewTasks() {
                         tasks={tasks}
                         selectedTasks={selectedTasks}
                         setSelectedTasks={setSelectedTasks} />}
-                {tasks.length === 0 &&
+                {tasks.length === 0 && !isLoading &&
                     <EmptyPageText
                         text="No hay tareas asignadas a este ticket"
                         description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
@@ -102,6 +119,7 @@ export default function ViewTasks() {
                         <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
                     </div>
                 }
+                {tickets.length === 0 && isLoading && <Loading data="tareas"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"
