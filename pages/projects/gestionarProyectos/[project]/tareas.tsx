@@ -72,7 +72,7 @@ export default function ViewTasks() {
                     tasks={tasks}
                     projectId={projectId as string} />
                 <div className="flex items-center justify-start gap-x-6 px-4">
-                    <Link href={`/projects/gestionarProyectos/${projectId}`}>
+                    <Link href={`/projects/gestionarProyectos/`}>
                         <TextButton name="Volver" style="transparent" />
                     </Link>
                 </div>
