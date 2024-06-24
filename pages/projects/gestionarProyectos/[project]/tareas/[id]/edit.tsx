@@ -69,10 +69,7 @@ export default function ViewTask() {
                         firstTicketId: taskData.firstTicketId,
                     });
                     console.log(task)
-                    console.log(taskData)
-                    console.log(taskData.assigned_employee)
                     console.log(task.responsable)
-
                 })
                 .catch(error => {
                     console.error('Error fetching task:', error);

@@ -32,7 +32,7 @@ export default function ViewTasks() {
                         title: task.title,
                         description: task.description,
                         state: task.state,
-                        assignedEmployee: task.responsable || 'Sin asignar',
+                        responsable: task.assignedEmployee, 
                         priority: task.priority,
                         startDate: new Date(task.startDate).toLocaleDateString(),
                         finishDate: task.finishDate ? new Date(task.finishDate).toLocaleDateString() : 'Sin fecha',
@@ -52,7 +52,8 @@ export default function ViewTasks() {
     const handleNewTaskButton = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas/crearTarea`);
     };
-
+    console.log("estoy buscando este task:!!!")
+    console.log(tasks)
     return (
         <>
             <Breadcrumb steps={[
