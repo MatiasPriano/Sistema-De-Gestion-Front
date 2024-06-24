@@ -49,7 +49,6 @@ export default function ViewTask() {
     const onSubmit = () => {
     
         const url = `https://projects-backend-am35.onrender.com/tasks/${task.id}?assigned_leader=${task.responsable}&priority=${task.priority}&state=${task.status}`;
-        //curl -X PATCH "https://projects-backend-am35.onrender.com/tasks/4?assigned_employee=2&priority=LOW&state=OPEN" -H  "accept: */*"
 
         console.log("la url es:")
         console.log(url)
@@ -64,7 +63,6 @@ export default function ViewTask() {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
-            return response.json();
         })
         .then(data => {
             console.log('Success:', data);
@@ -73,6 +71,7 @@ export default function ViewTask() {
         })
         .catch((error) => {
             console.error('Error:', error);
+            console.log('no entiendo, que error');
             toast.error("Hubo un error al guardar los cambios");
         });
     };
