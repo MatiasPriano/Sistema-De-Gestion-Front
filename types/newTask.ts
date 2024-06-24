@@ -1,4 +1,4 @@
-import { Project, emptyProject } from "./project";
+import { Project } from "./project";
 import { Priority } from "./taskPriority";
 import { State } from "./taskState";
 import { TicketAssociation } from "./ticketAssociation";
@@ -8,7 +8,7 @@ export interface NewTask {
     title: string;
     assignedEmployee: number | null
     description: string
-    project: Project
+    project: Project | null
     state: State
     priority: Priority
     associatedTickets: TicketAssociation[]
@@ -20,7 +20,7 @@ export const emptyNewTask: NewTask = {
     title: "",
     assignedEmployee: null,
     description: "",
-    project: emptyProject,
+    project: null,
     state: "OPEN",
     priority: "LOW",
     associatedTickets: [],

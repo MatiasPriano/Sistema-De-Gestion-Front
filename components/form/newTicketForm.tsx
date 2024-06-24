@@ -152,7 +152,7 @@ export default function TicketForm(
                         errorText="El responsable debe ser valido"
                         handleFocus={handleEmployeeFocus}
                         isRequired={requiredInputs.employee}
-                        items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + employee.Apellido }})}
+                        items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + " " + employee.Apellido }})}
                         disabled={disabledInputs.employee} />
                     <div className="col-span-full">
                         <TextArea

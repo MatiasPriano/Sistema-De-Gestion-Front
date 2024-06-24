@@ -76,7 +76,7 @@ export default function EditTicketComponent() {
         <div>
             <Breadcrumb steps={[
                 { name: "Versiones", link: `/versions/` },
-                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `${productName} - ${versionName }`, link: `/versions/${productId}/${versionId}/` },
                 { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Editar ticket", link: null }
             ]} />

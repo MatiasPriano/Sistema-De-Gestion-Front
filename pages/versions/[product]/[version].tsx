@@ -66,7 +66,7 @@ export default function Tickets() {
                     </div>}
                 {tickets.length === 0 && isLoading && <Loading data="tickets"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
-                    <Link href="/products">
+                    <Link href="/versions">
                         <TextButton
                             name="Volver"
                             style="transparent" />

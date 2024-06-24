@@ -2,6 +2,8 @@ import Task from "@/types/task";
 import ResourceCell from "../cells/resourceCell";
 import SimpleCell from "../cells/simpleCell";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
+import { priorityToPrintable } from "@/types/taskPriority";
+import { stateToPrintable } from "@/types/taskState";
 
 interface TicketTaskRowProps {
     task: Task
@@ -15,7 +17,7 @@ export default function TicketTaskRow({ task, selected, setSelected }: TicketTas
     }
     return (
         <tr key={task.id} className={getCheckBoxClass(selected)} onClick={toggleCheckbox} >
-            <td className="w-10 overflow-hidden">
+            <td className="w-1/4 overflow-hidden">
                 <div className="text-title rounded-md mx-2 flex items-center">
                     <input  type="checkbox"
                             className="form-checkbox h-4 w-4 text-primary"
@@ -23,17 +25,17 @@ export default function TicketTaskRow({ task, selected, setSelected }: TicketTas
                             checked={selected} />
                 </div>
             </td>
-            <td className="w-20 overflow-hidden">
+            <td className="w-1/4 overflow-hidden">
                 <SimpleCell name={"#" + task.id}/>
             </td>
-            <td className="w-100 overflow-hidden">
+            <td className="w-1/2 overflow-hidden">
                 <SimpleCell name={task.title} />
             </td>
-            <td className="w-30 overflow-hidden">
-                <SimpleCell name={task.priority} centered={true} />
+            <td className="w-1/4 overflow-hidden">
+                <SimpleCell name={priorityToPrintable(task.priority)} centered={true} />
             </td>
-            <td className="w-20 overflow-hidden">
-                <ColouredCell name={task.state} colour={statusColourMap[task.state]} />
+            <td className="w-1/4 overflow-hidden">
+                <ColouredCell name={stateToPrintable(task.state)} colour={statusColourMap[task.state]} />
             </td>
         </tr>
         
@@ -56,6 +58,7 @@ interface StatusColourMap {
 const statusColourMap : StatusColourMap = {
     "OPEN": "green",
     "CLOSED" : "red",
-    "BLOCKED" : "red",
-    "FINISHED" : "green"
+    "BLOCKED" : "orange",
+    "FINISHED" : "green",
+    "PROGRESS" : "yellow"
 }

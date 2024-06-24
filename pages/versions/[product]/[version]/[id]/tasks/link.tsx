@@ -10,7 +10,7 @@ import Breadcrumb from '@/components/breadcrumb';
 import IconButton from '@/components/button/iconButton';
 import Input from '@/components/input/input';
 import Loading from '@/components/loader';
-import { associateTasks, getAllTasks, getVersion } from '@/services/supportService';
+import { associateTasks, getAllTasks, getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -36,18 +36,27 @@ export default function LinkTask() {
 
     const [tasks, setTasks] = useState<Task[]>([])
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>()
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [productName, setProductName] = useState<string>("")
     const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
         let tasksPromise = getAllTasks()
+        let ticketTaskIdsPromise = getTaskIdsByTicket(Number(ticketId))
         let versionPromise = getVersion(Number(versionId))
-        Promise.all([tasksPromise, versionPromise]).then(([tasks, version]) => {
-            setTasks(tasks)
-            setFilteredTasks(tasks)
+
+        Promise.all([tasksPromise, ticketTaskIdsPromise, versionPromise]).then(([tasks, ticketTasksIds, version]) => {
             setProductName(version.product.name)
             setVersionName(version.name)
+            let notLinkedTasks = tasks.filter((task) => !ticketTasksIds.includes(task.id))
+            setTasks(notLinkedTasks)
+            setFilteredTasks(notLinkedTasks)
             setIsLoading(false)
+        })
+
+        
+        Promise.all([tasksPromise, versionPromise]).then(([tasks, version]) => {
+            
+            
         })
     }, [])
 

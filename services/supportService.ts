@@ -170,7 +170,11 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function createTask(newTask: NewTask) {
-    let response = await fetch(`https://projects-backend-am35.onrender.com/projects`, {
+    if (newTask.project === null) {
+        console.log("No se pudo crear la tarea")
+        return false
+    }
+    let response = await fetch(`https://projects-backend-am35.onrender.com/projects/${newTask.project.id}/tasks/new`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

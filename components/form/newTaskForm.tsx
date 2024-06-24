@@ -65,17 +65,14 @@ export default function NewTaskForm(
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        
-        let projectsWithSameId = projects.filter((project) => project.id === projectId)
-        let project: Project = projectsWithSameId[0]
-        console.log("Proyecto: ", project)
-        setNewTask({...newTask, project: project })
+
+        console.log("Y ACA?", newTask)
 
         const finalInvalidInputs: TaskInputs = {
             title: requiredInputs.title && newTask.title.trim() === "",
             responsable: requiredInputs.responsable && (newTask.assignedEmployee === null || !employees.map((employee) => employee.legajo).includes(newTask.assignedEmployee)),
             description: requiredInputs.description && newTask.description.trim() === "",
-            project: requiredInputs.project && (projectId === null || !projects.map((project) => project.id).includes(projectId)),
+            project: requiredInputs.project && (newTask.project === null || !projects.map((project) => project.id).includes(newTask.project.id)),
             state: requiredInputs.state && !["OPEN", "CLOSED", "BLOCKED"].includes(newTask.state),
             priority: requiredInputs.priority && !["LOW", "MEDIUM", "HIGH"].includes(newTask.priority)
         }
@@ -112,6 +109,16 @@ export default function NewTaskForm(
         setInvalidInputs({...invalidInputs, description: false})
     }
 
+    const setProject = (projectId: number | null) => {
+        setProjectId(projectId)
+        if (projectId === null) return
+        let projectsWithSameId = projects.filter((project) => project.id === projectId)
+        if (projectsWithSameId.length === 0) {
+            setNewTask({...newTask, project: null })
+        }
+        let project: Project = projectsWithSameId[0]
+        setNewTask({...newTask, project: project })
+    }
     const handleProjectFocus = () => {
         setInvalidInputs({ ...invalidInputs, project: false })
     }
@@ -144,7 +151,7 @@ export default function NewTaskForm(
                     errorText="El responsable debe ser valido"
                     handleFocus={handleResponsableFocus}
                     isRequired={requiredInputs.responsable}
-                    items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + employee.Apellido }})}
+                    items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + " " + employee.Apellido }})}
                     disabled={disabledInputs.responsable} />
                 <div className="col-span-full">
                     <TextArea
@@ -161,7 +168,7 @@ export default function NewTaskForm(
                     title='Proyecto'
                     placeholder='UPP Sistema - 2024'
                     value={projectId}
-                    setValue={setProjectId}
+                    setValue={setProject}
                     isRequired={requiredInputs.project}
                     error={invalidInputs.project}
                     errorText="El proyecto debe ser valido"

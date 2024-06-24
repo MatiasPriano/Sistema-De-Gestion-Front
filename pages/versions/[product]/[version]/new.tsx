@@ -56,7 +56,7 @@ export default function NewTicketComponent() {
         let clientsPromise = getClients()
         let versionPromise = getVersion(Number(versionId))
 
-        Promise.all([employeesPromise, clientsPromise, versionPromise]).then(([employees, cliens, version]) => {
+        Promise.all([employeesPromise, clientsPromise, versionPromise]).then(([employees, clients, version]) => {
             setEmployees(employees)
             setClients(clients)
             setProductName(version.product.name)

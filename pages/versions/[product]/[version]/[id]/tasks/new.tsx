@@ -6,8 +6,9 @@ import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
 import { Project } from '@/types/project';
-import { associateTask, createTask, getEmployees, getProjects, getVersion } from '@/services/supportService';
+import { associateTasks, createTask, getEmployees, getProjects, getVersion } from '@/services/supportService';
 import { NewTask, emptyNewTask } from '@/types/newTask';
+import Loading from '@/components/loader';
 
 export default function NewTaskComponent() {
     const router = useRouter();
@@ -33,28 +34,6 @@ export default function NewTaskComponent() {
         priority: true
     }
 
-    const onCancel = () => {
-        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
-    }
-
-    const onSubmit = () => {
-        console.log("Tarea: ", newTask)
-        createTask(newTask).then((wasCreated: boolean) => {
-            if (wasCreated) {
-                associateTask(Number(ticketId), newTask.id).then((wasLinked) => {
-                    if (wasLinked) {
-                        toast.success("Tarea creada")
-                        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
-                    } else {
-                        toast.error("Hubo un problema al asociar la tarea al ticket")
-                    }
-                })
-            } else {
-                toast.error("Hubo un problema al crear la tarea")
-            }
-        })
-    }
-    
     const [employees, setEmployees] = useState<Employee[]>([])
     const [projects, setProjects] = useState<Project[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -72,6 +51,28 @@ export default function NewTaskComponent() {
             setIsLoading(false)
         })
     }, [])
+
+    const onCancel = () => {
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
+    }
+
+    const onSubmit = () => {
+        console.log("Tarea: ", newTask)
+        createTask(newTask).then((wasCreated: boolean) => {
+            if (wasCreated) {
+                associateTasks(Number(ticketId), [newTask.id]).then((wasLinked) => {
+                    if (wasLinked) {
+                        toast.success("Tarea creada")
+                        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
+                    } else {
+                        toast.error("Hubo un problema al asociar la tarea al ticket")
+                    }
+                })
+            } else {
+                toast.error("Hubo un problema al crear la tarea")
+            }
+        })
+    }
 
     return (
         <div>
@@ -96,6 +97,7 @@ export default function NewTaskComponent() {
                 onCancel={onCancel}
                 employees={employees}
                 projects={projects} />}
+            {isLoading && <Loading data="tarea"/>}
         </div>
     )
 }

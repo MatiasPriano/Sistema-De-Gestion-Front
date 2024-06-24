@@ -26,7 +26,7 @@ export default function ViewTasks() {
     }
 
     const [tasks, setTasks] = useState<Task[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>()
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [productName, setProductName] = useState<string>("")
     const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
@@ -74,19 +74,18 @@ export default function ViewTasks() {
 
     return (
         <>
-            <Breadcrumb steps={[
+            {!isLoading && <Breadcrumb steps={[
                 { name: "Versiones", link: `/versions/` },
                 { name: `${productName} - ${versionName}`, link: `/versions/${productId}/${versionId}/` },
                 { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Tareas asociadas", link: null }
-            ]} />
+            ]} />}
             <div className="space-y-4">
-                <VersionHeader  productId={productName}
+                {!isLoading && <VersionHeader  productId={productName}
                                 versionId={versionName}
                                 ticketId={ticketId as string}
-                                title="Tareas asociadas al ticket"
-                />
-                {tasks.length > 0 &&
+                                title="Tareas asociadas al ticket" />}
+                {tasks.length > 0 && !isLoading && 
                     <div className="flex my-5 px-4">
                         <div className="flex items-center justify-start gap-x-6">
                             <TextButton
@@ -100,7 +99,7 @@ export default function ViewTasks() {
                             <TextButton name="Ir a Asociar tareas" style="primary" onClick={handleLinkTaskButton} />
                         </div>
                     </div>}
-                {tasks.length > 0 &&
+                {tasks.length > 0 && !isLoading && 
                     <TicketTaskTable
                         tasks={tasks}
                         selectedTasks={selectedTasks}
@@ -110,7 +109,7 @@ export default function ViewTasks() {
                         text="No hay tareas asignadas a este ticket"
                         description="Puede crear una nueva tarea para este ticket, o asociar una tarea ya existente"
                         icon="task"/>}
-                {tasks.length === 0 &&
+                {tasks.length === 0 && !isLoading && 
                     <div className="my-5 flex items-center justify-center gap-x-6">
                         <TextButton name="Crear tarea" style="primary" onClick={handleNewTaskButton} />
                         <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
