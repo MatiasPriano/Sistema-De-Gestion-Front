@@ -5,6 +5,8 @@ import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
 import React from "react";
 import Task from "@/types/task";
+import { stateToPrintable } from "@/types/taskState";
+import { priorityToPrintable } from "@/types/taskPriority";
 
 export default function TaskRow({ task, projectId }: {task: Task, projectId: string }) {
     const router = useRouter()
@@ -37,6 +39,7 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
         }
     ]
 
+    
     return (
         <tr key={task.id} >
             <td className="w-20 overflow-hidden">
@@ -49,10 +52,10 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
                 <ResourceCell name={task.responsable}/>
             </td>
             <td className="w-30 overflow-hidden">
-                <SimpleCell name={task.priority} centered={true} />
+                <SimpleCell name={priorityToPrintable(task.priority)} centered={true} />
             </td>
             <td className="w-30 overflow-hidden">
-                <SimpleCell name={task.state} centered={true} />
+                <SimpleCell name={stateToPrintable(task.state)} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>

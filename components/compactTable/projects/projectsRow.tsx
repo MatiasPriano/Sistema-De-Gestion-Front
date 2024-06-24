@@ -4,6 +4,7 @@ import ActionsCell, { Action } from "../cells/actionsCell";
 import { useRouter } from "next/router";
 import React from "react";
 import Project from "@/types/project";
+import { projectStateToPrintable } from "@/types/taskProjects";
 
 export default function ProjectRow({ project }: { project: Project }) {
     const router = useRouter()
@@ -54,7 +55,7 @@ export default function ProjectRow({ project }: { project: Project }) {
                 <SimpleCell name={project.responsable} centered={true} />
             </td>
             <td className="overflow-hidden">
-                <SimpleCell name={project.estado} centered={true} />
+                <SimpleCell name={projectStateToPrintable(project.estado)} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>

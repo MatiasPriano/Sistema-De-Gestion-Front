@@ -31,3 +31,12 @@ export const emptyTask: TaskProject = {
     startDate: "",
     endDate: ""
 }
+
+export function projectStateToPrintable(status: State): string {
+    if (status === "OPEN") return "Abierto"
+    else if (status === "CLOSED") return "Cerrado"
+    else if (status === "BLOCKED") return "Bloqueado"
+    else if (status === "PROGRESS") return "En progreso"
+    else if (status === "FINISHED") return "Terminado"
+    else return "ERROR"
+}

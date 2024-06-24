@@ -143,7 +143,7 @@ export default function ManageProject() {
       <div className="space-y-4">
         <header className="flex items-center">
           <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">
-            Gestionar Proyecto
+            Ver proyecto
           </h1>
         </header>
         <ProjectForm
