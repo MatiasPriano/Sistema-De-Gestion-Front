@@ -73,7 +73,7 @@ export async function updateTicket(editTicket: EditTicket, ticketId: number): Pr
     return editedTicket.id
 }
 
-export async function deleteTicket(ticketId: string): Promise<string> {
+export async function deleteTicket(ticketId: number): Promise<boolean> {
     let response = await fetch(URL.url + `/v1/tickets/${ticketId}`, {
         method: 'DELETE',
         headers: {
@@ -82,14 +82,13 @@ export async function deleteTicket(ticketId: string): Promise<string> {
     })
 
     if (!response.ok) {
-        console.log(response)
-        return ''
+        console.log("No se pudo eliminar el ticket") 
+        return false
     }
-
-    return await response.json()
+    return true
 }
 
-export async function getTasksByTicket(ticketId: string): Promise<Task[]> {
+export async function getTaskIdsByTicket(ticketId: number): Promise<number[]> {
     let response = await fetch(URL.url + `/v1/tickets/${ticketId}/tasks`)
     if (!response.ok) {
         console.log(response)

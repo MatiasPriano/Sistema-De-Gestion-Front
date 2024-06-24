@@ -20,7 +20,6 @@ export default function Tickets() {
 
     const [tickets, setTickets] = useState<Ticket[]>([])
     useEffect(() => {
-        // TODO: API call para obtener todos los tickets de la version
         getTicketsByVersion(versionId as unknown as number).then((tickets) => setTickets(tickets))
     }, [])
 
@@ -50,8 +49,9 @@ export default function Tickets() {
                 </div>}
                 {tickets.length > 0 && <TicketTable
                     tickets={tickets}
-                    productId={productId as string}
-                    versionId={versionId as string} />}
+                    setTickets={setTickets}
+                    productId={Number(productId)}
+                    versionId={Number(versionId)} />}
                 {tickets.length === 0 &&
                     <EmptyPageText
                         text="No hay tickets creados"

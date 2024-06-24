@@ -8,7 +8,7 @@ import Breadcrumb from '@/components/breadcrumb';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import ConfirmationDialog from '@/components/confirmationDialog';
-import tasksList from '@/components/tasksMock';
+import { getTaskIdsByTicket } from '@/services/supportService';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -24,19 +24,17 @@ export default function ViewTasks() {
         router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/link/`)
     }
 
-    const [tasks, setTasks] = useState<Task[]>(tasksList)
+    const [taskIds, setTaskIds] = useState<number[]>([])
+    const [tasks, setTasks] = useState<Task[]>([])
 
-    // useEffect(() => {
-    //     // TODO: API call para obtener tareas del back
-    //     // fetch(URL.url + '/v1/...')
-    //     // .then((response) =>{
-    //     //     return response.json()
-    //     // })
-    //     // .then((tasksData) => {
-    //     //     setTasks(tasksData)
-    //     // })
-    //     setTasks(tasksList)
-    // }, [])
+    useEffect(() => {
+        console.log("Version: ", versionId)
+        getTaskIdsByTicket(Number(ticketId)).then((taskIds: number[]) => setTaskIds(taskIds))
+    }, [])
+
+    useEffect(() => {
+        // getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
+    }, [taskIds])
 
     const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false)
 

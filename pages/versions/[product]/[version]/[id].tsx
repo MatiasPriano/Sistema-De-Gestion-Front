@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import Ticket, { emptyTicket } from '@/types/ticket';
+import Ticket from '@/types/ticket';
 import TicketDetails from '@/components/ticketDetails';
 import IconButton from '@/components/button/iconButton';
 import TextButton from '@/components/button/textButton';
@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import ticketsList from '@/components/ticketsMock';
-import { getTicket } from '@/services/supportService';
+import { deleteTicket, getTicket } from '@/services/supportService';
 import EmptyPageText from '@/components/emptyPageText';
 
 export default function ViewTicket() {
@@ -18,9 +18,16 @@ export default function ViewTicket() {
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
     const handleDialogDelete = () => {
-        toast.success("Ticket eliminado")
-        setIsDeleteDialogOpen(false)
-        router.push(`/versions/${productId}/${versionId}/`)
+        deleteTicket(Number(ticketId)).then((wasDeleted) => {
+            setIsDeleteDialogOpen(false)
+            if (wasDeleted) {
+                toast.success("Ticket eliminado")
+                router.push(`/versions/${productId}/${versionId}/`)
+            } else {
+                toast.error("No se pudo eliminar el ticket")
+            }
+        })
+        
     }
     const handleDialogCancel = () => {
         setIsDeleteDialogOpen(false)

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import ColouredCell, { ColouredCellColours } from "../cells/colouredCell";
 import Employee from "@/types/employee";
+import { deleteTicket } from "@/services/supportService";
 
 const severityColours: Record<"S1" | "S2" | "S3" | "S4", ColouredCellColours> = {
     "S1": "red",
@@ -16,7 +17,14 @@ const severityColours: Record<"S1" | "S2" | "S3" | "S4", ColouredCellColours> = 
     "S4": "green",
 };
 
-export default function TicketRow({ ticket, productId, versionId }: { ticket: Ticket, productId: string, versionId: string }) {
+interface TicketRowProps {
+    ticket: Ticket
+    productId: number
+    versionId: number
+    removeTicket: () => void
+}
+
+export default function TicketRow({ ticket, productId, versionId, removeTicket }: TicketRowProps) {
     const router = useRouter()
     const handleViewButtonClick = () => {
         router.push(`/versions/${productId}/${versionId}/${ticket.id}`)
@@ -31,9 +39,15 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
     
     const handleDialogDelete = () => {
-        // TODO: API call para eliminar ticket
-        toast.success("Ticket eliminado")
-        setIsDeleteDialogOpen(false)
+        deleteTicket(ticket.id).then((wasDeleted) => {
+            setIsDeleteDialogOpen(false)
+            if (wasDeleted) {
+                toast.success("Ticket eliminado")
+                removeTicket()
+            } else {
+                toast.error("No se pudo eliminar el ticket")
+            }
+        })
     }
     const handleDialogCancel = () => {
         setIsDeleteDialogOpen(false)
@@ -99,7 +113,7 @@ export default function TicketRow({ ticket, productId, versionId }: { ticket: Ti
     );
 }
 
-function getEmployeeName(employee: Employee) {
+function getEmployeeName(employee: Employee | null) {
     if (employee) {
         return employee.Nombre + " " + employee.Apellido
     } else {
