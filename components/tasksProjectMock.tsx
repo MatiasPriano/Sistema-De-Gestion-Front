@@ -47,7 +47,7 @@ const tasksList: TaskProject[] = [
         maxTimeResolution: "string",
         startDate: "string",
         endDate: "string",
-        description: "Se necesita desarrollar un nuevo módulo de análisis predictivo para la plataforma de Business Intelligence. El objetivo es incorporar capacidades de predicción y recomendación basadas en análisis de datos históricos y actuales."
+        description: "Se necesita desarrollar un nuevoxd project"
     },
     {
         id: 5,

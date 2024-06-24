@@ -40,9 +40,37 @@ export default function ViewTask() {
     }
 
     useEffect(() => {
-        // TODO: API call para conseguir los datos del ticket con id {ticketId}
-        setTask(tasksList[taskId as unknown as number - 1])
-    }, [])
+        if (taskId) {
+            fetch(`https://projects-backend-am35.onrender.com/tasks/?ids=${taskId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const taskData = data[0];
+                    setTask({
+                        id: taskData.id,
+                        title: taskData.title,
+                        description: taskData.description,
+                        status: taskData.state,
+                        responsable: taskData.assignedEmployee,
+                        priority: taskData.priority,
+                        startDate: taskData.startDate,
+                        finishDate: taskData.finishDate,
+                        daysToComplete: taskData.daysToComplete,
+                        associatedTickets: taskData.associatedTickets,
+                        firstTicketDate: taskData.firstTicketDate,
+                        firstTicketId: taskData.firstTicketId,
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching task:', error);
+                    toast.error("Hubo un error al obtener la tarea");
+                });
+        }
+    }, [taskId]);
 
     const onCancel = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas`)

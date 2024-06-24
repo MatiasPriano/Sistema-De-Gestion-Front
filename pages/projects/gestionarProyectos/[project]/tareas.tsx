@@ -32,7 +32,7 @@ export default function ViewTasks() {
                         title: task.title,
                         description: task.description,
                         state: task.state,
-                        assignedEmployee: task.assignedEmployee || 'Sin asignar',
+                        assignedEmployee: task.responsable || 'Sin asignar',
                         priority: task.priority,
                         startDate: new Date(task.startDate).toLocaleDateString(),
                         finishDate: task.finishDate ? new Date(task.finishDate).toLocaleDateString() : 'Sin fecha',
