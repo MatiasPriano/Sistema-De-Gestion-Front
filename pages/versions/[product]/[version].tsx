@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import VersionHeader from "@/components/versionHeader";
-import ticketsList from "@/components/ticketsMock";
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import Ticket from "@/types/ticket";
@@ -18,9 +17,15 @@ export default function Tickets() {
         router.push(`/versions/${productId}/${versionId}/new`)
     }
 
+    const [isLoading, setIsLoading] = useState<boolean>()
     const [tickets, setTickets] = useState<Ticket[]>([])
+
     useEffect(() => {
-        getTicketsByVersion(versionId as unknown as number).then((tickets) => setTickets(tickets))
+        setIsLoading(true)
+        setTimeout(() => {
+            getTicketsByVersion(versionId as unknown as number).then((tickets) => setTickets(tickets))
+            setIsLoading(false)
+        }, 1000); //capaz no es necesario usar el timeout y solo dejar los setIsLoading entre el getter
     }, [])
 
     // const [versionName, setVersionName] = useState<string>("")
@@ -52,7 +57,7 @@ export default function Tickets() {
                     setTickets={setTickets}
                     productId={Number(productId)}
                     versionId={Number(versionId)} />}
-                {tickets.length === 0 &&
+                {tickets.length === 0 && !isLoading &&
                     <EmptyPageText
                         text="No hay tickets creados"
                         description="Puede crear un nuevo ticket para esta versión"
@@ -60,8 +65,8 @@ export default function Tickets() {
                 {tickets.length === 0 &&
                     <div className="my-5 flex items-center justify-center gap-x-6">
                         <TextButton name="Crear ticket" style="secondary" onClick={handleNewTicketButton} />
-                    </div>
-                }
+                    </div>}
+                {tickets.length === 0 && isLoading && <Loading data="tickets"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <Link href="/products">
                         <TextButton
