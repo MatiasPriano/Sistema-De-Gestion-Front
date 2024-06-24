@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import TaskForm, { TaskInputs } from '@/components/form/taskForm';
-import Task, { emptyTask } from '@/types/task';
+//import TaskForm, { TaskInputs } from '@/components/form/taskForm';
+import Task, { emptyTask } from '@/types/taskProjects';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
-import TaskProjectForm from '@/components/form/taskProjectForm';
+import TaskProjectForm, { TaskInputs } from '@/components/form/taskProjectForm';
 
 export default function NewTask() {
     const router = useRouter();
@@ -20,8 +20,11 @@ export default function NewTask() {
         responsable: false,
         description: false,
         project: false,
-        status: false,
-        priority: false
+        status: true,
+        priority: false,
+        startDate: false,
+        endDate: false,
+        maxResolutionTime: false
     }
 
     const requiredInputs: TaskInputs = {
@@ -31,6 +34,9 @@ export default function NewTask() {
         project: true,
         status: true,
         priority: true,
+        startDate: false,
+        endDate: false,
+        maxResolutionTime: false
     }
 
     const onCancel = () => {

@@ -247,7 +247,7 @@ export default function TaskProjectForm ({
         title="Estado"
         options={stateOptions}
         selected={task.status}
-        disabled={disabledInputs.state}
+        disabled={disabledInputs.status}
         onChange={setState}
     />
 

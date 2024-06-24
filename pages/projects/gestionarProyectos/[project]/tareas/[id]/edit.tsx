@@ -28,7 +28,7 @@ export default function ViewTask() {
 
     const requiredInputs: TaskInputs = {
         title: true,
-        responsable: true,
+        responsable: false,
         description: true,
         project: true,
         status: true,
@@ -46,7 +46,7 @@ export default function ViewTask() {
 
     const onSubmit = () => {
         // TODO: API call a backend para crear tarea y asociarla a ticket
-        toast.success("Tarea creada")
+        toast.success("Cambios guardados")
         router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
     }
     
@@ -66,7 +66,7 @@ export default function ViewTask() {
             ]} />
             <div className="space-y-4">
                 <header className="flex items-center">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Ver Tarea</h1>
+                    <h1 className="text-2xl sm:text-4xl font-bold text-title line-clamp-2 sm:line-clamp-1 py-1">Editar tarea</h1>
                 </header>
                 <TaskProjectForm
                     task={task}
