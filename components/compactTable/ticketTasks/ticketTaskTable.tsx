@@ -9,7 +9,7 @@ interface TicketTaskTableProps {
 }
 
 export default function TicketTaskTable({ tasks, selectedTasks, setSelectedTasks }: TicketTaskTableProps) {
-    const headers = ["Selec.", "ID", "Título", "Proyecto", "Responsable", "Prioridad", "Estado"]
+    const headers = ["Selec.", "ID", "Título", "Prioridad", "Estado"]
     
     const handleRowSelection = (taskId: number, selected: boolean) => {
         let updatedSelectedTasks

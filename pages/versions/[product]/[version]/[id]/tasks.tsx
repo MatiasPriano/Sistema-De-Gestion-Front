@@ -8,7 +8,7 @@ import Breadcrumb from '@/components/breadcrumb';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import ConfirmationDialog from '@/components/confirmationDialog';
-import { getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
+import { desassociateTasks, getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
 import Loading from '@/components/loader';
 
 export default function ViewTasks() {
@@ -28,7 +28,7 @@ export default function ViewTasks() {
     const [tasks, setTasks] = useState<Task[]>([])
     const [isLoading, setIsLoading] = useState<boolean>()
     const [productName, setProductName] = useState<string>("")
-        const [versionName, setVersionName] = useState<string>("")
+    const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
         let taskIdsPromise = getTaskIdsByTicket(Number(ticketId))
         let versionPromise = getVersion(Number(versionId))
@@ -52,12 +52,19 @@ export default function ViewTasks() {
     const handleDialogUnlink = () => {
         // TODO: API call para obtener tareas del back
         setIsUnlinkDialogOpen(false)
-        if (selectedTasks.length === 1) {
-            toast.success("1 tarea desasociada")
-        } else {
-            toast.success(`${selectedTasks.length} tareas desasociadas`)
-        }
-        setSelectedTasks([])
+        desassociateTasks(Number(ticketId), selectedTasks).then((wasUnlinked) => {
+            if (wasUnlinked) {
+                if (selectedTasks.length === 1) toast.success("1 tarea desasociada")
+                else toast.success(`${selectedTasks.length} tareas desasociadas`)
+                setTasks(tasks.filter((task) => !selectedTasks.includes(task.id)))
+            } else {
+                toast.error("Hubo un problema al desasociar tareas")
+            }
+            setSelectedTasks([])
+        })
+        
+        
+        
     }
 
     const handleUnlinkCancel = () => {
@@ -65,26 +72,17 @@ export default function ViewTasks() {
         setSelectedTasks([])
     }
 
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
-
     return (
         <>
             <Breadcrumb steps={[
                 { name: "Versiones", link: `/versions/` },
-                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `${productName} - ${versionName}`, link: `/versions/${productId}/${versionId}/` },
                 { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Tareas asociadas", link: null }
             ]} />
             <div className="space-y-4">
-                <VersionHeader  productId={productId as string}
-                                versionId={versionId as string}
+                <VersionHeader  productId={productName}
+                                versionId={versionName}
                                 ticketId={ticketId as string}
                                 title="Tareas asociadas al ticket"
                 />

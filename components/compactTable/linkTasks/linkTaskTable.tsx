@@ -9,7 +9,7 @@ interface LinkTaskTableProps {
 }
 
 export default function LinkTaskTable({ tasks, selectedTasks, setSelectedTasks }: LinkTaskTableProps) {
-    const headers = ["Selec.", "ID", "Título", "Proyecto", "Responsable", "Prioridad", "Estado"]
+    const headers = ["Selec.", "ID", "Título", "Prioridad", "Estado"]
     
     const handleRowSelection = (taskId: number, selected: boolean) => {
         let updatedSelectedTasks

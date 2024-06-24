@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import Ticket from '@/types/ticket';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
 import { Client } from '@/types/client';
-import { createTicket, getClients, getEmployees } from '@/services/supportService';
+import { createTicket, getClients, getEmployees, getVersion } from '@/services/supportService';
 import NewTicket, { getEmptyNewTicket } from '@/types/newTicket';
 import { TicketInputs } from '@/types/ticketInputs';
 import NewTicketForm from '@/components/form/newTicketForm';
+import Loading from '@/components/loader';
 
 export default function NewTicketComponent() {
     const router = useRouter();
@@ -47,37 +47,36 @@ export default function NewTicketComponent() {
     }
     
     const [employees, setEmployees] = useState<Employee[]>([])
-    useEffect(() => {
-        getEmployees().then((employee) => setEmployees(employee))
-    }, [])
-
     const [clients, setClients] = useState<Client[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [versionName, setVersionName] = useState<string>("")
+    const [productName, setProductName] = useState<string>("")
     useEffect(() => {
-        getClients().then((clients) => setClients(clients))
-    })
+        let employeesPromise = getEmployees()
+        let clientsPromise = getClients()
+        let versionPromise = getVersion(Number(versionId))
 
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
+        Promise.all([employeesPromise, clientsPromise, versionPromise]).then(([employees, cliens, version]) => {
+            setEmployees(employees)
+            setClients(clients)
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)
+        })
+    }, [])
 
     return (
         <div>
-            <Breadcrumb steps={[
+            {!isLoading && <Breadcrumb steps={[
                 { name: "Versiones", link: "/versions/" },
-                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `${productName} - ${versionName}`, link: `/versions/${productId}/${versionId}/` },
                 { name: "Nuevo ticket", link: null } 
-            ]} />
-            <VersionHeader  productId={productId as string}
-                            versionId={versionId as string}
+            ]} />}
+            {!isLoading && <VersionHeader  productId={productName}
+                            versionId={versionName}
                             ticketId=""
-                            title="Nuevo ticket"
-            />
-            <NewTicketForm
+                            title="Nuevo ticket" />}
+            {!isLoading && <NewTicketForm
                 newTicket={newTicket}
                 setNewTicket={setNewTicket}
                 disabledInputs={disabledInputs}
@@ -86,7 +85,8 @@ export default function NewTicketComponent() {
                 employees={employees}
                 clients={clients}
                 submitButtonName="Crear"
-                onSubmit={onSubmit} />
+                onSubmit={onSubmit} />}
+            {isLoading && <Loading data="ticket"/>}
         </div>
     )
 }

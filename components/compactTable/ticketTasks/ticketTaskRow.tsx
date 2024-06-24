@@ -26,20 +26,14 @@ export default function TicketTaskRow({ task, selected, setSelected }: TicketTas
             <td className="w-20 overflow-hidden">
                 <SimpleCell name={"#" + task.id}/>
             </td>
-            <td className="w-150 overflow-hidden">
+            <td className="w-100 overflow-hidden">
                 <SimpleCell name={task.title} />
             </td>
-            <td className="w-60 overflow-hidden">
-                <SimpleCell name={task.project} />
-            </td>
-            <td className="w-40 overflow-hidden">
-                <ResourceCell name={task.responsable}/>
-            </td>
-            <td className="w-20 overflow-hidden">
+            <td className="w-30 overflow-hidden">
                 <SimpleCell name={task.priority} centered={true} />
             </td>
             <td className="w-20 overflow-hidden">
-                <ColouredCell name={task.status} colour={statusColourMap[task.status]} />
+                <ColouredCell name={task.state} colour={statusColourMap[task.state]} />
             </td>
         </tr>
         
@@ -60,6 +54,8 @@ interface StatusColourMap {
 }
 
 const statusColourMap : StatusColourMap = {
-    "Abierta": "green",
-    "Cerrada" : "red"
+    "OPEN": "green",
+    "CLOSED" : "red",
+    "BLOCKED" : "red",
+    "FINISHED" : "green"
 }

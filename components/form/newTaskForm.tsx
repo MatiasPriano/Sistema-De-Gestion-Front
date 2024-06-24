@@ -6,11 +6,15 @@ import { ChangeEvent, useState } from "react";
 import ButtonRow, { ButtonOption } from "../button/buttonRow";
 import TextButton from "../button/textButton";
 import { toast } from "react-hot-toast";
+import { NewTask } from "@/types/newTask";
+import Employee from "@/types/employee";
+import { Project } from "@/types/project";
+import { Priority } from "@/types/taskPriority";
 
 const priorityOptions: ButtonOption[] = [
-    { title: "Baja", colour: "green" }, 
-    { title: "Media", colour: "orange" }, 
-    { title: "Alta", colour: "red" }, 
+    { title: "LOW", colour: "green" }, 
+    { title: "MEDIUM", colour: "orange" }, 
+    { title: "HIGH", colour: "red" }, 
 ]
 
 export interface TaskInputs {
@@ -19,32 +23,32 @@ export interface TaskInputs {
     responsable: boolean;
     description: boolean;
     project: boolean;
-    status: boolean;
+    state: boolean;
     priority: boolean;
 }
 
 interface TaskFormProps {
-    task: Task
-    setTask: (task: Task) => void
+    newTask: NewTask
+    setNewTask: (newTask: NewTask) => void
     disabledInputs: TaskInputs
     requiredInputs: TaskInputs
     submitButtonName: string
     onSubmit: () => void
     onCancel: () => void
-    resources: string[]
-    projects: string[]
+    employees: Employee[]
+    projects: Project[]
 }
 
-export default function TaskForm(
+export default function NewTaskForm(
     {
-        task,
-        setTask,
+        newTask,
+        setNewTask,
         disabledInputs,
         requiredInputs,
         submitButtonName,
         onSubmit,
         onCancel,
-        resources,
+        employees,
         projects
     }: TaskFormProps) {
 
@@ -53,27 +57,33 @@ export default function TaskForm(
         responsable: false,
         description: false,
         project: false,
-        status: false,
+        state: false,
         priority: false,
     })
 
+    const [projectId, setProjectId] = useState<number|null>(null)
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        
+        let projectsWithSameId = projects.filter((project) => project.id === projectId)
+        let project: Project = projectsWithSameId[0]
+        console.log("Proyecto: ", project)
+        setNewTask({...newTask, project: project })
 
         const finalInvalidInputs: TaskInputs = {
-            title: requiredInputs.title && task.title.trim() === "",
-            responsable: requiredInputs.responsable && !resources.includes(task.responsable || ""),
-            description: requiredInputs.description && task.description.trim() === "",
-            project: requiredInputs.project && !projects.includes(task.project),
-            status: requiredInputs.status && !["Abierta", "Cerrada"].includes(task.status),
-            priority: requiredInputs.priority && !["Baja", "Media", "Alta"].includes(task.priority)
+            title: requiredInputs.title && newTask.title.trim() === "",
+            responsable: requiredInputs.responsable && (newTask.assignedEmployee === null || !employees.map((employee) => employee.legajo).includes(newTask.assignedEmployee)),
+            description: requiredInputs.description && newTask.description.trim() === "",
+            project: requiredInputs.project && (projectId === null || !projects.map((project) => project.id).includes(projectId)),
+            state: requiredInputs.state && !["OPEN", "CLOSED", "BLOCKED"].includes(newTask.state),
+            priority: requiredInputs.priority && !["LOW", "MEDIUM", "HIGH"].includes(newTask.priority)
         }
-        console.log(["Baja", "Media", "Alta"].includes(task.priority))
         if (!finalInvalidInputs.title &&
             !finalInvalidInputs.responsable &&
             !finalInvalidInputs.description &&
             !finalInvalidInputs.project &&
-            !finalInvalidInputs.status &&
+            !finalInvalidInputs.state &&
             !finalInvalidInputs.priority) {
                 onSubmit()
         } else {
@@ -83,35 +93,31 @@ export default function TaskForm(
     }
 
     const setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTask({ ...task, title: event.target.value })
+        setNewTask({ ...newTask, title: event.target.value })
     }
     const handleTitleFocus = () => {
         setInvalidInputs({...invalidInputs, title: false})
     }
 
-    const setResponsable = (responsable: string) => {
-        setTask({ ...task, responsable: responsable })
+    const setEmployee = (responsable: number | null) => {
+        setNewTask({ ...newTask, assignedEmployee: responsable })
     }
     const handleResponsableFocus = () => {
         setInvalidInputs({...invalidInputs, responsable: false})
     }
-
     const setDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setTask({ ...task, description: event.target.value })
+        setNewTask({ ...newTask, description: event.target.value })
     }
     const handleDescriptionFocus = () => {
         setInvalidInputs({...invalidInputs, description: false})
     }
 
-    const setProject = (project: string) => {
-        setTask({ ...task, project: project })
-    }
     const handleProjectFocus = () => {
         setInvalidInputs({ ...invalidInputs, project: false })
     }
 
-    const setPriority = (priority: string | null) => {
-        setTask({ ...task, priority: priority || "" })
+    const setPriority = (priority: Priority) => {
+        setNewTask({ ...newTask, priority: priority })
     }
     const handlePriorityFocus = () => {
         setInvalidInputs({ ...invalidInputs, priority: false })
@@ -123,7 +129,7 @@ export default function TaskForm(
                 <Input  
                     title="Título"
                     placeholder="Agregar breadcrumb"
-                    value={task.title}
+                    value={newTask.title}
                     setValue={setTitle}
                     error={invalidInputs.title}
                     handleFocus={handleTitleFocus}
@@ -132,18 +138,18 @@ export default function TaskForm(
                 <AutocompleteInput
                     title="Responsable"
                     placeholder="Juan Perez"
-                    value={task.responsable || ""}
-                    setValue={setResponsable}
+                    value={newTask.assignedEmployee}
+                    setValue={setEmployee}
                     error={invalidInputs.responsable}
                     errorText="El responsable debe ser valido"
                     handleFocus={handleResponsableFocus}
                     isRequired={requiredInputs.responsable}
-                    items={resources}
+                    items={employees.map((employee) => {return { id: employee.legajo, name: employee.Nombre + employee.Apellido }})}
                     disabled={disabledInputs.responsable} />
                 <div className="col-span-full">
                     <TextArea
                         title="Descripción"
-                        value={task.description}
+                        value={newTask.description}
                         setValue={setDescription}
                         placeholder="Agregar breadcrumbs a todas las pantallas, indicando desde el inicio el recorrido hasta llegar a la pantalla correspondiente."
                         isRequired={requiredInputs.description}
@@ -152,21 +158,21 @@ export default function TaskForm(
                         disabled={disabledInputs.description} />
                 </div>
                 <AutocompleteInput
-                        title='Proyecto'
-                        placeholder='UPP Sistema - 2024'
-                        value={task.project}
-                        setValue={setProject}
-                        isRequired={requiredInputs.project}
-                        error={invalidInputs.project}
-                        errorText="El proyecto debe ser valido"
-                        handleFocus={handleProjectFocus}
-                        items={[]}
-                        disabled={disabledInputs.project} />
+                    title='Proyecto'
+                    placeholder='UPP Sistema - 2024'
+                    value={projectId}
+                    setValue={setProjectId}
+                    isRequired={requiredInputs.project}
+                    error={invalidInputs.project}
+                    errorText="El proyecto debe ser valido"
+                    handleFocus={handleProjectFocus}
+                    items={projects.map((project) => {return { id: project.id, name: project.title }})}
+                    disabled={disabledInputs.project} />
                 <ButtonRow
                     title="Prioridad"
                     options={priorityOptions}
-                    selected={task.priority}
-                    setSelected={setPriority}
+                    selected={newTask.priority}
+                    setSelected={(selected :string | null) => setPriority(selected as Priority)}
                     isRequired={requiredInputs.priority}
                     error={invalidInputs.priority}
                     handleFocus={handlePriorityFocus} />

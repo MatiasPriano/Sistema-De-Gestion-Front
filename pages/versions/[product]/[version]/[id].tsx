@@ -70,11 +70,11 @@ export default function ViewTicket() {
 
     return (
         <div>
-            <Breadcrumb steps={[
+            {!isLoading && <Breadcrumb steps={[
                 { name: "Versiones", link: `/versions/`},
-                { name: `${productId} - ${versionId}`, link: `/versions/${productId}/${versionId}/`},
+                { name: `${productName} - ${versionName}`, link: `/versions/${productId}/${versionId}/`},
                 { name: `#${ticketId}`, link: null }
-            ]} />
+            ]} />}
             <div className="space-y-4">
                 {!isLoading && <VersionHeader  productId={productName}
                                 versionId={versionName}

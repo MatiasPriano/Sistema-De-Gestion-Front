@@ -1,24 +1,26 @@
 import { useRouter } from 'next/router';
 import VersionHeader from '@/components/versionHeader';
-import TaskForm, { TaskInputs } from '@/components/form/taskForm';
-import Task, { emptyTask } from '@/types/task';
+import NewTaskForm, { TaskInputs } from '@/components/form/newTaskForm';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
+import { Project } from '@/types/project';
+import { associateTask, createTask, getEmployees, getProjects, getVersion } from '@/services/supportService';
+import { NewTask, emptyNewTask } from '@/types/newTask';
 
-export default function NewTask() {
+export default function NewTaskComponent() {
     const router = useRouter();
-    const { product, version, id } = router.query;
+    const { product: productId, version: versionId, id: ticketId } = router.query;
 
-    const [task, setTask] = useState<Task>(emptyTask)
+    const [newTask, setNewTask] = useState<NewTask>(emptyNewTask)
 
     const disabledInputs: TaskInputs = {
         title: false,
         responsable: false,
         description: false,
         project: false,
-        status: false,
+        state: false,
         priority: false
     }
 
@@ -27,66 +29,73 @@ export default function NewTask() {
         responsable: false,
         description: true,
         project: true,
-        status: true,
+        state: true,
         priority: true
     }
 
     const onCancel = () => {
-        router.push(`/products/${product}/${version}/${id}/tasks`)
+        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
     }
 
     const onSubmit = () => {
-        // TODO: API call a backend para crear tarea y asociarla a ticket
-        toast.success("Tarea creada")
-        router.push(`/products/${product}/${version}/${id}/tasks`)
+        console.log("Tarea: ", newTask)
+        createTask(newTask).then((wasCreated: boolean) => {
+            if (wasCreated) {
+                associateTask(Number(ticketId), newTask.id).then((wasLinked) => {
+                    if (wasLinked) {
+                        toast.success("Tarea creada")
+                        router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks`)
+                    } else {
+                        toast.error("Hubo un problema al asociar la tarea al ticket")
+                    }
+                })
+            } else {
+                toast.error("Hubo un problema al crear la tarea")
+            }
+        })
     }
     
-    const [resources, setResources] = useState<Employee[]>([])
+    const [employees, setEmployees] = useState<Employee[]>([])
+    const [projects, setProjects] = useState<Project[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [versionName, setVersionName] = useState<string>("")
+    const [productName, setProductName] = useState<string>("")
     useEffect(() => {
-        // getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+        let employeePromise = getEmployees()
+        let projectsPromise = getProjects()
+        let versionPromise = getVersion(Number(versionId))
+        Promise.all([employeePromise, projectsPromise, versionPromise]).then(([employees, projects, version]) => {
+            setEmployees(employees)
+            setProjects(projects)
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)
+        })
     }, [])
-
-    const [projects, setProjects] = useState<string[]>([])
-    useEffect(() => {
-        //TODO: API call para obtener los proyectos del back de proyectos
-
-        //Comento esta linea porque rompe con el ruteo
-        // setProjects([]) 
-    })
-
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
 
     return (
         <div>
-            <Breadcrumb steps={[
-                { name: "Productos", link: `/products/` },
-                { name: `${product} - ${version}`, link: `/products/${product}/${version}/` },
-                { name: `#${id}`, link: `/products/${product}/${version}/${id}` },
-                { name: "Tareas asociadas", link: `/products/${product}/${version}/${id}/tasks/` },
+            {!isLoading && <Breadcrumb steps={[
+                { name: "Productos", link: `/versions/` },
+                { name: `${productName} - ${versionName}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
+                { name: "Tareas asociadas", link: `/versions/${productId}/${versionId}/${ticketId}/tasks/` },
                 { name: "Nueva tarea", link: null }
-            ]} />
-            <VersionHeader  productId={product as string}
-                            versionId={version as string}
-                            ticketId={id as string}
-                            title="Nueva tarea asociada al ticket"
-            />
-            <TaskForm
-                task={task}
-                setTask={setTask}
+            ]} />}
+            {!isLoading && <VersionHeader productId={productName}
+                            versionId={versionName}
+                            ticketId={ticketId as string}
+                            title="Nueva tarea asociada al ticket" />}
+            {!isLoading && <NewTaskForm
+                newTask={newTask}
+                setNewTask={setNewTask}
                 disabledInputs={disabledInputs}
                 requiredInputs={requiredInputs}
                 submitButtonName="Crear"
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
-                projects={projects} />
+                employees={employees}
+                projects={projects} />}
         </div>
     )
 }

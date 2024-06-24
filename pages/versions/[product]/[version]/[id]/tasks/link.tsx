@@ -9,8 +9,8 @@ import TextButton from '@/components/button/textButton';
 import Breadcrumb from '@/components/breadcrumb';
 import IconButton from '@/components/button/iconButton';
 import Input from '@/components/input/input';
-import tasksList from '@/components/tasksMock';
-import Link from 'next/link';
+import Loading from '@/components/loader';
+import { associateTasks, getAllTasks, getVersion } from '@/services/supportService';
 
 export default function LinkTask() {
     const router = useRouter();
@@ -19,25 +19,36 @@ export default function LinkTask() {
     const [selectedTasks, setSelectedTasks] = useState<number[]>([])
 
     const handleLinkTaskClick = () => {
-        if (selectedTasks.length === 1) {
-            toast.success("1 tarea asociada correctamente")
-        } else {
-            toast.success(`${selectedTasks.length} tareas asociadas correctamente`)
-        }
-        router.push(`/products/${productId}/${versionId}/${ticketId}/tasks/`)
+        associateTasks(Number(ticketId), selectedTasks).then((wasLinked) => {
+            if (wasLinked) {
+                if (selectedTasks.length === 1) {
+                    toast.success("1 tarea asociada correctamente")
+                } else {
+                    toast.success(`${selectedTasks.length} tareas asociadas correctamente`)
+                }
+                router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/`)
+            } else {
+                toast.error("Hubo un error al intentar asociar tareas")
+            }
+        })
+        
     }
 
     const [tasks, setTasks] = useState<Task[]>([])
+    const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>()
+    const [productName, setProductName] = useState<string>("")
+    const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
-        // TODO: API call para obtener las primeras N tareas del back de proyectos
-        // fetch(URL.url + '/v1/...')
-        // .then((response) =>{
-        //     return response.json()
-        // })
-        // .then((tasksData) => {
-        //     setTasks(tasksData)
-        // })
-        setTasks(tasksList)
+        let tasksPromise = getAllTasks()
+        let versionPromise = getVersion(Number(versionId))
+        Promise.all([tasksPromise, versionPromise]).then(([tasks, version]) => {
+            setTasks(tasks)
+            setFilteredTasks(tasks)
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)
+        })
     }, [])
 
     const [searchText, setSearchText] = useState("")
@@ -47,34 +58,25 @@ export default function LinkTask() {
 
     const onSearchClick = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        // TODO: API call para obtener las tareas con un nombre que contenga searchText y setearlas con setTasks
+        setFilteredTasks(tasks.filter((task) => task.title.includes(searchText)))
     }
-
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
 
     return (
         <>
-            <Breadcrumb steps={[
-                { name: "Productos", link: `/products/` },
-                { name: `${productId} - ${versionId}`, link: `/products/${productId}/${versionId}/` },
-                { name: `#${ticketId}`, link: `/products/${productId}/${versionId}/${ticketId}` },
-                { name: "Tareas asociadas", link: `/products/${productId}/${versionId}/${ticketId}/tasks/` },
+            {!isLoading && <Breadcrumb steps={[
+                { name: "Productos", link: `/versions/` },
+                { name: `${productName} - ${productName}`, link: `/versions/${productId}/${versionId}/` },
+                { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
+                { name: "Tareas asociadas", link: `/versions/${productId}/${versionId}/${ticketId}/tasks/` },
                 { name: "Asociar tarea", link: null }
-            ]} />
+            ]} />}
             <div className="space-y-4">
-                <VersionHeader  productId={productId as string}
-                                versionId={versionId as string}
+                {!isLoading && <VersionHeader  productId={productName}
+                                versionId={versionName}
                                 ticketId={ticketId as string}
                                 title="Asociar tareas al ticket"
-                />
-                <div className="flex space-x-4 items-center px-4">
+                />}
+                {!isLoading && <div className="flex space-x-4 items-center px-4">
                     <form onSubmit={onSearchClick} className="flex space-x-4 items-center w-full">
                         <div className="w-full">
                             <Input
@@ -95,13 +97,15 @@ export default function LinkTask() {
                         style="secondary"
                         onClick={handleLinkTaskClick}
                         disabled={selectedTasks.length === 0} />
-                </div>
-                {tasks.length > 0 && 
+                </div>}
+                {filteredTasks.length > 0 && !isLoading &&
                     <LinkTaskTable
-                        tasks={tasks}
+                        tasks={filteredTasks}
                         selectedTasks={selectedTasks}
                         setSelectedTasks={setSelectedTasks} />}
-                {tasks.length === 0 && <EmptyPageText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
+                {filteredTasks.length === 0 && !isLoading &&
+                    <EmptyPageText text="No se encontraron resultados" description="Pruebe con otro valor" icon="search"/>}
+                {filteredTasks.length === 0 && isLoading && <Loading data="tareas"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

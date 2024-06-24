@@ -1,35 +1,28 @@
+import { Project, emptyProject } from "./project";
 import { Priority } from "./taskPriority";
 import { State } from "./taskState";
 import { TicketAssociation } from "./ticketAssociation";
 
-export default interface Task {
+export interface NewTask {
     id: number;
     title: string;
-    assignedEmployee?: string
+    assignedEmployee: number | null
     description: string
-    project: string
+    project: Project
     state: State
     priority: Priority
     associatedTickets: TicketAssociation[]
-    daysToComplete: number
-    finishDate: string
-    firstTicketDate: string
-    firstTicketId: number
-    startDate: string
+    startDateTime: string
 }
 
-export const emptyTask: Task = {
+export const emptyNewTask: NewTask = {
     id: 0,
     title: "",
-    assignedEmployee: "",
+    assignedEmployee: null,
     description: "",
-    project: "",
+    project: emptyProject,
     state: "OPEN",
     priority: "LOW",
     associatedTickets: [],
-    daysToComplete: 0,
-    finishDate: "",
-    firstTicketDate: "",
-    firstTicketId: 0,
-    startDate: ""
+    startDateTime: ""
 }

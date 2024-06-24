@@ -37,10 +37,10 @@ export default function Tickets() {
 
     return (
         <>
-            <Breadcrumb steps={[
+            {!isLoading && <Breadcrumb steps={[
                 { name: "Versiones", link: "/versions/" },
-                { name: `${productId} - ${versionId}`, link: null } 
-            ]} />
+                { name: `${productName} - ${versionName}`, link: null } 
+            ]} />}
             <div className="space-y-4">
                 {!isLoading && <VersionHeader
                     productId={productName}

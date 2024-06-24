@@ -6,6 +6,8 @@ import { Client } from '@/types/client';
 import Employee from '@/types/employee';
 import NewTicket from '@/types/newTicket';
 import EditTicket from '@/types/editTicket';
+import { Project } from '@/types/project';
+import { NewTask } from '@/types/newTask';
 
 export async function getVersions(): Promise<Version[]> {
     let response = await fetch(URL.url + '/v1/versions')
@@ -103,6 +105,9 @@ export async function getTaskIdsByTicket(ticketId: number): Promise<number[]> {
 }
 
 export async function getTasks(tasksId: number[]): Promise<Task[]> {
+    if (tasksId.length === 0) {
+        return []
+    }
     let tasksParam = ""
     for (const taskId of tasksId) {
         if(tasksParam.length != 0)
@@ -110,7 +115,6 @@ export async function getTasks(tasksId: number[]): Promise<Task[]> {
         else
             tasksParam += taskId as unknown as string
     }
-
     let response = await fetch(`https://projects-backend-am35.onrender.com/tasks/?ids=${tasksParam}`)
     if (!response.ok) {
         console.log(response)
@@ -150,7 +154,70 @@ export async function getClients(): Promise<Client[]> {
 export async function getEmployees(): Promise<Employee[]> {
     let response = await fetch(URL.url + `/v1/employees`)
     if (!response.ok) {
+        console.log("No se pudo conseguir los empleados")
+        return []
+    }
+    return await response.json()
+}
+
+export async function getProjects(): Promise<Project[]> {
+    let response = await fetch(`https://projects-backend-am35.onrender.com/projects`)
+    if (!response.ok) {
         console.log("Error fetching tickets by version")
+        return []
+    }
+    return await response.json()
+}
+
+export async function createTask(newTask: NewTask) {
+    let response = await fetch(`https://projects-backend-am35.onrender.com/projects`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTask),
+    })
+    if (!response.ok) {
+        console.log("No se pudo crear la tarea")
+        return false
+    }
+    return true
+}
+
+export async function associateTasks(ticketId: number, taskIds: number[]): Promise<boolean> {
+    let response = await fetch(URL.url + `/v1/tickets/${ticketId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tasksToRelate: taskIds }),
+    })
+    if (!response.ok) {
+        console.log("No se pudo asociar las tareas")
+        return false
+    }
+    return true
+}
+
+export async function desassociateTasks(ticketId: number, taskIds: number[]): Promise<boolean> {
+    let response = await fetch(URL.url + `/v1/tickets/${ticketId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tasksToUnrelate: taskIds }),
+    })
+    if (!response.ok) {
+        console.log("No se pudo desasociar las tareas")
+        return false
+    }
+    return true
+}
+
+export async function getAllTasks(): Promise<Task[]> {
+    let response = await fetch(`https://projects-backend-am35.onrender.com/tasks`)
+    if (!response.ok) {
+        console.log("No se pudo obtener todas las tareas")
         return []
     }
     return await response.json()
