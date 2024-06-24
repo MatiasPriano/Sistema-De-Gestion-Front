@@ -6,8 +6,9 @@ import Breadcrumb from '@/components/breadcrumb';
 import Employee from '@/types/employee';
 import { TicketInputs } from '@/types/ticketInputs';
 import EditTicket, { emptyEditTicket, getEditTicketFromTicket } from '@/types/editTicket';
-import { getEmployees, getTicket, updateTicket } from '@/services/supportService';
+import { getEmployees, getTicket, getVersion, updateTicket } from '@/services/supportService';
 import EditTicketForm from '@/components/form/editTicketForm';
+import Loading from '@/components/loader';
 
 export default function EditTicketComponent() {
     const router = useRouter();
@@ -45,15 +46,24 @@ export default function EditTicketComponent() {
         })
     }
 
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [editTicket, setEditTicket] = useState<EditTicket>(emptyEditTicket)
+    const [productName, setProductName] = useState<string>("")
+    const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
-        getTicket(Number(ticketId)).then((ticket) => {
+        let ticketPromise = getTicket(Number(ticketId))
+        let versionPromise = getVersion(Number(versionId))
+
+        Promise.all([ticketPromise, versionPromise]).then(([ticket, version]) => {
             if (ticket === null) {
                 toast.error("Ticket no existe")
                 router.push(`/versions/${productId}/${versionId}`)
             } else {
                 setEditTicket(getEditTicketFromTicket(ticket))
             }
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)
         })
     }, [])
 
@@ -61,15 +71,6 @@ export default function EditTicketComponent() {
     useEffect(() => {
         getEmployees().then((employees) => setEmployees(employees))
     }, [])
-
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
 
     return (
         <div>
@@ -79,12 +80,11 @@ export default function EditTicketComponent() {
                 { name: `#${ticketId}`, link: `/versions/${productId}/${versionId}/${ticketId}` },
                 { name: "Editar ticket", link: null }
             ]} />
-            <VersionHeader  productId={productId as string}
-                            versionId={versionId as string}
+            {!isLoading && <VersionHeader  productId={productName}
+                            versionId={versionName}
                             ticketId={ticketId as string}
-                            title="Editar un ticket"
-            />
-            <EditTicketForm
+                            title="Editar un ticket" />}
+            {!isLoading && <EditTicketForm
                 editTicket={editTicket}
                 setEditTicket={setEditTicket}
                 disabledInputs={disabledInputs}
@@ -92,7 +92,8 @@ export default function EditTicketComponent() {
                 submitButtonName={'Guardar cambios'}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                employees={employees} />
+                employees={employees} />}
+            {isLoading && <Loading data="ticket"/>}
         </div>
     )
 }

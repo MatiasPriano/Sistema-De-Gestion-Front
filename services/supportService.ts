@@ -16,9 +16,14 @@ export async function getVersions(): Promise<Version[]> {
     return await response.json()
 }
 
-// export async function getVersion(versionId: number): Promise<Version> {
-//     // let response await fetch(URL.url + '/v1/')
-// }
+export async function getVersion(versionId: number): Promise<Version> {
+    let response = await fetch(URL.url + `/v2/versions/${versionId}`)
+    if (!response.ok) {
+        console.log("No se pudo obtener la versión")
+        return { name: "", id: "-1", product: { id: "-1", name: "" } }
+    }
+    return await response.json()
+}
 
 export async function getTicketsByVersion(versionId: number): Promise<Ticket[]> {
     let response = await fetch(URL.url + `/v1/versions/${versionId}/tickets`)

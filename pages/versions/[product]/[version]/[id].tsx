@@ -9,8 +9,9 @@ import { toast } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import ticketsList from '@/components/ticketsMock';
-import { deleteTicket, getTicket } from '@/services/supportService';
+import { deleteTicket, getTicket, getVersion } from '@/services/supportService';
 import EmptyPageText from '@/components/emptyPageText';
+import Loading from '@/components/loader';
 
 export default function ViewTicket() {
     const router = useRouter();
@@ -43,19 +44,29 @@ export default function ViewTicket() {
     }
 
     const [ticket, setTicket] = useState<Ticket | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [productName, setProductName] = useState<string>("")
+    const [versionName, setVersionName] = useState<string>("")
 
     useEffect(() => {
-        getTicket(ticketId as unknown as number).then((ticket) => setTicket(ticket))
+        let ticketPromise = getTicket(Number(ticketId))
+        let versionPromise = getVersion(Number(versionId))
+        
+        Promise.all([ticketPromise, versionPromise]).then(([ticket, version]) => {
+            setTicket(ticket)
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)    
+        })
     }, [])
 
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
+    
+    useEffect(() => {
+        getVersion(Number(versionId)).then((version) => {
+            setProductName(version.product.name)
+            setVersionName(version.name)
+        })
+    }, [])
 
     return (
         <div>
@@ -65,11 +76,11 @@ export default function ViewTicket() {
                 { name: `#${ticketId}`, link: null }
             ]} />
             <div className="space-y-4">
-                <VersionHeader  productId={productId as string}
-                                versionId={versionId as string}
+                {!isLoading && <VersionHeader  productId={productName}
+                                versionId={versionName}
                                 ticketId=""
-                                title="Ticket" />
-                {ticket != null && <div className="flex">
+                                title="Ticket" />}
+                {ticket !== null && !isLoading && <div className="flex">
                     <div className="flex items-center justify-start px-4">
                         <IconButton
                                 icon="trash"
@@ -88,8 +99,9 @@ export default function ViewTicket() {
                             onClick={handleEditButton} />
                     </div>
                 </div>}
-                {ticket != null && <TicketDetails ticket={ticket} />}
-                {ticket === null && <EmptyPageText text="No se encontró el ticket" description="" icon='ticket' />}
+                {ticket !== null && !isLoading && <TicketDetails ticket={ticket} />}
+                {ticket === null && !isLoading && <EmptyPageText text="No se encontró el ticket" description="" icon='ticket' />}
+                {ticket === null && isLoading && <Loading data="ticket"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

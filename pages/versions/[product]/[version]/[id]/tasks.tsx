@@ -8,7 +8,8 @@ import Breadcrumb from '@/components/breadcrumb';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import ConfirmationDialog from '@/components/confirmationDialog';
-import { getTaskIdsByTicket } from '@/services/supportService';
+import { getTaskIdsByTicket, getTasks, getVersion } from '@/services/supportService';
+import Loading from '@/components/loader';
 
 export default function ViewTasks() {
     const router = useRouter();
@@ -24,26 +25,23 @@ export default function ViewTasks() {
         router.push(`/versions/${productId}/${versionId}/${ticketId}/tasks/link/`)
     }
 
-    const [taskIds, setTaskIds] = useState<number[]>([])
     const [tasks, setTasks] = useState<Task[]>([])
-
-    useEffect(() => {
-        console.log("Version: ", versionId)
-        getTaskIdsByTicket(Number(ticketId)).then((taskIds: number[]) => setTaskIds(taskIds))
-    }, [])
-
     const [isLoading, setIsLoading] = useState<boolean>()
+    const [productName, setProductName] = useState<string>("")
+        const [versionName, setVersionName] = useState<string>("")
     useEffect(() => {
-        // getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
-    }, [taskIds])
+        let taskIdsPromise = getTaskIdsByTicket(Number(ticketId))
+        let versionPromise = getVersion(Number(versionId))
 
-    //Esto es lo mismo que el useEffect de arriba pero con un timeout
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
-    //         setIsLoading(false)
-    //     }, 1000); //capaz no es necesario usar el timeout y solo dejar los setIsLoading entre el getter  
-    // }, [taskIds])
+        Promise.all([taskIdsPromise, versionPromise]).then(([taskIds, version]) => {
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            getTasks(taskIds).then((tasks: Task[]) => {
+                setTasks(tasks)
+                setIsLoading(false)
+            })
+        })
+    }, [])
 
     const [isUnlinkDialogOpen, setIsUnlinkDialogOpen] = useState(false)
 
@@ -120,7 +118,7 @@ export default function ViewTasks() {
                         <TextButton name="Asociar tareas" style="secondary" onClick={handleLinkTaskButton} />
                     </div>
                 }
-                {tickets.length === 0 && isLoading && <Loading data="tareas"/>}
+                {tasks.length === 0 && isLoading && <Loading data="tareas"/>}
                 <div className="flex items-center justify-start gap-x-6 px-4">
                     <TextButton
                         name="Volver"

@@ -6,8 +6,9 @@ import Ticket from "@/types/ticket";
 import TicketTable from "@/components/compactTable/tickets/ticketTable";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getTicketsByVersion } from '@/services/supportService';
+import { getTicketsByVersion, getVersion } from '@/services/supportService';
 import EmptyPageText from '@/components/emptyPageText';
+import Loading from '@/components/loader';
 
 export default function Tickets() {
     const router = useRouter();
@@ -17,25 +18,22 @@ export default function Tickets() {
         router.push(`/versions/${productId}/${versionId}/new`)
     }
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [tickets, setTickets] = useState<Ticket[]>([])
+    const [productName, setProductName] = useState<string>("")
+    const [versionName, setVersionName] = useState<string>("")
 
     useEffect(() => {
-        setIsLoading(true)
-        setTimeout(() => {
-            getTicketsByVersion(versionId as unknown as number).then((tickets) => setTickets(tickets))
-            setIsLoading(false)
-        }, 1000); //capaz no es necesario usar el timeout y solo dejar los setIsLoading entre el getter
-    }, [])
+        let ticketsPromise = getTicketsByVersion(versionId as unknown as number)
+        let versionPromise = getVersion(Number(versionId))
 
-    // const [versionName, setVersionName] = useState<string>("")
-    // const [productName, setProductName] = useState<string>("")
-    // useEffect(() => {
-    //     getVersion(Number(versionId)).then((version) => {
-    //         setProductName(version.product.name)
-    //         setVersionName(version.name)
-    //     })
-    // }, [])
+        Promise.all([ticketsPromise, versionPromise]).then(([tickets, version]) => {
+            setTickets(tickets)
+            setProductName(version.product.name)
+            setVersionName(version.name)
+            setIsLoading(false)
+        })
+    }, [])
 
     return (
         <>
@@ -44,15 +42,15 @@ export default function Tickets() {
                 { name: `${productId} - ${versionId}`, link: null } 
             ]} />
             <div className="space-y-4">
-                <VersionHeader
-                    productId={productId as string}
-                    versionId={versionId as string}
+                {!isLoading && <VersionHeader
+                    productId={productName}
+                    versionId={versionName}
                     ticketId=""
-                    title="Tickets" />
-                {tickets.length > 0 && <div className="my-5 flex items-center justify-end gap-x-6 px-4">
+                    title="Tickets" />}
+                {tickets.length > 0 && !isLoading && <div className="my-5 flex items-center justify-end gap-x-6 px-4">
                     <TextButton name="Crear ticket" style="secondary" onClick={handleNewTicketButton} />
                 </div>}
-                {tickets.length > 0 && <TicketTable
+                {tickets.length > 0 && !isLoading && <TicketTable
                     tickets={tickets}
                     setTickets={setTickets}
                     productId={Number(productId)}
@@ -62,7 +60,7 @@ export default function Tickets() {
                         text="No hay tickets creados"
                         description="Puede crear un nuevo ticket para esta versión"
                         icon="ticket"/>}
-                {tickets.length === 0 &&
+                {tickets.length === 0 && !isLoading &&
                     <div className="my-5 flex items-center justify-center gap-x-6">
                         <TextButton name="Crear ticket" style="secondary" onClick={handleNewTicketButton} />
                     </div>}

@@ -45,6 +45,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                         <h1 className="text-center text-xl font-extrabold text-indigo-400 flex items-center justify-center px-4">{statusToPrintable(ticket.status)}</h1>
                     }
                     title="Estado"
+                    wide={true}
                     bottomColour="bg-indigo-400" />
                 <DetailCard
                     mainContent={
