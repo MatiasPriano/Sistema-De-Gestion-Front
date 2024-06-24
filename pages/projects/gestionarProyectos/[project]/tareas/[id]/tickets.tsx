@@ -10,13 +10,61 @@ export default function ViewTickets() {
     const router = useRouter();
     const { project: projectId, id: taskId } = router.query;
 
-    const [tickets, setTickets] = useState<Ticket[]>([])
-
+    const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    
     useEffect(() => {
-        // TODO: API call para obtener tickets del back
-        setTickets(ticketsList)
-    }, [])
+        if (taskId) {
+            fetch(`https://projects-backend-am35.onrender.com/tasks/?ids=${taskId}`, {
+                method: "GET",
+                headers: {
+                    "Accept": "*/*"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Error al obtener los tickets asociados");
+            })
+            .then(data => {
+                // Verificar que data sea un array y tenga al menos un elemento
+                if (Array.isArray(data) && data.length > 0) {
+                    const task = data[0];
+                    const associatedTickets = task.associatedTickets;
 
+                    if (!associatedTickets || associatedTickets.length === 0) {
+                        throw new Error("No se encontraron tickets asociados");
+                    }
+
+                    // Obtener los detalles de cada ticket
+                    const ticketPromises = associatedTickets.map(ticket =>
+                        fetch(`https://sistema-de-gestion-soporte-3.onrender.com/v1/tickets/${ticket.ticketId}`)
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                            throw new Error("Error al obtener la información del ticket");
+                        })
+                    );
+
+                    // Esperar a que todas las promesas se resuelvan
+                    return Promise.all(ticketPromises);
+                } else {
+                    throw new Error("Respuesta de la API no válida");
+                }
+            })
+            .then(detailedTickets => {
+                setTickets(detailedTickets);
+                setError(null);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                setError(error.message);
+            });
+        }
+    }, [taskId]);
+    
     return (
         <>
             <Breadcrumb steps={[
