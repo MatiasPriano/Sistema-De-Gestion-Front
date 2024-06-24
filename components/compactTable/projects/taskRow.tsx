@@ -14,6 +14,10 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
     const handleViewTicketsClick = () => {
         router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}/tickets`);
     }
+    const handleManageProjectClick = () => {
+        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}/edit`);
+    }
+    
 
     const actions: Action[] = [
         {
@@ -25,6 +29,11 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
             icon: "list",
             onClick: handleViewTicketsClick,
             title: "Ver tickets asociados"
+        },
+        {
+            icon: "edit",
+            onClick: handleManageProjectClick,
+            title: "Editar tarea"
         }
     ]
 
