@@ -97,6 +97,23 @@ export async function getTaskIdsByTicket(ticketId: number): Promise<number[]> {
     return await response.json()
 }
 
+export async function getTasks(tasksId: number[]): Promise<Task[]> {
+    let tasksParam = ""
+    for (const taskId of tasksId) {
+        if(tasksParam.length != 0)
+            tasksParam = tasksParam + "," + taskId as unknown as string
+        else
+            tasksParam += taskId as unknown as string
+    }
+
+    let response = await fetch(`https://projects-backend-am35.onrender.com/tasks/?ids=${tasksParam}`)
+    if (!response.ok) {
+        console.log(response)
+        return []
+    }
+    return await response.json()
+}
+
 export async function getStatisticsByTicket(ticketId: string): Promise<string> {
 // export async function getStatisticsByTicket(ticketId: string): Promise<TicketStatistics> {
     let response = await fetch(URL.url + `/v1/tickets/${ticketId}/statistics`)

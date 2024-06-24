@@ -37,6 +37,7 @@ export default function ViewTasks() {
         // getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
     }, [taskIds])
 
+    //Esto es lo mismo que el useEffect de arriba pero con un timeout
     // useEffect(() => {
     //     setTimeout(() => {
     //         getTasks(taskIds).then((tasks: Task[]) => setTasks(tasks))
