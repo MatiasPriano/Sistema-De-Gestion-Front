@@ -33,6 +33,7 @@ export default function TicketTable({
       headerTitles={headers}
       rows={tickets.map((ticket) => (
         <TicketRow
+          key={ticket.id}
           ticket={ticket}
           productId={productId}
           versionId={versionId}

@@ -7,8 +7,10 @@ export default function VersionTable({ versions }: { versions: Version[] }) {
   return (
     <CompactTable
       headerTitles={headers}
-      rows={versions.map((product) => (
-        <VersionRow version={product} />
+      rows={versions.map((version) => (
+        <VersionRow
+          key={version.id}
+          version={version} />
       ))}
     />
   );

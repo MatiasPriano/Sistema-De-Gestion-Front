@@ -11,6 +11,7 @@ export default function ActionsCell({ actions }: { actions: Action[] }) {
     <div className={"flex flex-row items-center justify-center space-x-1"}>
       {actions.map((action) => (
         <IconButton
+          key={action.title}
           icon={action.icon}
           title={action.title}
           style="transparent"
