@@ -25,7 +25,7 @@ export const emptyTask: TaskProject = {
     responsable: "",
     description: "",
     project: "",
-    status: "Abierta",
+    status: "OPEN",
     priority: "Baja",
     maxTimeResolution: "",
     startDate: "",
