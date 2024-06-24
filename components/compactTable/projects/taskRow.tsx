@@ -52,7 +52,7 @@ export default function TaskRow({ task, projectId }: {task: Task, projectId: str
                 <SimpleCell name={task.priority} centered={true} />
             </td>
             <td className="w-30 overflow-hidden">
-                <ColouredCell name={task.status} colour={statusColourMap[task.status]} />
+                <SimpleCell name={task.state} centered={true} />
             </td>
             <td className="overflow-hidden">
                 <ActionsCell actions={actions}/>
