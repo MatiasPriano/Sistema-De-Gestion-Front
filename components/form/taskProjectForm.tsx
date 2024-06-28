@@ -34,6 +34,12 @@ export interface TaskInputs {
   maxResolutionTime: boolean;
 }
 
+export enum TaskMode {
+  View,
+  Edit,
+  New,
+}
+
 interface TaskFormProps {
   task: TaskProject;
   setTask: (task: TaskProject) => void;
@@ -43,6 +49,7 @@ interface TaskFormProps {
   onSubmit: () => void;
   onCancel: () => void;
   resources: string[];
+  mode: TaskMode;
 }
 
 export default function TaskProjectForm({
@@ -54,6 +61,7 @@ export default function TaskProjectForm({
   onSubmit,
   onCancel,
   resources,
+  mode,
 }: TaskFormProps) {
   const [invalidInputs, setInvalidInputs] = useState<TaskInputs>({
     title: false,
@@ -170,7 +178,7 @@ export default function TaskProjectForm({
           disabled={disabledInputs.title}
         />
         <AutocompleteInput
-          title="Responsable"
+          title="Numero de legajo de responsable"
           placeholder="Buscar responsable"
           value={task.responsable || ""}
           setValue={setResponsable}
@@ -307,14 +315,14 @@ export default function TaskProjectForm({
         />
 
         <div className="flex col-span-full pt-2">
-          <div className="flex items-center justify-end gap-x-6 px-4 w-full">
+        {mode !== TaskMode.View && <div className="flex items-center justify-end gap-x-6 px-4 w-full">
             <TextButton
               name="Cancelar"
               style="transparent"
               onClick={onCancel}
             />
             <TextButton name={submitButtonName} type="submit" style="primary" />
-          </div>
+          </div>}
         </div>
       </main>
     </form>

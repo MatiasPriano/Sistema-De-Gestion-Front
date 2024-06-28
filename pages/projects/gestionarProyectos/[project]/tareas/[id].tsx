@@ -4,10 +4,11 @@ import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
 import getResources from '@/services/resourceService';
-import TaskProjectForm, { TaskInputs } from '@/components/form/taskProjectForm';
+import TaskProjectForm, { TaskInputs,TaskMode } from '@/components/form/taskProjectForm';
 import tasksList from '@/components/tasksProjectMock';
 import React from 'react';
 import TaskProject, { emptyTask } from '@/types/taskProjects';
+import TextButton from '@/components/button/textButton';
 
 export default function ViewTask() {
     const router = useRouter();
@@ -72,15 +73,6 @@ export default function ViewTask() {
         }
     }, [taskId]);
 
-    const onCancel = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
-    }
-
-    const onSubmit = () => {
-        // TODO: API call a backend para crear tarea y asociarla a ticket
-        toast.success("Tarea creada")
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
-    }
     
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {
@@ -105,11 +97,20 @@ export default function ViewTask() {
                     setTask={setTask}
                     disabledInputs={disabledInputs}
                     requiredInputs={requiredInputs}
-                    submitButtonName="Editar"
-                    onSubmit={onSubmit}
-                    onCancel={onCancel}
-                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                    submitButtonName=""
+                    onSubmit={()=>null}
+                    onCancel={()=>null}
+                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)  
+                    }
+                    mode={TaskMode.View}
                     />
+                   <div className="flex items-center justify-start gap-x-6 px-4">
+                <TextButton
+                    name="Volver"
+                    style="transparent"
+                    onClick={() => router.back()}
+                />
+                </div> 
             </div>
         </div>
     )
