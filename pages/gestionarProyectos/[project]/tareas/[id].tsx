@@ -2,13 +2,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
-import Resource from '@/types/resource';
-import getResources from '@/services/resourceService';
 import TaskProjectForm, { TaskInputs,TaskMode } from '@/components/form/taskProjectForm';
-import tasksList from '@/components/tasksProjectMock';
 import React from 'react';
 import TaskProject, { emptyTask } from '@/types/taskProjects';
 import TextButton from '@/components/button/textButton';
+import { getEmployees } from '@/services/supportService';
+import Employee from '@/types/employee';
 
 export default function ViewTask() {
     const router = useRouter();
@@ -74,9 +73,9 @@ export default function ViewTask() {
     }, [taskId]);
 
     
-    const [resources, setResources] = useState<Resource[]>([])
+    const [resources, setResources] = useState<Employee[]>([])
     useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+        getEmployees().then((resources) => setResources(resources)).catch((e) => console.log(e))
     }, [])
 
     return (
@@ -99,8 +98,7 @@ export default function ViewTask() {
                     submitButtonName=""
                     onSubmit={()=>null}
                     onCancel={()=>null}
-                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)  
-                    }
+                    resources={resources}
                     mode={TaskMode.View}
                     />
                    <div className="flex items-center justify-start gap-x-6 px-4">

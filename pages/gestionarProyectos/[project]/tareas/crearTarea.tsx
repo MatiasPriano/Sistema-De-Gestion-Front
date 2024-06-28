@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
-import getResources from '@/services/resourceService';
-import TaskProjectForm, { TaskInputs } from '@/components/form/taskProjectForm';
+import TaskProjectForm, { TaskInputs, TaskMode } from '@/components/form/taskProjectForm';
+import { getEmployees } from '@/services/supportService';
 
 export default function NewTask() {
     const router = useRouter();
@@ -81,7 +81,7 @@ export default function NewTask() {
     
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log(e))
+        getEmployees().then((resources) => setResources(resources))
     }, [])
 
     const [projects, setProjects] = useState<string[]>([])
@@ -110,7 +110,8 @@ export default function NewTask() {
                     submitButtonName="Crear"
                     onSubmit={onSubmit}
                     onCancel={onCancel}
-                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                    resources={resources}
+                    mode={TaskMode.New}
                     />
             </div>
         </div>

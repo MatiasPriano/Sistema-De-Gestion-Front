@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Breadcrumb from '@/components/breadcrumb';
 import Resource from '@/types/resource';
-import getResources from '@/services/resourceService';
-import TaskProjectForm from '@/components/form/taskProjectForm';
+import TaskProjectForm, { TaskMode } from '@/components/form/taskProjectForm';
 import React from 'react';
 import TaskProject from '@/types/taskProjects';
+import { getEmployees } from '@/services/supportService';
 
 
 export default function ViewTask() {
@@ -84,7 +84,10 @@ export default function ViewTask() {
 
     const onSubmit = () => {
         
-        const url = `https://projects-backend-am35.onrender.com/tasks/${task.id}?assigned_employee=${task.responsable}&priority=${task.priority}&state=${task.status}`;
+        let url = `https://projects-backend-am35.onrender.com/tasks/${task.id}?priority=${task.priority}&state=${task.status}`;
+        if (task.responsable) {
+            url += `&assigned_employee=${task.responsable}`
+        }
 
         console.log("la url es:")
         console.log(url)
@@ -114,7 +117,7 @@ export default function ViewTask() {
     
     const [resources, setResources] = useState<Resource[]>([])
     useEffect(() => {
-        getResources().then((resources) => setResources(resources)).catch((e) => console.log("e"))
+        getEmployees().then((resources) => setResources(resources))
     }, [])
 
     return (
@@ -137,7 +140,8 @@ export default function ViewTask() {
                     submitButtonName="Editar"
                     onSubmit={onSubmit}
                     onCancel={onCancel}
-                    resources={resources.map((resource) => resource.Nombre + " " + resource.Apellido)}
+                    resources={resources}
+                    mode={TaskMode.Edit}
                     />
             </div>
         </div>

@@ -1,7 +1,7 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import TaskTable from "@/components/compactTable/projects/taskTable";
-import getResources from "@/services/resourceService";
+import { getEmployees } from "@/services/supportService";
 import Employee from "@/types/employee";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,10 +13,9 @@ export default function ViewTasks() {
     const { project: projectId } = router.query;
 
     const [tasks, setTasks] = useState([]);
-    const [resources, setResources] = useState<Employee[]>([]);
 
     useEffect(() => {
-        const resourcePromise = getResources();
+        const resourcePromise = getEmployees();
         if (projectId) {
             const taskPromise =  fetch(`https://projects-backend-am35.onrender.com/proyect/${projectId}/tasks/get`, {
                 method: "GET",

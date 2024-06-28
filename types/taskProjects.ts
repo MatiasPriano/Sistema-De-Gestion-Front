@@ -1,7 +1,7 @@
 export default interface TaskProject {
     id: number;
     title: string;
-    responsable?: string;
+    responsable: number | null;
     description: string;
     project: string;
     status: State;
@@ -22,8 +22,8 @@ export type State =
 export const emptyTask: TaskProject = {
     id: 0,
     title: "",
-    responsable: "",
     description: "",
+    responsable: null,
     project: "",
     status: "OPEN",
     priority: "LOW",

@@ -7,6 +7,7 @@ import TextButton from "../button/textButton";
 import { toast } from "react-hot-toast";
 import ComboBox from "../input/comboBox";
 import TaskProject, { State } from "@";
+import Employee from "@/types/employee";
 
 const stateOptions: State[] = [
   "OPEN",
@@ -48,7 +49,7 @@ interface TaskFormProps {
   submitButtonName: string;
   onSubmit: () => void;
   onCancel: () => void;
-  resources: string[];
+  resources: Employee[];
   mode: TaskMode;
 }
 
@@ -80,8 +81,12 @@ export default function TaskProjectForm({
     const finalInvalidInputs: TaskInputs = {
       title: requiredInputs.title && task.title.trim() === "",
       responsable:
-        requiredInputs.responsable &&
-        !resources.includes(task.responsable || ""),
+        !disabledInputs.employee &&
+        requiredInputs.employee &&
+        (task.responsable === null ||
+          !resources
+            .map((employee) => employee.legajo)
+            .includes(task.responsable)),
       description: requiredInputs.description && task.description.trim() === "",
       status:
         requiredInputs.status && !["OPEN", "CLOSED"].includes(task.status),
@@ -119,7 +124,7 @@ export default function TaskProjectForm({
     setInvalidInputs({ ...invalidInputs, title: false });
   };
 
-  const setResponsable = (responsable: string) => {
+  const setResponsable = (responsable: number | null) => {
     setTask({ ...task, responsable: responsable });
   };
   const handleResponsableFocus = () => {
@@ -180,13 +185,13 @@ export default function TaskProjectForm({
         <AutocompleteInput
           title="Numero de legajo de responsable"
           placeholder="Buscar responsable"
-          value={task.responsable || ""}
+          value={task.responsable}
           setValue={setResponsable}
           error={invalidInputs.responsable}
           errorText="El responsable debe ser valido"
           handleFocus={handleResponsableFocus}
           isRequired={requiredInputs.responsable}
-          items={resources}
+          items={resources.map((employee) => {return { id: employee.legajo, name: employee.Nombre + " " + employee.Apellido}})}
           disabled={disabledInputs.responsable}
         />
         <div className="col-span-full">

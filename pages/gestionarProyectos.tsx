@@ -2,7 +2,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectTable from "@/components/compactTable/projects/projectsTable";
 import Loading from "@/components/loader";
-import getResources from "@/services/resourceService";
+import { getEmployees } from "@/services/supportService";
 import Employee from "@/types/employee";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,7 +15,7 @@ export default function Projects() {
   const [resources, setResources] = useState<Employee[]>([]);
 
   useEffect(() => {
-    const resourcePromise = getResources();
+    const resourcePromise = getEmployees();
     const projectsPromise = fetch("https://projects-backend-am35.onrender.com/projects", {
       method: "GET",
       headers: {
@@ -28,7 +28,7 @@ export default function Projects() {
         }
         throw new Error("Error al obtener la lista de proyectos");
       })
-      Promise.all([resourcePromise, projectsPromise]).then(([resources,data]) => {
+      Promise.all([resourcePromise, projectsPromise]).then(([resources, data]) => {
         // Mapea los datos obtenidos para que coincidan con el formato esperado por ProjectTable
         const projects = data.map((project:any) => {
           let leaderName = null;
