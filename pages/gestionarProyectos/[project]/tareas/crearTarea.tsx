@@ -40,7 +40,7 @@ export default function NewTask() {
     }
 
     const onCancel = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
+        router.push(`/gestionarProyectos/${projectId}/tareas`)
     }
 
     const onSubmit = () => {
@@ -71,7 +71,7 @@ export default function NewTask() {
         .then(data => {
             console.log('Success:', data);
             toast.success("Tarea creada exitosamente");
-            router.push(`/projects/gestionarProyectos/${projectId}/tareas`);
+            router.push(`/gestionarProyectos/${projectId}/tareas`);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -93,10 +93,9 @@ export default function NewTask() {
     return (
         <div>
             <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
-                { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
-                { name: "Tareas del proyecto", link: `/projects/gestionarProyectos/${projectId}/tareas`},
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
+                { name: `${projectId}`, link: `/gestionarProyectos/${projectId}` },
+                { name: "Tareas del proyecto", link: `/gestionarProyectos/${projectId}/tareas`},
                 { name: "Nueva tarea", link: null }
             ]} />
             <div className="space-y-4">

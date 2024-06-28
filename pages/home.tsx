@@ -8,8 +8,9 @@ export default function Home() {
   const router = useRouter();
 
   const handleProjectButtonClick = () => {
-    router.push("/projects");
+    router.push("/gestionarProyectos");
   };
+  
 
   const handleSupportButtonClick = () => {
     router.push("/versions");

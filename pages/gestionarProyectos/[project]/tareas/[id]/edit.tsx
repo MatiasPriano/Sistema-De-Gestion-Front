@@ -79,7 +79,7 @@ export default function ViewTask() {
     }, [taskId]);
 
     const onCancel = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas`)
+        router.push(`/gestionarProyectos/${projectId}/tareas`)
     }
 
     const onSubmit = () => {
@@ -103,7 +103,7 @@ export default function ViewTask() {
         .then(data => {
             console.log('Success:', data);
             toast.success("Cambios guardados");
-            router.push(`/projects/gestionarProyectos/${projectId}/tareas`);
+            router.push(`/gestionarProyectos/${projectId}/tareas`);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -120,10 +120,9 @@ export default function ViewTask() {
     return (
         <div>
             <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
-                { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
-                { name: "Tareas del proyecto", link: `/projects/gestionarProyectos/${projectId}/tareas`},
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
+                { name: `${projectId}`, link: `/gestionarProyectos/${projectId}` },
+                { name: "Tareas del proyecto", link: `/gestionarProyectos/${projectId}/tareas`},
                 { name: `#${taskId}`, link: null }
             ]} />
             <div className="space-y-4">

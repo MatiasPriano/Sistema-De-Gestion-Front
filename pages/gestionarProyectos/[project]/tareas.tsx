@@ -5,6 +5,7 @@ import getResources from "@/services/resourceService";
 import Employee from "@/types/employee";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function ViewTasks() {
@@ -67,16 +68,15 @@ export default function ViewTasks() {
     }, [projectId]);
 
     const handleNewTaskButton = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/crearTarea`);
+        router.push(`/gestionarProyectos/${projectId}/tareas/crearTarea`);
     };
     console.log("estoy buscando este task:!!!")
     console.log(tasks)
     return (
         <>
             <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
-                { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
+                { name: `${projectId}`, link: `/gestionarProyectos/${projectId}` },
                 { name: "Tareas del proyecto", link: null }
             ]} />
             <div className="space-y-4">
@@ -90,7 +90,7 @@ export default function ViewTasks() {
                     tasks={tasks}
                     projectId={projectId as string} />
                 <div className="flex items-center justify-start gap-x-6 px-4">
-                    <Link href={`/projects/gestionarProyectos/`}>
+                    <Link href={`/gestionarProyectos/`}>
                         <TextButton name="Volver" style="transparent" />
                     </Link>
                 </div>

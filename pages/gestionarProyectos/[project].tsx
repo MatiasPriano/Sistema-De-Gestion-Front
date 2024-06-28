@@ -7,6 +7,7 @@ import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
 import { useRouter } from "next/router";
+import React from "react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -115,7 +116,7 @@ export default function ManageProject() {
         .then(data => {
             console.log('Success:', data);
             toast.success("Cambios guardados");
-            router.push(`/projects/gestionarProyectos`);
+            router.push(`/gestionarProyectos`);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -127,8 +128,7 @@ export default function ManageProject() {
     return (
         <div>
             {!isLoading && <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
                 { name: `${projectId}`, link: null }
             ]} />}
             <div className="space-y-4">

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import TicketsProjectTable from '@/components/compactTable/projects/ticketTableProjects';
 import ticketsList from '@/components/ticketsMock';
 import Ticket from '@/types/ticket';
+import React from 'react';
 
 export default function ViewTickets() {
     const router = useRouter();
@@ -68,11 +69,10 @@ export default function ViewTickets() {
     return (
         <>
             <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
-                { name: `${projectId}`, link: `/projects/gestionarProyectos/${projectId}` },
-                { name: "Tareas del proyecto", link: `/projects/gestionarProyectos/${projectId}/tareas`}, 
-                { name: `#${taskId}`, link: `/projects/gestionarProyectos/${projectId}/tareas/${taskId}` },
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
+                { name: `${projectId}`, link: `/gestionarProyectos/${projectId}` },
+                { name: "Tareas del proyecto", link: `/gestionarProyectos/${projectId}/tareas`}, 
+                { name: `#${taskId}`, link: `/gestionarProyectos/${projectId}/tareas/${taskId}` },
                 { name: "Tickets asociados", link: null }
             ]} />
             <div className="space-y-4">

@@ -10,14 +10,14 @@ export default function ProjectRow({ project }: { project: Project }) {
     const router = useRouter()
 
     const handleManageProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.id}`)
+        router.push(`/gestionarProyectos/${project.id}`)
     }
 
     const handleViewTasksClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.id}/tareas`)
+        router.push(`/gestionarProyectos/${project.id}/tareas`)
     }
     const handleViewProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/${project.id}/[projectView]`)
+        router.push(`/gestionarProyectos/${project.id}/[projectView]`)
     }
 
     

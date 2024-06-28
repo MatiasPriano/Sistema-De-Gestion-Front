@@ -11,13 +11,13 @@ import { priorityToPrintable } from "@/types/taskPriority";
 export default function TaskRow({ task, projectId }: {task: Task, projectId: string }) {
     const router = useRouter()
     const handleViewTaskClick = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}`);
+        router.push(`/gestionarProyectos/${projectId}/tareas/${task.id}`);
     }
     const handleViewTicketsClick = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}/tickets`);
+        router.push(`/gestionarProyectos/${projectId}/tareas/${task.id}/tickets`);
     }
     const handleManageProjectClick = () => {
-        router.push(`/projects/gestionarProyectos/${projectId}/tareas/${task.id}/edit`);
+        router.push(`/gestionarProyectos/${projectId}/tareas/${task.id}/edit`);
     }
     
 

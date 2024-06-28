@@ -120,7 +120,7 @@ export default function ManageProject() {
       .then((data) => {
         console.log("Success:", data);
         //toast.success("");
-        router.push(`/projects/gestionarProyectos`);
+        router.push(`/gestionarProyectos`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -132,10 +132,9 @@ export default function ManageProject() {
     <div>
       <Breadcrumb
         steps={[
-          { name: "Proyectos", link: "/projects/" },
           {
             name: "Gestión de Proyectos",
-            link: "/projects/gestionarProyectos",
+            link: "/gestionarProyectos",
           },
           { name: `${projectId}`, link: null },
         ]}

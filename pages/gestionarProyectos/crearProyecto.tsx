@@ -5,6 +5,7 @@ import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
 import { useRouter } from "next/router";
+import React from "react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -73,7 +74,7 @@ export default function NewProject() {
     .then(data => {
         console.log('Success:', data);
         toast.success("Proyecto creado exitosamente");
-        router.push(`/projects/gestionarProyectos`);
+        router.push(`/gestionarProyectos`);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -90,8 +91,7 @@ useEffect(() => {
   return (
       <div>
         <Breadcrumb steps={[
-                { name: "Proyectos", link: "/projects/" },
-                { name: "Gestión de Proyectos", link: "/projects/gestionarProyectos" },
+                { name: "Gestión de Proyectos", link: "/gestionarProyectos" },
                 { name: "Nuevo proyecto", link: null }
             ]} />
         <div className="space-y-4">

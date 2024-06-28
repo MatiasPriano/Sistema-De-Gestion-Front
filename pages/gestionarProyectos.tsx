@@ -59,13 +59,12 @@ export default function Projects() {
   }, []);
 
   const handleNewProjectButton = () => {
-    router.push(`/projects/gestionarProyectos/crearProyecto`);
+    router.push(`/gestionarProyectos/crearProyecto`);
   }
 
   return (
     <>
       {!isLoading && <Breadcrumb steps={[
-        { name: "Proyectos", link: "/projects/" },
         { name: "Gestión de Proyectos", link: null }
       ]} />}
       
@@ -79,7 +78,7 @@ export default function Projects() {
         {!isLoading && <ProjectTable projects={list} />}
         {isLoading && <Loading data="Proyectos"/>}
         <div className="flex items-center justify-start gap-x-6 px-4">
-          <Link href="/projects">
+          <Link href="/home">
             <TextButton name="Volver" style="transparent" />
           </Link>
         </div>
