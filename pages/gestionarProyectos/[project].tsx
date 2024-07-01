@@ -2,8 +2,9 @@ import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
 import Loading from "@/components/loader";
+import { getEmployees } from "@/services/supportService";
 //import projectsList from "@/components/projectsMock";
-import getResources from "@/services/resourceService";
+//import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
 import { useRouter } from "next/router";
@@ -38,7 +39,7 @@ export default function ManageProject() {
     useEffect(() => {
      
         if (projectId) {
-            let employedPromise  = getResources()
+            let employedPromise  = getEmployees()
             let projectPromise = fetch("https://projects-backend-am35.onrender.com/projects", {
                 method: "GET",
                 headers: {

@@ -1,7 +1,8 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
-import getResources from "@/services/resourceService";
+import { getEmployees } from "@/services/supportService";
+//import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
 import { useRouter } from "next/router";
@@ -84,7 +85,7 @@ export default function NewProject() {
 
 const [resources, setResources] = useState<Resource[]>([]);
 useEffect(() => {
-    getResources().then((resources) => setResources(resources)).catch((e) => console.log(e));
+    getEmployees().then((resources) => setResources(resources)).catch((e) => console.log(e));
 }, []);
 
 

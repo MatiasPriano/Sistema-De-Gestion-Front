@@ -117,7 +117,7 @@ export default function ProjectForm({
 
     if (!finalInvalidInputs.name) {
       onSubmit();
-      console.log("aprete el boton de guardar cambios lol");
+      //console.log("aprete el boton de guardar cambios lol");
     } else {
       setInvalidInputs(finalInvalidInputs);
       toast.error("Existen campos incompletos");

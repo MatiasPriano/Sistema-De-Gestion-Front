@@ -1,8 +1,9 @@
 import Breadcrumb from "@/components/breadcrumb";
 import TextButton from "@/components/button/textButton";
 import ProjectForm, { ProjectInputs, ProjectMode } from "@/components/form/projectForm";
+import { getEmployees } from "@/services/supportService";
 //import projectsList from "@/components/projectsMock";
-import getResources from "@/services/resourceService";
+//import getResources from "@/services/resourceService";
 import { emptyProject } from "@/types/project";
 import Resource from "@/types/resource";
 import { useRouter } from "next/router";
@@ -78,7 +79,7 @@ export default function ManageProject() {
 
   const [resources, setResources] = useState<Resource[]>([]);
   useEffect(() => {
-    getResources()
+    getEmployees()
       .then((resources) => setResources(resources))
       .catch((e) => console.log(e));
   }, []);
