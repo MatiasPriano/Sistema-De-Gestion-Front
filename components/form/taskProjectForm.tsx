@@ -183,7 +183,7 @@ export default function TaskProjectForm({
           disabled={disabledInputs.title}
         />
         <AutocompleteInput
-          title="Numero de legajo de responsable"
+          title="Nombre de responsable"
           placeholder="Buscar responsable"
           value={task.responsable}
           setValue={setResponsable}

@@ -101,19 +101,20 @@ export default function ProjectForm({
     event.preventDefault();
 
     const finalInvalidInputs: ProjectInputs = {
-      name: requiredInputs.name && project.name.trim() === "",
+      name: requiredInputs.name && (!project.name || project.name.trim() === ""),
       responsable:
         !disabledInputs.responsable &&
         requiredInputs.responsable &&
         !resources.includes(project.responsable),
       description:
-        requiredInputs.description && project.descripcion.trim() === "",
+        requiredInputs.description && (!project.descripcion || project.descripcion.trim() === ""),
       state: requiredInputs.state && !stateOptions.includes(project.estado),
       endDateTime:
         !disabledInputs.endDateTime &&
         requiredInputs.endDateTime &&
         (project.fechaFinalizacion?.trim() || "") === "",
     };
+    
 
     if (!finalInvalidInputs.name) {
       onSubmit();
@@ -138,7 +139,7 @@ export default function ProjectForm({
           disabled={disabledInputs.name}
         />
         <Input
-          title="Responsable"
+          title="Nombre de responsable"
           placeholder="Buscar responsable"
           value={project.responsable}
           setValue={(event: ChangeEvent<HTMLInputElement>) => setResponsable(event.target.value)}

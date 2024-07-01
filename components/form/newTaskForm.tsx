@@ -69,13 +69,16 @@ export default function NewTaskForm(
         console.log("Y ACA?", newTask)
 
         const finalInvalidInputs: TaskInputs = {
-            title: requiredInputs.title && newTask.title.trim() === "",
-            responsable: requiredInputs.responsable && (newTask.assignedEmployee === null || !employees.map((employee) => employee.legajo).includes(newTask.assignedEmployee)),
-            description: requiredInputs.description && newTask.description.trim() === "",
-            project: requiredInputs.project && (newTask.project === null || !projects.map((project) => project.id).includes(newTask.project.id)),
+            title: requiredInputs.title && (!newTask.title || newTask.title.trim() === ""),
+            responsable: requiredInputs.responsable &&
+              (newTask.assignedEmployee === null || !employees.map((employee) => employee.legajo).includes(newTask.assignedEmployee)),
+            description: requiredInputs.description && (!newTask.description || newTask.description.trim() === ""),
+            project: requiredInputs.project &&
+              (newTask.project === null || !projects.map((project) => project.id).includes(newTask.project.id)),
             state: requiredInputs.state && !["OPEN", "CLOSED", "BLOCKED"].includes(newTask.state),
             priority: requiredInputs.priority && !["LOW", "MEDIUM", "HIGH"].includes(newTask.priority)
-        }
+          };
+          
         if (!finalInvalidInputs.title &&
             !finalInvalidInputs.responsable &&
             !finalInvalidInputs.description &&
